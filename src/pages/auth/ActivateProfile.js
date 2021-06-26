@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from 'react';
+import { Grid, Typography, ButtonBase } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import OTPInput, { ResendOTP } from "otp-input-react";
+import OTPCounter from '../../components/OTPCounter';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+
+
+const useStyles = makeStyles({
+    header: { height: 300, maxHeight: "40vh", background: "#d7e5f2", padding: 40 },
+    headerTitle: { fontWeight: 'bold', color: "#465b92", textShadow: "0px 2px 4px #00000054" },
+    body: {
+        padding: 10,
+
+    },
+    inputRoot: {
+        fontSize: 30
+    },
+    labelRoot: {
+        fontSize: 30,
+        "&$labelFocused": {
+            marginBottom: 10
+        }
+    },
+    sendActivation: {
+        width: "100%",
+        color: "#fff",
+        marginTop: 15,
+        background: "linear-gradient(0deg, rgba(85,145,120,1) 0%, rgba(100,160,134,1) 100%)",
+        fontSize: "1.5em",
+        borderRadius: 15,
+        height: 50,
+        paddingBottom: 4
+    },
+    otpRoot: { flexDirection: "row-reverse", margin: "0 auto", width: "fit-content" },
+    activationButton: {
+        margin: "0 auto",
+        width: "100%",
+        color: "#fff",
+        marginTop: 15,
+        background: "linear-gradient(0deg, rgba(85,145,120,1) 0%, rgba(100,160,134,1) 100%)",
+        fontSize: "1.5em",
+        borderRadius: 15,
+        height: 50,
+        paddingBottom: 4
+    },
+    resendActivation: {
+        textAlign: "center",
+        color: "#ee5e68",
+        fontSize: "1.3em"
+    }
+});
+
+const ActivateProfile = () => {
+    
+    const classes = useStyles();
+    const [OTP, setOTP] = useState();
+    const [activated, setActivated] = useState(false)
+    useEffect(() => {
+        const userId = localStorage.getItem('userid');
+        axios.post('http://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
+            .then(res => {
+                setActivated(true)
+            })
+    },[])
+    const checkActivationCode = () => {
+        console.log("test")
+        axios.post('http://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId:localStorage.getItem('userid') })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+    if(activated){
+        return(<Redirect to='/profile'/>)
+    }
+    return (
+        <Grid container className={classes.root}>
+            <Grid item container justify="center" alignContent="flex-start" className={classes.header}>
+                <Typography className={classes.headerTitle} variant={'h4'}>کد فعالسازی</Typography>
+            </Grid>
+            <Grid item container direction="column" className={classes.body} justify="center">
+                <Grid item className={classes.otpContainer}>
+                    <OTPInput
+                        value={OTP}
+                        onChange={setOTP}
+                        autoFocus
+                        OTPLength={6}
+                        otpType="number"
+                        disabled={false}
+                        className={classes.otpRoot}
+                        inputStyles={{ margin: "0 10px", fontSize: "1.5em", backgroundColor: "#cbd5e1", border: "none", padding: 8, borderRadius: "30%", outline: 0, color: "#4f649b" }}
+                    />
+                </Grid>
+                <Grid item>
+                    <ResendOTP
+                        maxTime={120}
+                        renderTime={OTPCounter}
+                        // onTimerComplete={() => setActiveResend(true)}
+                        renderButton={() => { }} />
+                </Grid>
+                <Grid item style={{ textAlign: "center", color: "#7886a3" }}>
+                    زمان معتبر بودن کد فعالسازی
+                </Grid>
+                <Grid item container justify={"center"} style={{ width: "100%", marginBottom: 15 }}>
+                    <ButtonBase onClick={checkActivationCode} className={classes.activationButton} >
+                        تایید کد فعالسازی
+                            </ButtonBase>
+                </Grid>
+                <Grid item>
+                    <Typography className={classes.resendActivation} variant={'body1'}>ارسال مجدد کد فعالسازی</Typography>
+                </Grid>
+            </Grid>
+        </Grid>
+    )
+}
+
+export default ActivateProfile;

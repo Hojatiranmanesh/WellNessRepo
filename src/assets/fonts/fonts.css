@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Kalame;
+    src: url("./WebFonts/_eot/KalamehWeb\(FaNum\)-Regular.eot");
+    src: url("./WebFonts/_eot/KalamehWeb(FaNum)-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-8 */
+    url("./WebFonts/_Woff2//KalamehWeb(FaNum)-Regular.woff2") format("woff2"), /* FF39+,Chrome36+, Opera24+*/
+    url("./WebFonts//_Woff//KalamehWeb\(FaNum\)-Regular.woff") format("woff");
+    /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+}
+
+* {
+    font-family: Kalame, "Roboto", "Helvetica", "Arial", sans-serif !important;
+}
+
+input:-webkit-autofill {
+    transition: background-color 5000s;
+    background-color: rgba(0, 255, 255, 0)
+}
