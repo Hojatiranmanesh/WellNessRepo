@@ -6,19 +6,14 @@ import {
   Typography,
   ButtonBase,
   Button,
-  SwipeableDrawer,
-  List,
-  ListItem,
-  ListItemText,
 } from "@material-ui/core";
-import SettingsIcon from '@material-ui/icons/Settings';
-import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from "@material-ui/core/styles";
 import user from "../../assets/images/user.png";
 import settings from "../../assets/images/settings.png";
 import pencil from "../../assets/images/pencil.png";
 import stopwatch from "../../assets/images/stopwatch.png";
 import axios from "axios";
+import Header from '../../components/Header'
 
 const useStyles = makeStyles({
   topBar: {
@@ -52,57 +47,12 @@ const useStyles = makeStyles({
     width: "200px",
     marginBottom: 80,
   },
-  list: {
-    width: "100vw",
-    background: "#ffffff00",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    "& ul": {
-      "& div": {
-        textAlign: "center",
-      },
-    },
-
-  },
-  BackdropProps: {
-    background: "transparent",
-  },
   fullList: {
     width: "auto",
   },
   settingsButton: {
     borderRadius: 50,
   },
-  drawerRoot: {
-    background: "#ffffff00",
-    "&::before": {
-      content: '""',
-      position: "fixed",
-      left: 0,
-      right: 0,
-      zIndex: "-1",
-      height: "100vh",
-      width: "100vw",
-      backdropFilter: "blur(10px)",
-    },
-  },
-  drawerPaper: {
-    background: "transparent"
-  },
-  drawerModal: {
-    background: "transparent"
-  },
-  exitButton: {
-    position: "absolute",
-    top: 27,
-    right: 33
-  },
-  listItems: {
-    fontWeight: "bold",
-
-  }
 });
 
 const Profile = () => {
@@ -110,12 +60,7 @@ const Profile = () => {
   const [fname, setFname] = useState();
   const [lname, setlname] = useState();
   const [phone, setPhone] = useState();
-  const [state, setState] = useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  
 
   useEffect(() => {
     const config = {
@@ -134,76 +79,13 @@ const Profile = () => {
 
   }, [])
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
-  };
+  
 
   return (
     <Box>
+
       <Grid className={classes.topBar} container justify="flex-end">
-        <Grid item>
-          <div>
-            <React.Fragment key={"right"}>
-              <Button
-                className={classes.settingsButton}
-                onClick={toggleDrawer("right", true)}
-              >
-                <SettingsIcon className={classes.settingIcon} />
-              </Button>
-              <SwipeableDrawer
-                anchor={"right"}
-                open={state["right"]}
-                onClose={toggleDrawer("right", false)}
-                onOpen={toggleDrawer("right", true)}
-                BackdropProps={{
-                  classes: {
-                    root: classes.BackdropProps
-                  }
-                }}
-                classes={{
-                  modal: classes.drawerModal,
-                  paper: classes.drawerPaper,
-                  root: classes.drawerRoot,
-                }}
-              >
-                <div
-                  className={classes.list}
-                  role="presentation"
-                  onClick={toggleDrawer("right", false)}
-                  onKeyDown={toggleDrawer("right", false)}
-                >
-                  <ButtonBase
-                    className={classes.exitButton}
-                    onClick={toggleDrawer("right", true)}
-                  >
-                    <CloseIcon className={classes.settingIcon} />
-                  </ ButtonBase>
-                  <List>
-                    <ListItem className={classes.listItems} button key={"darklight"}>
-                      <ListItemText primary={"حالت تیره/روشن"} />
-                    </ListItem>
-
-                    <ListItem className={classes.listItems} button key={"soundEffects"}>
-                      <ListItemText primary={"جلوه های صوتی"} />
-                    </ListItem>
-
-                    <ListItem className={classes.listItems} button key={"language"}>
-                      <ListItemText primary={"فارسی"} />
-                    </ListItem>
-                  </List>
-                </div>
-              </SwipeableDrawer>
-            </React.Fragment>
-          </div>
-        </Grid>
+        <Header />
         <Grid
           item
           className={classes.nameBox}

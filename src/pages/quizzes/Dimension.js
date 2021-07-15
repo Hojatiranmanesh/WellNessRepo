@@ -1,0 +1,60 @@
+import React, { useState } from 'react';
+import Header from '../../components/Header';
+import { Box, Divider, Tabs, Tab } from '@material-ui/core';
+import Quizzes from '../../components/Quizzes';
+import QuizEval from '../../components/QuizEval';
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyle = makeStyles({
+    wiw: {
+        textAlign: 'center',
+        direction: "rtl",
+        color:"#64c6f5",
+        marginTop:30,
+
+    },
+    readMore: {
+        textAlign: 'center',
+        direction: "rtl",
+        textDecoration: 'underline',
+        textDecorationStyle: 'dotted',
+        marginBottom:30,
+    },
+
+    tabRoot: {
+        color: "#08afe4",
+        fontWeight: "Bold",
+        fontSize: '1.1em',
+    },
+});
+
+const Dimension = () => {
+    const [selectedTab, setSelectedTab] = useState(0);
+    const classes = useStyle();
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue)
+    }
+    return (
+        <>
+            <Box>
+                <Header />
+                <h2 className={classes.wiw}>What is Wellness?</h2>
+                <p className={classes.readMore}>Read more</p>
+                <Divider variant="middle" />
+                <Tabs TabIndicatorProps={{
+                    style: {
+                        backgroundColor: "#08afe4"
+                    }
+                }} centered value={selectedTab} onChange={handleChange}>
+                    <Tab classes={{ root: classes.tabRoot }} label="ارزیابی‌ها" />
+                    <Tab classes={{ root: classes.tabRoot }} label="تحلیل ارزیابی‌های پیشین" />
+                </Tabs>
+                {selectedTab === 0 &&  <Quizzes /> }
+                {selectedTab === 1 && <QuizEval />}
+            </Box>
+        </>
+    )
+
+}
+
+export default Dimension;
