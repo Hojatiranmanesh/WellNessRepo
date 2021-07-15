@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import video from '../assets/Video/monLoop.mp4';
+import video from '../assets/Video/monLoop.mkv';
 import Bird from '../assets/audio/Bird.mp3';
 import Rain from '../assets/audio/Rain.mp3';
 import Sea from '../assets/audio/Sea.mp3';
@@ -29,7 +29,7 @@ const useStyle = makeStyles({
         color: "white",
         padding: 15,
     },
-    clockIcon:{
+    clockIcon: {
         zIndex: 12,
         position: 'absolute',
         top: 10,
@@ -78,73 +78,91 @@ const Norbu = () => {
     const waterChange = (event, newValue) => {
         setWaterVolume(newValue);
     };
-    return (
-        <>
-            <Box className={classes.videoWrapper}>
-                <video className={classes.video} autoPlay={true} muted loop id="myVideo">
-                    <source src={video} type="video/mp4" />
-                </video>
-            </Box>
-            <ButtonBase onClick={handleClick} className={classes.volumeIcon}><VolumeUpIcon /></ButtonBase>
-            <ButtonBase onClick={handleClickClock} className={classes.clockIcon}><AccessTimeIcon /></ButtonBase>
-            <Menu
-                id="simple-menu"
-                anchorEl={showVolume}
-                keepMounted
-                open={Boolean(showVolume)}
-                onClose={handleClose}
-                classes={{ paper: classes.menuPaper }}
-            >
-                <MenuItem >
-                    <Slider
-                        value={birdVolume} min={0} max={1} step={0.001}
-                        onChange={birdChange} aria-labelledby="continuous-slider" />
-                </MenuItem>
-                <Divider />
-                <MenuItem >
-                    <Slider value={rainVolume} min={0} max={1} step={0.001}
-                        onChange={rainChange} aria-labelledby="continuous-slider" />
-                </MenuItem>
-                <Divider />
-                <MenuItem >
-                    <Slider value={seaVolume} min={0} max={1} step={0.001}
-                        onChange={seaChange} aria-labelledby="continuous-slider" />
-                </MenuItem>
-                <Divider />
-                <MenuItem >
-                    <Slider value={waterVolume} min={0} max={1} step={0.001}
-                        onChange={waterChange} aria-labelledby="continuous-slider" />
-                </MenuItem>
-            </Menu>
-            <ReactAudioPlayer
-            loop
-                src={Bird}
-                autoPlay
-                mutded
-                volume={birdVolume}
-            />
-            <ReactAudioPlayer
-            loop
-                src={Sea}
-                autoPlay
-                mutded
-                volume={seaVolume}
-            />
-            <ReactAudioPlayer
-            loop
-                src={Rain}
-                autoPlay
-                mutded
-                volume={rainVolume}
-            />
-            <ReactAudioPlayer
-            loop
-                src={Water}
-                autoPlay
-                mutded
-                volume={waterVolume}
-            />
-        </>
+    return ( <
+        >
+        <
+        Box className = { classes.videoWrapper } >
+        <
+        video className = { classes.video }
+        autoPlay = { true }
+        muted loop id = "myVideo" >
+        <
+        source src = { video }
+        type = "video/mp4" / >
+        <
+        /video> <
+        /Box> <
+        ButtonBase onClick = { handleClick }
+        className = { classes.volumeIcon } > < VolumeUpIcon / > < /ButtonBase> <
+        ButtonBase onClick = { handleClickClock }
+        className = { classes.clockIcon } > < AccessTimeIcon / > < /ButtonBase> <
+        Menu id = "simple-menu"
+        anchorEl = { showVolume }
+        keepMounted open = { Boolean(showVolume) }
+        onClose = { handleClose }
+        classes = {
+            { paper: classes.menuPaper } } >
+        <
+        MenuItem >
+        <
+        Slider value = { birdVolume }
+        min = { 0 }
+        max = { 1 }
+        step = { 0.001 }
+        onChange = { birdChange }
+        aria - labelledby = "continuous-slider" / >
+        <
+        /MenuItem> <
+        Divider / >
+        <
+        MenuItem >
+        <
+        Slider value = { rainVolume }
+        min = { 0 }
+        max = { 1 }
+        step = { 0.001 }
+        onChange = { rainChange }
+        aria - labelledby = "continuous-slider" / >
+        <
+        /MenuItem> <
+        Divider / >
+        <
+        MenuItem >
+        <
+        Slider value = { seaVolume }
+        min = { 0 }
+        max = { 1 }
+        step = { 0.001 }
+        onChange = { seaChange }
+        aria - labelledby = "continuous-slider" / >
+        <
+        /MenuItem> <
+        Divider / >
+        <
+        MenuItem >
+        <
+        Slider value = { waterVolume }
+        min = { 0 }
+        max = { 1 }
+        step = { 0.001 }
+        onChange = { waterChange }
+        aria - labelledby = "continuous-slider" / >
+        <
+        /MenuItem> <
+        /Menu> <
+        ReactAudioPlayer loop src = { Bird }
+        autoPlay mutded volume = { birdVolume }
+        /> <
+        ReactAudioPlayer loop src = { Sea }
+        autoPlay mutded volume = { seaVolume }
+        /> <
+        ReactAudioPlayer loop src = { Rain }
+        autoPlay mutded volume = { rainVolume }
+        /> <
+        ReactAudioPlayer loop src = { Water }
+        autoPlay mutded volume = { waterVolume }
+        /> <
+        />
     )
 
 }
