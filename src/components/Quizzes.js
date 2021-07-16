@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setQuiz } from '../actions';
 import { useSelector } from 'react-redux';
-import {Link }from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles({
     quizzesWrapper: {
@@ -37,7 +37,7 @@ const Quizzes = () => {
     });
     const classes = useStyle();
     const [quizzes, setQuizzes] = useState([])
-    const handleClick = (e, data) =>{
+    const handleClick = (e, data) => {
         dispatch(setQuiz(data))
     }
     useEffect(() => {
@@ -45,7 +45,7 @@ const Quizzes = () => {
             .then(function (response) {
                 console.log(response)
                 response.data.data.forEach(element => {
-                    setQuizzes(quizzes => [...quizzes, 
+                    setQuizzes(quizzes => [...quizzes,
                     <ButtonBase listId={element._id} key={element._id} className={classes.button} onClick={((e) => handleClick(e, element._id))} component={Link} to="/quizzes/dimension/quiz">
                         <div style={{ backgroundColor: "#e5d796" }} className={classes.iconWrapper}></div>
                         <p className={classes.buttonCaption}>{element.quizCategory}</p>

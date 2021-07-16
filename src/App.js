@@ -22,6 +22,7 @@ import EditProfile from "./pages/profile/EditProfile";
 import Login from "./pages/auth/Login";
 import Product from "./pages/products/Product";
 import Appointments from "./pages/appointments/Appointments";
+import ReserveAppointment from "./pages/appointments/ReserveAppointment";
 import ActivateProfile from "./pages/auth/ActivateProfile";
 import QuizzesDims from "./pages/quizzes/QuizzesDims";
 import Dimension from './pages/quizzes/Dimension'
@@ -60,7 +61,8 @@ const App = props => {
               <Route path="/relaxation" component={Norbu} />
               <Route path="/products" exact component={Products} />
               <Route path="/products/product" component={Product} />
-              <Route path="/appointments" component={Appointments} />
+              <Route path="/appointments" exact component={Appointments} />
+              <Route path="/appointments/reserve" component={ReserveAppointment} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/activate" component={ActivateProfile} />
@@ -68,7 +70,6 @@ const App = props => {
             {window.location.pathname !== '/login' ||
               window.location.pathname !== '/signup' ||
               window.location.pathname !== '/activate' ? <BootomNav /> : null}
-
           </div>
         </StylesProvider>
       </ThemeProvider>
