@@ -1,14 +1,15 @@
-import React, { useState, } from 'react';
-import video from '../assets/Video/monLoop.mkv';
-import Bird from '../assets/audio/Bird.mp3';
-import Rain from '../assets/audio/Rain.mp3';
-import Sea from '../assets/audio/Sea.mp3';
-import Water from '../assets/audio/Water.mp3';
+import React, { useState } from 'react';
+import video from '../../assets/Video/monLoop.mkv';
+import Bird from '../../assets/audio/Bird.mp3';
+import Rain from '../../assets/audio/Rain.mp3';
+import Sea from '../../assets/audio/Sea.mp3';
+import Water from '../../assets/audio/Water.mp3';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, ButtonBase, Menu, MenuItem, Divider, Slider } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import ReactAudioPlayer from 'react-audio-player';
+import { useHistory } from 'react-router-dom';
 
 const useStyle = makeStyles({
     video: {
@@ -29,7 +30,7 @@ const useStyle = makeStyles({
         color: "white",
         padding: 15,
     },
-    clockIcon:{
+    clockIcon: {
         zIndex: 12,
         position: 'absolute',
         top: 10,
@@ -53,6 +54,7 @@ const Norbu = () => {
     const [rainVolume, setRainVolume] = React.useState(0.3);
     const [seaVolume, setSeaVolume] = React.useState(0.3);
     const [waterVolume, setWaterVolume] = React.useState(0.3);
+
     const handleClick = (event) => {
         setShowVolume(event.currentTarget);
     };
@@ -78,6 +80,13 @@ const Norbu = () => {
     const waterChange = (event, newValue) => {
         setWaterVolume(newValue);
     };
+    const history = useHistory();
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (!token) {
+    //         history.push('/login');
+    //     }
+    // });
     return (
         <>
             <Box className={classes.videoWrapper}>
@@ -117,28 +126,28 @@ const Norbu = () => {
                 </MenuItem>
             </Menu>
             <ReactAudioPlayer
-            loop
+                loop
                 src={Bird}
                 autoPlay
                 mutded
                 volume={birdVolume}
             />
             <ReactAudioPlayer
-            loop
+                loop
                 src={Sea}
                 autoPlay
                 mutded
                 volume={seaVolume}
             />
             <ReactAudioPlayer
-            loop
+                loop
                 src={Rain}
                 autoPlay
                 mutded
                 volume={rainVolume}
             />
             <ReactAudioPlayer
-            loop
+                loop
                 src={Water}
                 autoPlay
                 mutded

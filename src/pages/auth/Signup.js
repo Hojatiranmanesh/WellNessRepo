@@ -46,7 +46,11 @@ const Signup = () => {
                 localStorage.setItem('userid', res.data.user._id);
                 setSignedUp(true)
             })
-            .catch()
+            .catch(err=>{
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+            })
         }
     }
     if (signedUp) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter as Router } from "react-router-dom";
 import {
   Grid,
   Box,
@@ -60,7 +60,9 @@ const Profile = () => {
   const [fname, setFname] = useState();
   const [lname, setlname] = useState();
   const [phone, setPhone] = useState();
-  
+
+
+
 
   useEffect(() => {
     const config = {
@@ -69,17 +71,24 @@ const Profile = () => {
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
     };
-    axios.get("http://api.hamyarwellness.com/api/v1/users/getOne", config)
+    axios.get("http://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
       .then(res => {
         console.log(res)
         setFname(res.data.data.firstname)
         setlname(res.data.data.lastname)
         setPhone(res.data.data.phone)
       })
+      .catch(err => {
+        if (err.response.status === 401) {
+          localStorage.removeItem('jwt')
+        }
+      })
 
   }, [])
 
-  
+  useEffect(() => {
+    <Router forceRefresh={true} />
+  }, [])
 
   return (
     <Box>

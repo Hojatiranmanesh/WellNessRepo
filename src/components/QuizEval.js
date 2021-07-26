@@ -3,6 +3,7 @@ import { Box, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import persianDate from 'persian-date';
 
 const useStyle = makeStyles({
     resultWrapper: {
@@ -12,7 +13,8 @@ const useStyle = makeStyles({
         borderRadius: 20,
         boxShadow: "inset 0 0 6px 3px #00000029",
         position: "relative",
-        marginBottom: 14
+        marginBottom: 14,
+        margin:"0 auto"
     },
     resultFiller: {
         background: "linear-gradient(0deg, rgba(253,139,173,1) 0%, rgba(248,118,224,1) 100%)",
@@ -25,11 +27,16 @@ const useStyle = makeStyles({
     resultsContainer: {
         display: "flex",
         flexWrap: 'wrap',
+        width:500,
+        maxWidth:"88vw",
+        margin:"0 auto",
+        justifyContent:"center",
+        marginTop:10
     },
     result: {
-        margin: 20,
         textAlign: 'center',
-        marginBottom: 40
+        marginBottom: 40,
+        width:"20%"
     },
     resultDesc: {
         textAlign: 'center'
@@ -39,6 +46,8 @@ const useStyle = makeStyles({
 const QuizEval = () => {
     const classes = useStyle();
     const [answers, setAnswers] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [date, setDate] = useState()
+    const [time, setTime] = useState()
     let quiz = useSelector(state => {
         return state.quiz;
     });
@@ -49,7 +58,9 @@ const QuizEval = () => {
             { headers: { 'Authorization': token } },
         )
             .then(res => {
-                console.log(res.data.data[res.data.data.length-1].created_at)
+                console.log(res.data.data[res.data.data.length-1])
+                setDate(new persianDate(res.data.data[res.data.data.length-1].created_at).format("D MMMM YYYY"))
+                setTime(new persianDate(res.data.data[res.data.data.length-1].created_at).format("H:m:s"))
                 let array = [];
                 answers.forEach((answer, index) => {
                     let score = 0;
@@ -62,14 +73,17 @@ const QuizEval = () => {
             })
             .catch(err => {
                 console.log(err)
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
     }, [])
     return (
         <Box>
             <Box className={classes.resultDesc}>
                 <h4 style={{ color: "#526699", margin: 20 }}>معرفی مسیر عشق و مسئولیت پذیری در قبال خود</h4>
-                <p style={{ color: "#7987a1" }}>تاریخ انجام آزمون: 31 اسفند 1399</p>
-                <p style={{ color: "#7987a1", marginBottom: 20 }}>ساعت انجام آزمون: 23:04:15</p>
+                <p style={{ color: "#7987a1" }}>تاریخ انجام آزمون: {date}</p>
+                <p style={{ color: "#7987a1", marginBottom: 20 }}>ساعت انجام آزمون: {time}</p>
             </Box>
             <Divider variant="middle" />
             <Box className={classes.resultsContainer}>
@@ -82,49 +96,6 @@ const QuizEval = () => {
                         <p> {data * 10 + "٪"}</p>
                     </Box>
                 ))}
-
-                {/* <Box className={classes.result}>
-                    <div className={classes.resultWrapper}>
-                        <div className={classes.resultFiller} style={{height:"80%"}}></div>
-                    </div>
-                    <p>گزینه 1</p>
-                    <p>90٪</p>
-                </Box>
-                <Box className={classes.result}>
-                    <div className={classes.resultWrapper}>
-                        <div className={classes.resultFiller} style={{height:"80%"}}></div>
-                    </div>
-                    <p>گزینه 1</p>
-                    <p>90٪</p>
-                </Box>
-                <Box className={classes.result}>
-                    <div className={classes.resultWrapper}>
-                        <div className={classes.resultFiller} style={{height:"80%"}}></div>
-                    </div>
-                    <p>گزینه 1</p>
-                    <p>90٪</p>
-                </Box>
-                <Box className={classes.result}>
-                    <div className={classes.resultWrapper}>
-                        <div className={classes.resultFiller} style={{height:"80%"}}></div>
-                    </div>
-                    <p>گزینه 1</p>
-                    <p>90٪</p>
-                </Box>
-                <Box className={classes.result}>
-                    <div className={classes.resultWrapper}>
-                        <div className={classes.resultFiller} style={{height:"80%"}}></div>
-                    </div>
-                    <p>گزینه 1</p>
-                    <p>90٪</p>
-                </Box>
-                <Box className={classes.result}>
-                    <div className={classes.resultWrapper}>
-                        <div className={classes.resultFiller} style={{height:"80%"}}></div>
-                    </div>
-                    <p>گزینه 1</p>
-                    <p>90٪</p>
-                </Box> */}
             </Box>
 
         </Box>

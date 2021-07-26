@@ -43,7 +43,7 @@ const Appointments = () => {
                 <Box className={classes.topWrapper}>
                     <Box className={classes.assitance}>
                         <h1 className={classes.assistanceHeader}>دریافت مشاوره</h1>
-                        <p className={classes.requestAssistance}>خرید اشتراک طلایی برای مشاوره آنلاین</p>
+                        {/* <p className={classes.requestAssistance}>خرید اشتراک طلایی برای مشاوره آنلاین</p> */}
                     </Box>
                 </Box>
                 <Divider variant="middle" />

@@ -54,8 +54,11 @@ const Quizzes = () => {
             })
             .catch(function (error) {
                 console.log(error);
+                if (error.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
-    }, []);
+    },[]);
 
     return (
         <Box className={classes.quizzesWrapper}>

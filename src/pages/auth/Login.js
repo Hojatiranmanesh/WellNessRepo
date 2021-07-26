@@ -64,6 +64,9 @@ const Login = () => {
             })
             .catch(function (error) {
                 console.log(error);
+                if (error.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
             .then(function () {
                 // always executed

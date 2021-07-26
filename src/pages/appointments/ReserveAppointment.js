@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     topDesc: {
         textAlign: "center",
         marginBottom: 30,
+        paddingTop: 60
 
     },
     descRoot: {
@@ -95,25 +96,36 @@ const ReserveAppointment = () => {
                 "date": nextDay,
                 "time": hour,
                 "length": duration,
-                "description":desc,
+                "description": desc,
             }
             const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } }
             axios.post('http://api.hamyarwellness.com/api/v1/appointments', body, header)
                 .then(res => {
                     console.log(res)
                 })
-                .catch(err => [
+                .catch(err => {
                     console.log(err)
-                ])
+                    if (err.response.status === 401) {
+                        localStorage.removeItem('jwt')
+                    }
+                })
         }
     };
+
+    // const backButton = () => {
+    //     if (activeStep === 0) {
+    //         return (<Header component="link" to={"/appointments"} />)
+    //     } else {
+    //         <Header component="function" to={handleBack} />
+    //     }
+    // }
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
     return (
         <div className={classes.root}>
-            <Header />
+            <Header component={(activeStep === 0) ? "link" : "function"} to={(activeStep === 0) ? "/appointments" : handleBack} />
             <Step >
                 <StepLabel classes={{ label: classes.descRoot }} className={classes.topDesc}>{myStep(activeStep)}{steps[activeStep]}</StepLabel>
             </Step>

@@ -70,9 +70,9 @@ const BootomNav = () => {
       <BottomNavigationAction
         className={classes.navItem}
         component={Link}
-        to="/relaxation"
-        label="ریلکسیشن"
-        value="relaxation"
+        to="/evolution"
+        label="ارتقاء"
+        value="evolution"
         icon={<MusicNoteOutlinedIcon className={classes.navIcon} />}
       />
       <BottomNavigationAction

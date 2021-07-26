@@ -44,7 +44,7 @@ const EditProfile = () => {
                 "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
             },
         };
-        axios.get("http://api.hamyarwellness.com/api/v1/users/getOne", config)
+        axios.get("http://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
             .then(res => {
                 console.log(res)
                 setFname(res.data.data.firstname)
@@ -52,6 +52,11 @@ const EditProfile = () => {
                 setPhone(res.data.data.phone)
                 setJobTitle(res.data.data.jobTitle)
                 setAddress(res.data.data.address)
+            })
+            .catch(err=>{
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
 
     }, [])
@@ -75,6 +80,9 @@ const EditProfile = () => {
         })
         .catch(err=>{
             console.log(err)
+            if (err.response.status === 401) {
+                localStorage.removeItem('jwt')
+            }
         })
     };
     return (

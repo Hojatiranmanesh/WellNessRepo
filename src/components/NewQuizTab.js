@@ -46,6 +46,9 @@ const NewQuizTab = ({onStart}) => {
                 console.log(response);
             })
             .catch(function (error) {
+                if(error.response.status === 401){
+                    localStorage.removeItem('jwt')
+                }
                 console.log(error);
             })
     }, [])

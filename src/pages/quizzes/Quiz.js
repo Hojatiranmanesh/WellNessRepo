@@ -28,6 +28,10 @@ const useStyle = makeStyles({
     performanceWraper: {
         display: 'flex',
         flexDirection: "row-reverse",
+        padding:"0 25px",
+        width: 500,
+        maxWidth:"87vw",
+        margin:"0 auto"
     },
     preformanceReport: {
         display: 'flex',
@@ -48,7 +52,6 @@ const useStyle = makeStyles({
 const Quiz = () => {
 
     const [selectedTab, setSelectedTab] = useState(0);
-
     const [testStart, setTestStart] = useState(false);
     const classes = useStyle();
     const handleChange = (event, newValue) => {

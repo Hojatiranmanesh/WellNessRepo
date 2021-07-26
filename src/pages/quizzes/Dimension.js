@@ -10,7 +10,7 @@ const useStyle = makeStyles({
         textAlign: 'center',
         direction: "rtl",
         color:"#64c6f5",
-        marginTop:30,
+        paddingTop:30,
 
     },
     readMore: {
@@ -47,10 +47,8 @@ const Dimension = () => {
                     }
                 }} centered value={selectedTab} onChange={handleChange}>
                     <Tab classes={{ root: classes.tabRoot }} label="ارزیابی‌ها" />
-                    <Tab classes={{ root: classes.tabRoot }} label="تحلیل ارزیابی‌های پیشین" />
                 </Tabs>
                 {selectedTab === 0 &&  <Quizzes /> }
-                {selectedTab === 1 && <QuizEval />}
             </Box>
         </>
     )

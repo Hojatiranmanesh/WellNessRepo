@@ -54,6 +54,9 @@ const QuizQuestion = () => {
                 })
                 .catch(err => {
                     console.log(err)
+                    if (err.response.status === 401) {
+                        localStorage.removeItem('jwt')
+                    }
                 })
         }
     }, [answers, quiz])
@@ -69,6 +72,9 @@ const QuizQuestion = () => {
             })
             .catch(function (error) {
                 console.log(error);
+                if (error.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
     }, [])
     useEffect(() => {

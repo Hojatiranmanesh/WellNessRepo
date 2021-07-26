@@ -16,16 +16,18 @@ import {
 } from "react-router-dom";
 import Index from "./pages/Index";
 import Profile from "./pages/profile/Profile";
-import Norbu from "./pages/Norbu";
+import Evolution from "./pages/evolution/Evolution";
 import Products from "./pages/products/Products";
 import EditProfile from "./pages/profile/EditProfile";
 import Login from "./pages/auth/Login";
 import Product from "./pages/products/Product";
+import Norbu from './pages/evolution/Norbu';
 import Appointments from "./pages/appointments/Appointments";
 import ReserveAppointment from "./pages/appointments/ReserveAppointment";
 import ActivateProfile from "./pages/auth/ActivateProfile";
 import QuizzesDims from "./pages/quizzes/QuizzesDims";
-import Dimension from './pages/quizzes/Dimension'
+import Dimension from './pages/quizzes/Dimension';
+import Breathing from './pages/evolution/Breathing';
 import Quiz from './pages/quizzes/Quiz'
 import Signup from "./pages/auth/Signup";
 import "./assets/fonts/fonts.css";
@@ -58,7 +60,9 @@ const App = props => {
               <Route path="/quizzes" exact component={QuizzesDims} />
               <Route path="/quizzes/dimension" exact component={Dimension} />
               <Route path="/quizzes/dimension/quiz" component={Quiz} />
-              <Route path="/relaxation" component={Norbu} />
+              <Route path="/evolution" exact component={Evolution} />
+              <Route path="/evolution/breathing" component={Breathing} />
+              <Route path="/evolution/relaxation" component={Norbu} />
               <Route path="/products" exact component={Products} />
               <Route path="/products/product" component={Product} />
               <Route path="/appointments" exact component={Appointments} />
@@ -67,9 +71,10 @@ const App = props => {
               <Route path="/signup" component={Signup} />
               <Route path="/activate" component={ActivateProfile} />
             </Switch>
-            {window.location.pathname !== '/login' ||
-              window.location.pathname !== '/signup' ||
-              window.location.pathname !== '/activate' ? <BootomNav /> : null}
+            {window.location.pathname === '/login' ||
+              window.location.pathname === '/signup' ||
+              window.location.pathname === '/' ||
+              window.location.pathname === '/activate' ? null : <BootomNav />}
           </div>
         </StylesProvider>
       </ThemeProvider>

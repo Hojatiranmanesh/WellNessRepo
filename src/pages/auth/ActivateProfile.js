@@ -53,7 +53,7 @@ const useStyles = makeStyles({
 });
 
 const ActivateProfile = () => {
-    
+
     const classes = useStyles();
     const [OTP, setOTP] = useState();
     const [activated, setActivated] = useState(false)
@@ -62,20 +62,29 @@ const ActivateProfile = () => {
         axios.post('http://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
             .then(res => {
                 setActivated(true)
+
             })
-    },[])
+            .catch(err => {
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+            })
+    }, [])
     const checkActivationCode = () => {
         console.log("test")
-        axios.post('http://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId:localStorage.getItem('userid') })
+        axios.post('http://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId: localStorage.getItem('userid') })
             .then(res => {
                 console.log(res)
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log(err)
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
     }
-    if(activated){
-        return(<Redirect to='/profile'/>)
+    if (activated) {
+        return (<Redirect to='/profile' />)
     }
     return (
         <Grid container className={classes.root}>
@@ -108,7 +117,7 @@ const ActivateProfile = () => {
                 <Grid item container justify={"center"} style={{ width: "100%", marginBottom: 15 }}>
                     <ButtonBase onClick={checkActivationCode} className={classes.activationButton} >
                         تایید کد فعالسازی
-                            </ButtonBase>
+                    </ButtonBase>
                 </Grid>
                 <Grid item>
                     <Typography className={classes.resendActivation} variant={'body1'}>ارسال مجدد کد فعالسازی</Typography>
