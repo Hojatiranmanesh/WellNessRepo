@@ -61,19 +61,19 @@ const Third = ({setHour}) => {
                 13:00
             </ButtonBase>
             <ButtonBase
-                className={(active === 13) ? classes.buttonActive : classes.button} onClick={() => setActive(14)}>
+                className={(active === 14) ? classes.buttonActive : classes.button} onClick={() => setActive(14)}>
                 14:00
             </ButtonBase>
             <ButtonBase
-                className={(active === 13) ? classes.buttonActive : classes.button} onClick={() => setActive(15)}>
+                className={(active === 15) ? classes.buttonActive : classes.button} onClick={() => setActive(15)}>
                 15:00
             </ButtonBase>
             <ButtonBase
-                className={(active === 13) ? classes.buttonActive : classes.button} onClick={() => setActive(16)}>
+                className={(active === 16) ? classes.buttonActive : classes.button} onClick={() => setActive(16)}>
                 16:00
             </ButtonBase>
             <ButtonBase
-                className={(active === 13) ? classes.buttonActive : classes.button} onClick={() => setActive(17)}>
+                className={(active === 17) ? classes.buttonActive : classes.button} onClick={() => setActive(17)}>
                 17:00
             </ButtonBase>
         </Box >
