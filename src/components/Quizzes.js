@@ -41,7 +41,7 @@ const Quizzes = () => {
         dispatch(setQuiz(data))
     }
     useEffect(() => {
-        axios.get(`http://api.hamyarwellness.com/api/v1/quizzes/dimension/${dimension}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://api.hamyarwellness.com/api/v1/quizzes/dimension/${dimension}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(function (response) {
                 console.log(response)
                 response.data.data.forEach(element => {

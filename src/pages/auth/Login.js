@@ -56,7 +56,7 @@ const Login = () => {
     const classes = useStyles();
 
     const loginAction = () => {
-        axios.post('http://api.hamyarwellness.com/api/v1/users/login', { phone: phone, password: password })
+        axios.post('https://api.hamyarwellness.com/api/v1/users/login', { phone: phone, password: password })
             .then(function (response) {
                 localStorage.setItem('userid', response.data.user._id);
                 localStorage.setItem('jwt', response.data.token);

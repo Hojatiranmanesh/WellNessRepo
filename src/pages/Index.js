@@ -43,7 +43,7 @@ const Index = () => {
     if (localStorage.getItem("jwt") === null || localStorage.getItem("jwt") === "") {
       setLogin(false)
     } else {
-      axios.get('http://api.hamyarwellness.com/api/v1/users/checkLogin', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+      axios.get('https://api.hamyarwellness.com/api/v1/users/checkLogin', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
         .then(res => {
           setLogin(true)
         })

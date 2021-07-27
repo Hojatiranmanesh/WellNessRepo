@@ -39,7 +39,7 @@ const NewQuizTab = ({onStart}) => {
     });
     const classes = useStyle();
     useEffect(() => {
-        axios.get(`http://api.hamyarwellness.com/api/v1/quizzes/${quiz}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://api.hamyarwellness.com/api/v1/quizzes/${quiz}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(function (response) {
                 setQuizTitle(response.data.data[0].quizTitle)
                 setQuizDesc(response.data.data[0].quizDescription)

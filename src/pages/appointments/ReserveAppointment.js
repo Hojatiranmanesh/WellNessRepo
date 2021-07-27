@@ -99,7 +99,7 @@ const ReserveAppointment = () => {
                 "description": desc,
             }
             const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } }
-            axios.post('http://api.hamyarwellness.com/api/v1/appointments', body, header)
+            axios.post('https://api.hamyarwellness.com/api/v1/appointments', body, header)
                 .then(res => {
                     console.log(res)
                 })

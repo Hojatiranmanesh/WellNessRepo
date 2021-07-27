@@ -71,7 +71,7 @@ const Profile = () => {
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
     };
-    axios.get("http://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
+    axios.get("https://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
       .then(res => {
         console.log(res)
         setFname(res.data.data.firstname)

@@ -44,7 +44,7 @@ const QuizQuestion = () => {
                 "answers": answers
             };
             console.log(body)
-            axios.post('http://api.hamyarwellness.com/api/v1/quiz/results/',
+            axios.post('https://api.hamyarwellness.com/api/v1/quiz/results/',
                 body,
                 { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } },
 
@@ -61,7 +61,7 @@ const QuizQuestion = () => {
         }
     }, [answers, quiz])
     useEffect(() => {
-        axios.get(`http://api.hamyarwellness.com/api/v1/quizzes/${quiz}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://api.hamyarwellness.com/api/v1/quizzes/${quiz}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(function (response) {
                 setQustions(response.data.data[0].questions);
                 questions.forEach(element => {

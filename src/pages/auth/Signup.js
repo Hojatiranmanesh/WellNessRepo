@@ -41,7 +41,7 @@ const Signup = () => {
     const classes = useStyles();
     const signup = () => {
         if(password === rePassword){
-            axios.post('http://api.hamyarwellness.com/api/v1/users/signup', { phone: phone, password: password, })
+            axios.post('https://api.hamyarwellness.com/api/v1/users/signup', { phone: phone, password: password, })
             .then(res => {
                 localStorage.setItem('userid', res.data.user._id);
                 setSignedUp(true)

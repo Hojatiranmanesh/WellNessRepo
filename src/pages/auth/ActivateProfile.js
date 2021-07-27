@@ -59,7 +59,7 @@ const ActivateProfile = () => {
     const [activated, setActivated] = useState(false)
     useEffect(() => {
         const userId = localStorage.getItem('userid');
-        axios.post('http://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
+        axios.post('https://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
             .then(res => {
                 setActivated(true)
 
@@ -72,7 +72,7 @@ const ActivateProfile = () => {
     }, [])
     const checkActivationCode = () => {
         console.log("test")
-        axios.post('http://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId: localStorage.getItem('userid') })
+        axios.post('https://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId: localStorage.getItem('userid') })
             .then(res => {
                 console.log(res)
             })
