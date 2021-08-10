@@ -12,6 +12,7 @@ import dim5 from '../assets/images/dims/5.png';
 import dim6 from '../assets/images/dims/6.png';
 import dim7 from '../assets/images/dims/7.png';
 import dim8 from '../assets/images/dims/8.png';
+import CenterLogo from '../assets/images/Logo Wellness1.png';
 
 
 const useStyles = makeStyles({
@@ -31,11 +32,11 @@ const useStyles = makeStyles({
         "-o-background-size": "contain",
         backgroundSize: "contain",
         transition: "all 0.5s",
-        width: 150,
+        width: 140,
         "&:hover": {
             transform: "scale(1.2, 1.2)"
         },
-        height: 140, position: "absolute", left: 127, top: 7, "& img": { height: 140 },
+        height: 130, position: "absolute", left: 117, top: 14, "& img": { height: 130 },
     },
     classDim2: {
         background: `url(${dim2}) no-repeat center`,
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
 
         },
         height: 140,
-        width: 150, position: "absolute", left: 40, top: 45, transform: "rotate(-45deg)", "& img": { height: 140 },
+        width: 130, position: "absolute", left: 40, top: 45, transform: "rotate(-45deg)", "& img": { height: 130 },
     },
     classDim3: {
         background: `url(${dim3}) no-repeat center`,
@@ -61,8 +62,8 @@ const useStyles = makeStyles({
         "&:hover": {
             transform: "scale(1.2, 1.2) rotate(-90deg)"
         },
-        width: 150,
-        height: 140, position: "absolute", left: 4, top: 133, transform: "rotate(-90deg)", "& img": { height: 140 },
+        width: 140,
+        height: 130, position: "absolute", left: 4, top: 133, transform: "rotate(-90deg)", "& img": { height: 130 },
     },
     classDim4: {
         background: `url(${dim4}) no-repeat center`,
@@ -74,8 +75,8 @@ const useStyles = makeStyles({
         "&:hover": {
             transform: "scale(1.2, 1.2) rotate(-135deg)"
         },
-        width: 150,
-        height: 140, position: "absolute", left: 43, top: 218, transform: "rotate(-135deg)", "& img": { height: 140 },
+        width: 140,
+        height: 130, position: "absolute", left: 43, top: 218, transform: "rotate(-135deg)", "& img": { height: 130 },
     },
     classDim5: {
         background: `url(${dim5}) no-repeat center`,
@@ -87,8 +88,8 @@ const useStyles = makeStyles({
         "&:hover": {
             transform: "scale(1.2, 1.2) rotate(-180deg)"
         },
-        width: 150,
-        height: 140, position: "absolute", left: 131, top: 253, transform: "rotate(-180deg)", "& img": { height: 140 },
+        width: 140,
+        height: 130, position: "absolute", left: 127, top: 253, transform: "rotate(-180deg)", "& img": { height: 130 },
     },
     classDim6: {
         background: `url(${dim6}) no-repeat center`,
@@ -100,8 +101,8 @@ const useStyles = makeStyles({
         "&:hover": {
             transform: "scale(1.2, 1.2) rotate(-225deg)"
         },
-        width: 150,
-        height: 140, position: "absolute", left: 218, top: 217, transform: "rotate(-225deg)", "& img": { height: 140 },
+        width: 140,
+        height: 130, position: "absolute", left: 209, top: 217, transform: "rotate(-225deg)", "& img": { height: 130 },
     },
     classDim7: {
         background: `url(${dim7}) no-repeat center`,
@@ -113,8 +114,8 @@ const useStyles = makeStyles({
         "&:hover": {
             transform: "scale(1.2, 1.2) rotate(-270deg)"
         },
-        width: 150,
-        height: 140, position: "absolute", left: 255, top: 130, transform: "rotate(-270deg)", "& img": { height: 140 },
+        width: 140,
+        height: 130, position: "absolute", left: 242, top: 132, transform: "rotate(-270deg)", "& img": { height: 130 },
     },
     classDim8: {
         background: `url(${dim8}) no-repeat center`,
@@ -126,9 +127,20 @@ const useStyles = makeStyles({
         "&:hover": {
             transform: "scale(1.2, 1.2) rotate(-315deg)"
         },
-        width: 150,
-        height: 140, position: "absolute", left: 217, top: 42, transform: "rotate(-315deg)", "& img": { height: 140 },
+        width: 140,
+        height: 130, position: "absolute", left: 205, top: 46, transform: "rotate(-315deg)", "& img": { height: 130 },
     },
+    centerLogoWrappwe: {
+        position:"absolute",
+        borderRadius:50,
+        backgroundColor: "#fff",
+        right:"35%",
+        top:"36%"
+    },
+    logo: {
+        width: 100,
+        height: 100
+    }
 });
 
 const Dimensions = () => {
@@ -157,7 +169,7 @@ const Dimensions = () => {
             <Link
                 onClick={() => dispatch(setDimension("meaning"))}
                 to={"/quizzes/dimension"}><div className={classes.classDim4}>
-                    <Box style={{ margin: "48px 53px" }}>هویت و معنا</Box>
+                    <Box style={{ margin: "19px 53px" }}>هویت و معنا</Box>
                 </div>
             </Link>
             <Link
@@ -169,21 +181,24 @@ const Dimensions = () => {
             <Link
                 onClick={() => dispatch(setDimension("economical"))}
                 to={"/quizzes/dimension"}><div className={classes.classDim6}>
-                    <Box style={{ margin: "48px 53px" }}>اقتصادی</Box>
+                    <Box style={{ margin: "47px 42px" }}>اقتصادی</Box>
                 </div>
             </Link>
             <Link
                 onClick={() => dispatch(setDimension("social"))}
                 to={"/quizzes/dimension"}><div className={classes.classDim7}>
-                    <Box style={{ margin: "48px 53px" }}>اجتماعی</Box>
+                    <Box style={{ margin: "38px 43px" }}>اجتماعی</Box>
                 </div>
             </Link>
             <Link
                 onClick={() => dispatch(setDimension("environment"))}
                 to={"/quizzes/dimension"}><div className={classes.classDim8}>
-                    <Box style={{ margin: "48px 53px" }}>محیط‌ زیست</Box>
+                    <Box style={{ margin: "41px 53px" }}>محیط‌ زیست</Box>
                 </div>
             </Link>
+            <div className={classes.centerLogoWrappwe}>
+                <img src={CenterLogo} className={classes.logo} alt="center logo" />
+            </div>
         </Box>
     )
 }

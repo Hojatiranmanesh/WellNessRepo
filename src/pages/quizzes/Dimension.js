@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Header from '../../components/Header';
 import { Box, Divider, Tabs, Tab } from '@material-ui/core';
 import Quizzes from '../../components/Quizzes';
-import QuizEval from '../../components/QuizEval';
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyle = makeStyles({
@@ -38,8 +37,8 @@ const Dimension = () => {
         <>
             <Box>
                 <Header />
-                <h2 className={classes.wiw}>What is Wellness?</h2>
-                <p className={classes.readMore}>Read more</p>
+                <h2 className={classes.wiw}>ولنس چیست؟</h2>
+                <p className={classes.readMore}>بیشتر بخوانید</p>
                 <Divider variant="middle" />
                 <Tabs TabIndicatorProps={{
                     style: {

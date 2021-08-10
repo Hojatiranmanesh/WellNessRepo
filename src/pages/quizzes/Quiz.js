@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import { Box, Tabs, Tab } from '@material-ui/core';
 import NewQuizTab from '../../components/NewQuizTab';
@@ -6,6 +6,8 @@ import QuizEval from '../../components/QuizEval';
 import { makeStyles } from "@material-ui/core/styles";
 import { Doughnut } from 'react-chartjs-2';
 import QuizQuestion from '../../components/QuizQuestions';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 
 const useStyle = makeStyles({
@@ -28,10 +30,10 @@ const useStyle = makeStyles({
     performanceWraper: {
         display: 'flex',
         flexDirection: "row-reverse",
-        padding:"0 25px",
+        padding: "0 25px",
         width: 500,
-        maxWidth:"87vw",
-        margin:"0 auto"
+        maxWidth: "87vw",
+        margin: "0 auto"
     },
     preformanceReport: {
         display: 'flex',
@@ -53,15 +55,35 @@ const Quiz = () => {
 
     const [selectedTab, setSelectedTab] = useState(0);
     const [testStart, setTestStart] = useState(false);
+    const [score, setScore] = useState(0);
     const classes = useStyle();
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)
     }
+    let quiz = useSelector(state => {
+        return state.quiz;
+    });
+    const user = localStorage.getItem('userid')
+    const token = `bearer ${localStorage.getItem('jwt')}`
+    useEffect(() => {
+        axios.get(`https://hamyarwellness.com/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
+            { headers: { 'Authorization': token } },
+        ).then(res => {
+            let temScore = 0;
+            res.data.data.forEach((element, index) => {
+                temScore += element.score;
+                setScore(score + element.score);
+                setScore(temScore / res.data.data.length)
+            });
+        })
+            .catch(err => { });
+    }, []);
+
     const data = {
         datasets: [
             {
                 label: '# of Votes',
-                data: [40, 60],
+                data: [(10 - score) * 10, score * 10],
                 backgroundColor: [
                     'rgba(255, 99, 132)',
                     'rgba(54, 162, 235)',
@@ -69,33 +91,34 @@ const Quiz = () => {
             },
         ],
     };
-    const plugins = [{
-        beforeDraw: function (chart) {
-            var width = chart.width,
-                height = chart.height,
-                ctx = chart.ctx;
-            ctx.restore();
-            var fontSize = (height / 160).toFixed(2);
-            ctx.font = fontSize + "em sans-serif";
-            ctx.textBaseline = "top";
-            var text = data.datasets[0].data[0] + "%",
-                textX = Math.round((width - ctx.measureText(text).width) / 2),
-                textY = height / 2;
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        }
-    }]
+    
+    // const plugins = [{
+    //     beforeDraw: function (chart) {
+    //         var width = chart.width,
+    //             height = chart.height,
+    //             ctx = chart.ctx;
+    //         ctx.restore();
+    //         var fontSize = (height / 160).toFixed(2);
+    //         ctx.font = fontSize + "em sans-serif";
+    //         ctx.textBaseline = "top";
+    //         var text = score + "%",
+    //             textX = Math.round((width - ctx.measureText(text).width) / 2),
+    //             textY = height / 2;
+    //         ctx.fillText(text, textX, textY);
+    //         ctx.save();
+    //     }
+    // }]
     return (
         <>
             <Box>
                 <Header />
                 <Box className={classes.performanceWraper}>
                     <Box>
-                        <Doughnut data={data} width={200} height={100} plugins={plugins} />
+                        <Doughnut data={data} width={200} height={100} /*plugins={plugins}*/ />
                     </Box>
                     <Box className={classes.preformanceReport}>
-                        <p className={classes.preformCaption}>Your Performance</p>
-                        <h2 className={classes.performScore}>Good</h2>
+                        <p className={classes.preformCaption}>عملکرد شما</p>
+                        {/* <h2 className={classes.performScore}>Good</h2> */}
                     </Box>
                 </Box>
 

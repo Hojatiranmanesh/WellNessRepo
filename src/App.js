@@ -37,10 +37,13 @@ import { useSelector } from 'react-redux';
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 const useStyles = makeStyles({
   root: {
-    background: "#d7e2ee",
     minHeight: "100vh",
-    paddingBottom: 40
+    background: "linear-gradient(180deg, rgba(215,226,238,1) 0%, rgba(111,189,205,1) 100%)"
   },
+  main: {
+    height: "calc(100vh - 77px)",
+    overflow: "auto"
+  }
 });
 
 
@@ -53,24 +56,26 @@ const App = props => {
       <ThemeProvider theme={CustomTheme}>
         <StylesProvider jss={jss}>
           <div className={classes.root}>
-            <Switch>
-              <Route path="/" exact component={Index} />
-              <Route path="/profile" exact component={Profile} />
-              <Route path="/profile/edit" component={EditProfile} />
-              <Route path="/quizzes" exact component={QuizzesDims} />
-              <Route path="/quizzes/dimension" exact component={Dimension} />
-              <Route path="/quizzes/dimension/quiz" component={Quiz} />
-              <Route path="/evolution" exact component={Evolution} />
-              <Route path="/evolution/breathing" component={Breathing} />
-              <Route path="/evolution/relaxation" component={Norbu} />
-              <Route path="/products" exact component={Products} />
-              <Route path="/products/product" component={Product} />
-              <Route path="/appointments" exact component={Appointments} />
-              <Route path="/appointments/reserve" component={ReserveAppointment} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/activate" component={ActivateProfile} />
-            </Switch>
+            <div className={classes.main}>
+              <Switch>
+                <Route path="/" exact component={Index} />
+                <Route path="/profile" exact component={Profile} />
+                <Route path="/profile/edit" component={EditProfile} />
+                <Route path="/quizzes" exact component={QuizzesDims} />
+                <Route path="/quizzes/dimension" exact component={Dimension} />
+                <Route path="/quizzes/dimension/quiz" component={Quiz} />
+                <Route path="/evolution" exact component={Evolution} />
+                <Route path="/evolution/breathing" component={Breathing} />
+                <Route path="/evolution/relaxation" component={Norbu} />
+                <Route path="/products" exact component={Products} />
+                <Route path="/products/product" component={Product} />
+                <Route path="/appointments" exact component={Appointments} />
+                <Route path="/appointments/reserve" component={ReserveAppointment} />
+                <Route path="/login" component={Login} />
+                <Route path="/signup" component={Signup} />
+                <Route path="/activate" component={ActivateProfile} />
+              </Switch>
+            </div>
             {window.location.pathname === '/login' ||
               window.location.pathname === '/signup' ||
               window.location.pathname === '/' ||

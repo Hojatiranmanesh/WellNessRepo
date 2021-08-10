@@ -10,7 +10,6 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor:"#dde7f3",
         paddingTop:20,
     },
     topBox:{

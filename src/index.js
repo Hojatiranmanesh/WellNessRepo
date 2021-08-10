@@ -20,6 +20,6 @@ ReactDOM.render(
 );
 
 
-serviceWorkerRegistration.register()
+serviceWorkerRegistration.unregister()
 
 reportWebVitals();

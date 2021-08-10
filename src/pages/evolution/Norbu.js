@@ -90,7 +90,8 @@ const Norbu = () => {
     return (
         <>
             <Box className={classes.videoWrapper}>
-                <video className={classes.video} autoPlay={true} muted loop id="myVideo">
+
+                <video className={classes.video} controls autoplay loop muted playsinline>
                     <source src={video} type="video/mp4" />
                 </video>
             </Box>

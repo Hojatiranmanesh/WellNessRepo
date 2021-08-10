@@ -37,8 +37,8 @@ const useStyles = makeStyles({
         fontSize: "2em",
         fontWeight: "Bold",
         color: "#9fb7e5",
-        top: 170,
-        right: "48%",
+        top: "42%",
+        right: "45%",
         textShadow: "3px 4px 4px #000000ad"
     },
     container: {
@@ -114,11 +114,13 @@ const Breathing = () => {
     });
     return (
         <Box className={classes.root}>
-            <Header component="link" to="/evolution"  />
+            <Header component="link" to="/evolution" />
             <Box className={classes.container}>
+                <div className={classes.rotatorWrapper}>
                 <p className={classes.activeState}>{activeState}</p>
-                <div className={classes.rotator} style={{}}>
-                    <img src={Circle} alt="breath" />
+                    <div className={classes.rotator} style={{}}>
+                        <img style={{width:"100%"}} src={Circle} alt="breath" />
+                    </div>
                 </div>
                 <Divider variant="middle" />
                 <Box className={classes.options}>

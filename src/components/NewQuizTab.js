@@ -3,6 +3,8 @@ import { ButtonBase, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 const useStyle = makeStyles({
     mainWrapper:{
@@ -34,6 +36,7 @@ const useStyle = makeStyles({
 const NewQuizTab = ({onStart}) => {
     const [quizTitle, setQuizTitle] = useState("");
     const [quizDesc, setQuizDesc] = useState("");
+    const [quizAudio, setQuizAudio] = useState("");
     let quiz = useSelector(state => {
         return state.quiz;
     });
@@ -43,6 +46,7 @@ const NewQuizTab = ({onStart}) => {
             .then(function (response) {
                 setQuizTitle(response.data.data[0].quizTitle)
                 setQuizDesc(response.data.data[0].quizDescription)
+                setQuizAudio(response.data.data[0].quizAudio)
                 console.log(response);
             })
             .catch(function (error) {
@@ -55,6 +59,15 @@ const NewQuizTab = ({onStart}) => {
     return (
         <Box className={classes.mainWrapper}>
             <h5 className={classes.intro} style={{marginTop:20}}>{quizTitle}</h5>
+             <AudioPlayer
+                style={{direction:"ltr"}}
+               src={`https://api.hamyarwellness.com/${quizAudio}`}
+               onPlay={e => console.log("onPlay")}
+               showJumpControls={false}
+               layout="horizontal"
+               customAdditionalControls={[]}
+               customVolumeControls={[]}
+             />
             <p className={classes.desc} style={{textAlign:'justify',marginTop:20}}> {quizDesc} </p>
             <ButtonBase className={classes.take} onClick={onStart}>انجام آزمون</ButtonBase>
         </Box>

@@ -14,6 +14,8 @@ import pencil from "../../assets/images/pencil.png";
 import stopwatch from "../../assets/images/stopwatch.png";
 import axios from "axios";
 import Header from '../../components/Header'
+import { useHistory } from "react-router-dom";
+import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles({
   topBar: {
@@ -45,7 +47,6 @@ const useStyles = makeStyles({
   },
   logout: {
     width: "200px",
-    marginBottom: 80,
   },
   fullList: {
     width: "auto",
@@ -57,20 +58,24 @@ const useStyles = makeStyles({
 
 const Profile = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [fname, setFname] = useState();
   const [lname, setlname] = useState();
   const [phone, setPhone] = useState();
 
-
-
+  const logout = () => {
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('userid');
+    history.push("/");
+  };
+ 
 
   useEffect(() => {
     const config = {
       headers: {
-        "Content-type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
-    };
+    }; 
     axios.get("https://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
       .then(res => {
         console.log(res)
@@ -142,6 +147,7 @@ const Profile = () => {
             variant="outlined"
             color="secondary"
             className={classes.logout}
+            onClick={logout}
           >
             خروج از حساب کاربری
           </Button>

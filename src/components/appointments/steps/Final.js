@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Final = ({setDesc, day, duration, hour}) => {
+const Final = ({ setDesc, day, duration, hour }) => {
     const classes = useStyles()
     const [state, setState] = useState()
     useEffect(() => {
@@ -48,17 +48,17 @@ const Final = ({setDesc, day, duration, hour}) => {
 
     }, [state, setDesc])
     let date = new Date();
-    date.setDate(date.getDate()+day);
+    date.setDate(date.getDate() + day);
     const persian_date = new persianDate(date).toLocale('fa').format('dd MMMM');
     return (
         <Box className={classes.root}>
             <Box className={classes.info}>ارزیابی و ارتقاء تخصصی (حضوری)</Box>
             <Box className={classes.info}>تاریخ {persian_date}</Box>
-            <Box className={classes.info}>مشاوره {duration*60} دقیقه‌ای</Box>
+            <Box className={classes.info}>مشاوره {duration * 60} دقیقه‌ای</Box>
             <Box className={classes.info}>{hour}:00</Box>
             <Box className={classes.desc}>
                 <p className={classes.label}>توضیحات</p>
-                <TextField className={classes.input} value={state} onChange={(e)=> setState(e.target.value)}
+                <TextField className={classes.input} value={state} variant="filled" onChange={(e) => setState(e.target.value)}
                     multiline id="standard-basic" label="توضیحات خود را وارد نمایید" />
             </Box>
         </Box>

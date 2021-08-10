@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Typography, TextField, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles({
     header: { height: 300, maxHeight: "40vh", background: "#d7e5f2", padding: 40 },
@@ -40,22 +40,22 @@ const Signup = () => {
 
     const classes = useStyles();
     const signup = () => {
-        if(password === rePassword){
+        if (password === rePassword) {
             axios.post('https://api.hamyarwellness.com/api/v1/users/signup', { phone: phone, password: password, })
-            .then(res => {
-                localStorage.setItem('userid', res.data.user._id);
-                setSignedUp(true)
-            })
-            .catch(err=>{
-                if (err.response.status === 401) {
-                    localStorage.removeItem('jwt')
-                }
-            })
+                .then(res => {
+                    localStorage.setItem('userid', res.data.user._id);
+                    setSignedUp(true)
+                })
+                .catch(err => {
+                    if (err.response.status === 401) {
+                        localStorage.removeItem('jwt')
+                    }
+                })
         }
     }
     if (signedUp) {
         return <Redirect to='/activate' />
-       }
+    }
     return (
         <Grid container className={classes.root}>
             <Grid item container justify="center" alignContent="flex-start" className={classes.header}>
@@ -65,6 +65,7 @@ const Signup = () => {
                 <form>
                     <Grid item style={{ width: "100%", marginBottom: 15 }} >
                         <TextField id="phone" InputProps={{ classes: { root: classes.inputRoot } }}
+                            variant="filled"
                             value={phone}
                             onChange={e => setPhone(e.target.value)}
                             InputLabelProps={{
@@ -75,24 +76,28 @@ const Signup = () => {
                             }} label="شماره همراه" />
                     </Grid>
                     <Grid item style={{ width: "100%", marginBottom: 15 }}>
-                        <TextField id="password" InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
-                            classes: {
-                                root: classes.labelRoot,
-                                focused: classes.labelFocused
-                            }
-                        }} type="password"
+                        <TextField id="password"
+                            variant="filled"
+                            InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
+                                classes: {
+                                    root: classes.labelRoot,
+                                    focused: classes.labelFocused
+                                }
+                            }} type="password"
                             onChange={e => setPassword(e.target.value)}
                             autoComplete="new-password"
                             value={password}
                             label="رمزعبور" />
                     </Grid>
                     <Grid item style={{ width: "100%", marginBottom: 15 }}>
-                        <TextField id="repeatedPassword" InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
-                            classes: {
-                                root: classes.labelRoot,
-                                focused: classes.labelFocused
-                            }
-                        }} type="password"
+                        <TextField id="repeatedPassword"
+                            variant="filled"
+                            InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
+                                classes: {
+                                    root: classes.labelRoot,
+                                    focused: classes.labelFocused
+                                }
+                            }} type="password"
                             onChange={e => setRePassword(e.target.value)}
                             autoComplete="new-password"
                             value={rePassword} label="تکرار رمزعبور " />

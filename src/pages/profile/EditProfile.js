@@ -53,14 +53,14 @@ const EditProfile = () => {
                 setJobTitle(res.data.data.jobTitle)
                 setAddress(res.data.data.address)
             })
-            .catch(err=>{
+            .catch(err => {
                 if (err.response.status === 401) {
                     localStorage.removeItem('jwt')
                 }
             })
 
     }, [])
-    const update = ()=>{
+    const update = () => {
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -68,22 +68,22 @@ const EditProfile = () => {
             },
         };
         const data = {
-            firstname:fname,
-            lastname:lname,
-            phone:phone,
-            jobTitle:jobTitle,
-            address:address,
+            firstname: fname,
+            lastname: lname,
+            phone: phone,
+            jobTitle: jobTitle,
+            address: address,
         }
-        axios.patch(`https://api.hamyarwellness.com/api/v1/users/${localStorage.getItem('userid')}`,data,config)
-        .then(res=>{
-            console.log(res)
-        })
-        .catch(err=>{
-            console.log(err)
-            if (err.response.status === 401) {
-                localStorage.removeItem('jwt')
-            }
-        })
+        axios.patch(`https://api.hamyarwellness.com/api/v1/users/${localStorage.getItem('userid')}`, data, config)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+            })
     };
     return (
         <Grid container style={{ padding: 10 }}>
@@ -100,19 +100,64 @@ const EditProfile = () => {
                         <ButtonBase className={classes.uploadButton}>ویرایش تصویر پروفایل</ButtonBase>
                     </Grid>
                     <Grid item style={{ width: "100%", margin: "5px 10px" }}>
-                        <TextField onChange={e => setFname(e.target.value)} value={fname} style={{ width: "100%" }} id="name" label="نام" />
+                        <TextField
+                            key="Firstname"
+                            variant="filled"
+                            onChange={e => setFname(e.target.value)}
+                            value={fname}
+                            style={{ width: "100%" }}
+                            id="name"
+                            label="نام"
+                            InputLabelProps={{ shrink: (fname) ? true : false }}
+                        />
                     </Grid>
                     <Grid item style={{ width: "100%", margin: "5px 10px" }}>
-                        <TextField onChange={e => setlname(e.target.value)} value={lname} style={{ width: "100%" }} id="name" label="نام خانوادگی" />
+                        <TextField
+                            key="Lastname"
+                            variant="filled"
+                            onChange={e => setlname(e.target.value)}
+                            value={lname}
+                            style={{ width: "100%" }}
+                            id="name"
+                            label="نام خانوادگی"
+                            InputLabelProps={{ shrink: (lname) ? true : false }}
+                        />
                     </Grid>
                     <Grid item style={{ width: "100%", margin: "5px 10px" }}>
-                        <TextField onChange={e => setPhone(e.target.value)} value={phone} style={{ width: "100%" }} id="name" label=" شماره همراه" />
+                        <TextField
+                            key="Phone number"
+                            variant="filled"
+                            onChange={e => setPhone(e.target.value)}
+                            value={phone}
+                            style={{ width: "100%" }}
+                            id="name"
+                            label=" شماره همراه"
+                            InputLabelProps={{ shrink: (phone) ? true : false }}
+                        />
                     </Grid>
                     <Grid item style={{ width: "100%", margin: "5px 10px" }}>
-                        <TextField onChange={e => setJobTitle(e.target.value)} value={jobTitle} style={{ width: "100%" }} id="name" label="شغل" />
+                        <TextField
+                            key="Job Title"
+                            variant="filled"
+                            onChange={e => setJobTitle(e.target.value)}
+                            value={jobTitle}
+                            style={{ width: "100%" }}
+                            id="name"
+                            label="شغل"
+                            InputLabelProps={{ shrink: (jobTitle) ? true : false }}
+                        />
                     </Grid>
                     <Grid item style={{ width: "100%", margin: "5px 10px" }}>
-                        <TextField onChange={e => setAddress(e.target.value)} value={address} style={{ width: "100%" }} id="name" label="آدرس" />
+                        <TextField
+                            key="Address"
+                            variant="filled"
+                            onChange={e => setAddress(e.target.value)}
+                            value={address}
+                            style={{ width: "100%" }}
+                            id="name"
+                            label="آدرس"
+                            InputLabelProps={{ shrink: (address) ? true : false }}
+                        />
                     </Grid>
                     <Grid item style={{ width: "100%", margin: "5px 10px" }}>
                         <ButtonBase onClick={update} className={classes.submitButton}>ثبت تغییرات</ButtonBase>

@@ -55,14 +55,14 @@ const EvolutionCards = () => {
         <div className={classes.root}>
             <ButtonBase component={Link} to="/evolution/breathing" className={classes.breath}>
                 <div className={classes.overlay}>
-                    <p style={{ fontWeight: "bold" }}>Calming Breath</p>
-                    <p>Helps you calm down and relax</p>
+                    <p style={{ fontWeight: "bold" }}>تنفس</p>
+                    <p>به شما کمک می‌کند تا آرام شوید</p>
                 </div>
             </ButtonBase>
             <ButtonBase component={Link} to="/evolution/relaxation" className={classes.relax}>
                 <div className={classes.overlay}>
-                    <p style={{ fontWeight: "bold" }}>Sounds of nature</p>
-                    <p>Relax, Sleep, Meditate</p>
+                    <p style={{ fontWeight: "bold" }}>صدای طبیعت</p>
+                    <p>ریلکس، خوابیدن و مدیتیت</p>
                 </div>
             </ButtonBase>
         </div>

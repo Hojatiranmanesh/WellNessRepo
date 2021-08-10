@@ -5,17 +5,17 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 const useStyles = makeStyles({
-    header: { height: 250, maxHeight: "40vh", background: "#d7e5f2", padding: 40 },
+    header: { height: 250, maxHeight: "40vh", padding: 40 },
     headerTitle: { fontWeight: 'bold', color: "#465b92", textShadow: "0px 2px 4px #00000054" },
     body: {
         padding: 10,
 
     },
     inputRoot: {
-        fontSize: 30
+        fontSize: 20
     },
     labelRoot: {
-        fontSize: 30,
+        fontSize: 20,
         "&$labelFocused": {
             marginBottom: 10
         }
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
         color: "#fff",
         marginTop: 15,
         background: "linear-gradient(0deg, rgba(73,94,149,1) 0%, rgba(87,108,163,1) 100%)",
-        fontSize: "1.5em",
+        fontSize: "1em",
         borderRadius: 15,
         height: 50,
         paddingBottom: 8
@@ -33,9 +33,9 @@ const useStyles = makeStyles({
     signupButton: {
         width: "100%",
         marginTop: 15,
-        fontSize: "1.5em",
+        fontSize: "1em",
         borderRadius: 15,
-        height: 50,
+        height: 40,
         paddingBottom: 8,
         border: "3px solid #5b957d",
         color: "#5b957d",
@@ -61,20 +61,22 @@ const Login = () => {
                 localStorage.setItem('userid', response.data.user._id);
                 localStorage.setItem('jwt', response.data.token);
                 setLogedIn(true);
+                setTimeout(() => {
+                    window.location.reload(false);
+                }, 500);
+                console.log('page to reload')
+
             })
             .catch(function (error) {
                 console.log(error);
                 if (error.response.status === 401) {
                     localStorage.removeItem('jwt')
                 }
-            })
-            .then(function () {
-                // always executed
             });
     }
     if (logedIn) {
         return <Redirect to='/profile' />
-       }
+    }
     return (
         <Grid container className={classes.root}>
             <Grid item container justify="center" alignContent="flex-start" className={classes.header}>
@@ -84,6 +86,7 @@ const Login = () => {
                 <form>
                     <Grid item style={{ width: "100%", marginBottom: 15 }} >
                         <TextField id="phone"
+                            variant="filled"
                             value={phone}
                             onChange={e => setPhone(e.target.value)}
                             InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
@@ -97,6 +100,7 @@ const Login = () => {
                     <Grid item style={{ width: "100%", marginBottom: 15 }}>
                         <TextField id="password" InputProps={{ classes: { root: classes.inputRoot } }}
                             onChange={e => setPassword(e.target.value)}
+                            variant="filled"
                             InputLabelProps={{
                                 classes: {
                                     root: classes.labelRoot,
