@@ -25,3 +25,31 @@ export const remid = (user) => {
         user
     }
 }
+
+export const setDimension = (dimension) => {
+    return {
+        type: 'SET_DIMENSION',
+        dimension
+    }
+}
+
+export const setQuiz = (quiz) => {
+    return {
+        type: 'SET_QUIZ',
+        quiz
+    }
+}
+
+export const hideNav = (nav) => {
+    return {
+        type: 'HIDE_NAV',
+        nav
+    }
+}
+
+export const showNav = (nav) => {
+    return {
+        type: 'SHOW_NAV',
+        nav
+    }
+}

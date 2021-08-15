@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter as Router } from "react-router-dom";
 import {
   Grid,
   Box,
   Typography,
   ButtonBase,
   Button,
-  SwipeableDrawer,
-  List,
-  ListItem,
-  ListItemText,
 } from "@material-ui/core";
-import SettingsIcon from '@material-ui/icons/Settings';
-import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from "@material-ui/core/styles";
 import user from "../../assets/images/user.png";
 import settings from "../../assets/images/settings.png";
 import pencil from "../../assets/images/pencil.png";
 import stopwatch from "../../assets/images/stopwatch.png";
 import axios from "axios";
+import Header from '../../components/Header'
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { showNav } from '../../actions';
 
 const useStyles = makeStyles({
   topBar: {
-    padding: 20,
+    padding: "40px 10px",
+    border: "1px solid #0000008c",
+    boxShadow: "0 0 6px 3px #00000063",
+    margin: "70px auto",
+    borderRadius: 20,
+    width: "95%",
   },
   settingIcon: {
     fontSize: "2em",
@@ -37,6 +40,7 @@ const useStyles = makeStyles({
   },
   sqareButtons: {
     backgroundColor: "#e9f1f8",
+    boxShadow: "0 0 7px 3px #e9f1f8ba",
     margin: 15,
     padding: 10,
     borderRadius: 15,
@@ -50,24 +54,6 @@ const useStyles = makeStyles({
   },
   logout: {
     width: "200px",
-    marginBottom: 80,
-  },
-  list: {
-    width: "100vw",
-    background: "#ffffff00",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    "& ul": {
-      "& div": {
-        textAlign: "center",
-      },
-    },
-
-  },
-  BackdropProps: {
-    background: "transparent",
   },
   fullList: {
     width: "auto",
@@ -75,135 +61,55 @@ const useStyles = makeStyles({
   settingsButton: {
     borderRadius: 50,
   },
-  drawerRoot: {
-    background: "#ffffff00",
-    "&::before": {
-      content: '""',
-      position: "fixed",
-      left: 0,
-      right: 0,
-      zIndex: "-1",
-      height: "100vh",
-      width: "100vw",
-      backdropFilter: "blur(10px)",
-    },
-  },
-  drawerPaper: {
-    background: "transparent"
-  },
-  drawerModal: {
-    background: "transparent"
-  },
-  exitButton: {
-    position: "absolute",
-    top: 27,
-    right: 33
-  },
-  listItems: {
-    fontWeight: "bold",
-
-  }
 });
 
 const Profile = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [fname, setFname] = useState();
   const [lname, setlname] = useState();
   const [phone, setPhone] = useState();
-  const [state, setState] = useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  const dispatch = useDispatch();
+
+
+  const logout = () => {
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('userid');
+    history.push("/");
+  };
+
 
   useEffect(() => {
+    dispatch(showNav())
     const config = {
       headers: {
-        "Content-type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
     };
-    axios.get("http://api.hamyarwellness.com/api/v1/users/getOne", config)
+    axios.get("https://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
       .then(res => {
         console.log(res)
         setFname(res.data.data.firstname)
         setlname(res.data.data.lastname)
         setPhone(res.data.data.phone)
       })
+      .catch(err => {
+        if (err.response.status === 401) {
+          localStorage.removeItem('jwt')
+        }
+      })
 
   }, [])
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
-  };
+  useEffect(() => {
+    <Router forceRefresh={true} />
+  }, [])
 
   return (
     <Box>
+
       <Grid className={classes.topBar} container justify="flex-end">
-        <Grid item>
-          <div>
-            <React.Fragment key={"right"}>
-              <Button
-                className={classes.settingsButton}
-                onClick={toggleDrawer("right", true)}
-              >
-                <SettingsIcon className={classes.settingIcon} />
-              </Button>
-              <SwipeableDrawer
-                anchor={"right"}
-                open={state["right"]}
-                onClose={toggleDrawer("right", false)}
-                onOpen={toggleDrawer("right", true)}
-                BackdropProps={{
-                  classes: {
-                    root: classes.BackdropProps
-                  }
-                }}
-                classes={{
-                  modal: classes.drawerModal,
-                  paper: classes.drawerPaper,
-                  root: classes.drawerRoot,
-                }}
-              >
-                <div
-                  className={classes.list}
-                  role="presentation"
-                  onClick={toggleDrawer("right", false)}
-                  onKeyDown={toggleDrawer("right", false)}
-                >
-                  <ButtonBase
-                    className={classes.exitButton}
-                    onClick={toggleDrawer("right", true)}
-                  >
-                    <CloseIcon className={classes.settingIcon} />
-                  </ ButtonBase>
-                  <List>
-                    <ListItem className={classes.listItems} button key={"darklight"}>
-                      <ListItemText primary={"حالت تیره/روشن"} />
-                    </ListItem>
-
-                    <ListItem className={classes.listItems} button key={"soundEffects"}>
-                      <ListItemText primary={"جلوه های صوتی"} />
-                    </ListItem>
-
-                    <ListItem className={classes.listItems} button key={"language"}>
-                      <ListItemText primary={"فارسی"} />
-                    </ListItem>
-                  </List>
-                </div>
-              </SwipeableDrawer>
-            </React.Fragment>
-          </div>
-        </Grid>
+        <Header />
         <Grid
           item
           className={classes.nameBox}
@@ -251,6 +157,7 @@ const Profile = () => {
             variant="outlined"
             color="secondary"
             className={classes.logout}
+            onClick={logout}
           >
             خروج از حساب کاربری
           </Button>

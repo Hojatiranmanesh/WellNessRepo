@@ -5,6 +5,8 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import OTPCounter from '../../components/OTPCounter';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { hideNav } from '../../actions';
 
 
 const useStyles = makeStyles({
@@ -40,6 +42,7 @@ const useStyles = makeStyles({
         color: "#fff",
         marginTop: 15,
         background: "linear-gradient(0deg, rgba(85,145,120,1) 0%, rgba(100,160,134,1) 100%)",
+        boxShadow: "0 0 7px 3px rgba(85,145,120,0.75)",
         fontSize: "1.5em",
         borderRadius: 15,
         height: 50,
@@ -53,29 +56,39 @@ const useStyles = makeStyles({
 });
 
 const ActivateProfile = () => {
-    
+    const dispatch = useDispatch();
     const classes = useStyles();
     const [OTP, setOTP] = useState();
     const [activated, setActivated] = useState(false)
     useEffect(() => {
+        dispatch(hideNav())
         const userId = localStorage.getItem('userid');
-        axios.post('http://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
+        axios.post('https://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
             .then(res => {
                 setActivated(true)
+
             })
-    },[])
+            .catch(err => {
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+            })
+    }, [])
     const checkActivationCode = () => {
         console.log("test")
-        axios.post('http://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId:localStorage.getItem('userid') })
+        axios.post('https://api.hamyarwellness.com/api/v1/users/activate', { activationCode: OTP, userId: localStorage.getItem('userid') })
             .then(res => {
                 console.log(res)
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log(err)
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
             })
     }
-    if(activated){
-        return(<Redirect to='/profile'/>)
+    if (activated) {
+        return (<Redirect to='/profile' />)
     }
     return (
         <Grid container className={classes.root}>
@@ -108,7 +121,7 @@ const ActivateProfile = () => {
                 <Grid item container justify={"center"} style={{ width: "100%", marginBottom: 15 }}>
                     <ButtonBase onClick={checkActivationCode} className={classes.activationButton} >
                         تایید کد فعالسازی
-                            </ButtonBase>
+                    </ButtonBase>
                 </Grid>
                 <Grid item>
                     <Typography className={classes.resendActivation} variant={'body1'}>ارسال مجدد کد فعالسازی</Typography>

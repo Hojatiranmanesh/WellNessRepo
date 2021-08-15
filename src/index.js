@@ -4,7 +4,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import allReducres from './reducers/index'
+import allReducres from './reducers/index';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration"
 
 
 let store = createStore(allReducres, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -18,7 +19,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
+serviceWorkerRegistration.unregister()
+
 reportWebVitals();

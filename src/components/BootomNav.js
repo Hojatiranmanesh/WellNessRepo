@@ -46,7 +46,7 @@ const BootomNav = () => {
       <BottomNavigationAction
         className={classes.navItem}
         component={Link}
-        to="/"
+        to="/quizzes"
         label="ارزیابی"
         value="quizzes"
         icon={<FavoriteIcon className={classes.navIcon} />}
@@ -54,7 +54,7 @@ const BootomNav = () => {
       <BottomNavigationAction
         className={classes.navItem}
         component={Link}
-        to="/"
+        to="/products"
         label="فروشگاه"
         value="shop"
         icon={<ShoppingCartOutlinedIcon className={classes.navIcon} />}
@@ -62,17 +62,17 @@ const BootomNav = () => {
       <BottomNavigationAction
         className={classes.navItem}
         component={Link}
-        to="/"
-        label="نوبت‌دهی"
+        to="/appointments"
+        label="مشاوره"
         value="reservation"
         icon={<EqualizerOutlinedIcon className={classes.navIcon} />}
       />
       <BottomNavigationAction
         className={classes.navItem}
         component={Link}
-        to="/"
-        label="ریلکسیشن"
-        value="relaxation"
+        to="/evolution"
+        label="ارتقاء"
+        value="evolution"
         icon={<MusicNoteOutlinedIcon className={classes.navIcon} />}
       />
       <BottomNavigationAction
