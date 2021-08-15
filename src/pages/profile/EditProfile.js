@@ -9,6 +9,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { makeStyles } from "@material-ui/core/styles";
 import profileImage from '../../assets/images/user.png';
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { showNav } from '../../actions';
 
 const useStyles = makeStyles({
     topBar: {
@@ -37,7 +39,9 @@ const EditProfile = () => {
     const [phone, setPhone] = useState();
     const [jobTitle, setJobTitle] = useState();
     const [address, setAddress] = useState();
+    const dispatch = useDispatch();
     useEffect(() => {
+        dispatch(showNav())
         const config = {
             headers: {
                 "Content-type": "application/json",

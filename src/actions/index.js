@@ -39,3 +39,17 @@ export const setQuiz = (quiz) => {
         quiz
     }
 }
+
+export const hideNav = (nav) => {
+    return {
+        type: 'HIDE_NAV',
+        nav
+    }
+}
+
+export const showNav = (nav) => {
+    return {
+        type: 'SHOW_NAV',
+        nav
+    }
+}

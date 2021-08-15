@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Typography, TextField, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { hideNav, } from '../../actions';
 
 const useStyles = makeStyles({
-    header: { height: 300, maxHeight: "40vh", background: "#d7e5f2", padding: 40 },
-    headerTitle: { fontWeight: 'bold', color: "#465b92", textShadow: "0px 2px 4px #00000054" },
+    header: { height: 300, maxHeight: "40vh", padding: 40 },
+    headerTitle: {
+        color: "#465b92",
+        fontWeight: "bold",
+        width: "95%",
+        textShadow: "0px 2px 4px #00000054",
+        textAlign: "center",
+        padding: "19px 0",
+        marginBottom: 50,
+        border: "1px solid #0000008c",
+        borderRadius: 20,
+        boxShadow: "0 0 6px 3px #00000063",
+    },
     body: {
-        padding: 10,
-
+        padding: "40px 10px",
+        border: "1px solid #0000008c",
+        boxShadow: "0 0 6px 3px #00000063",
+        margin: "70px auto",
+        borderRadius: 20,
+        width: "95%",
+        justifyContent: "center"
     },
     inputRoot: {
-        fontSize: 30
+        fontSize: 20,
+        width: "100%"
     },
     labelRoot: {
-        fontSize: 30,
+        fontSize: 20,
+        width: "100%",
         "&$labelFocused": {
             marginBottom: 10
         }
@@ -25,7 +45,8 @@ const useStyles = makeStyles({
         color: "#fff",
         marginTop: 15,
         background: "linear-gradient(0deg, rgba(85,145,120,1) 0%, rgba(100,160,134,1) 100%)",
-        fontSize: "1.5em",
+        boxShadow: "0 0 7px 3px rgba(85,145,120,0.73)",
+        fontSize: "1em",
         borderRadius: 15,
         height: 50,
         paddingBottom: 4
@@ -37,8 +58,11 @@ const Signup = () => {
     const [password, setPassword] = useState("");
     const [rePassword, setRePassword] = useState("");
     const [signedUp, setSignedUp] = useState("");
-
+    const dispatch = useDispatch()
     const classes = useStyles();
+    useEffect(() => {
+        dispatch(hideNav())
+    }, [])
     const signup = () => {
         if (password === rePassword) {
             axios.post('https://api.hamyarwellness.com/api/v1/users/signup', { phone: phone, password: password, })
@@ -58,13 +82,14 @@ const Signup = () => {
     }
     return (
         <Grid container className={classes.root}>
-            <Grid item container justify="center" alignContent="flex-start" className={classes.header}>
-                <Typography className={classes.headerTitle} variant={'h4'}>عضویت در پنل کاربری </Typography>
-            </Grid>
-            <Grid item container className={classes.body} justify="center">
+            {/* <Grid item container justify="center" alignContent="flex-start" className={classes.header}> */}
+
+            {/* </Grid> */}
+            <Grid item container direction="column" className={classes.body} justify="center">
+                <Typography className={classes.headerTitle} variant={'h5'}>عضویت در پنل کاربری </Typography>
                 <form>
-                    <Grid item style={{ width: "100%", marginBottom: 15 }} >
-                        <TextField id="phone" InputProps={{ classes: { root: classes.inputRoot } }}
+                    <Grid item style={{ marginBottom: 15 }}>
+                        <TextField id="phone" style={{ width: "100%" }} InputProps={{ classes: { root: classes.inputRoot } }}
                             variant="filled"
                             value={phone}
                             onChange={e => setPhone(e.target.value)}
@@ -77,6 +102,7 @@ const Signup = () => {
                     </Grid>
                     <Grid item style={{ width: "100%", marginBottom: 15 }}>
                         <TextField id="password"
+                            style={{ width: "100%" }}
                             variant="filled"
                             InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
                                 classes: {
@@ -91,6 +117,7 @@ const Signup = () => {
                     </Grid>
                     <Grid item style={{ width: "100%", marginBottom: 15 }}>
                         <TextField id="repeatedPassword"
+                            style={{ width: "100%" }}
                             variant="filled"
                             InputProps={{ classes: { root: classes.inputRoot } }} InputLabelProps={{
                                 classes: {

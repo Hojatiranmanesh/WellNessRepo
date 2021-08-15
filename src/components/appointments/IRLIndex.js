@@ -20,7 +20,8 @@ const useStyle = makeStyles({
         width: "80%",
         color: "#2f4167",
         fontSize: "0.9em",
-        margin: 10
+        margin: 10,
+        boxShadow:"0 0 7px 3px #cad1db4b",
     },
     recordButton: {
         height: 40,

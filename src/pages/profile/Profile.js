@@ -15,11 +15,17 @@ import stopwatch from "../../assets/images/stopwatch.png";
 import axios from "axios";
 import Header from '../../components/Header'
 import { useHistory } from "react-router-dom";
-import Modal from '@material-ui/core/Modal';
+import { useDispatch } from "react-redux";
+import { showNav } from '../../actions';
 
 const useStyles = makeStyles({
   topBar: {
-    padding: 20,
+    padding: "40px 10px",
+    border: "1px solid #0000008c",
+    boxShadow: "0 0 6px 3px #00000063",
+    margin: "70px auto",
+    borderRadius: 20,
+    width: "95%",
   },
   settingIcon: {
     fontSize: "2em",
@@ -34,6 +40,7 @@ const useStyles = makeStyles({
   },
   sqareButtons: {
     backgroundColor: "#e9f1f8",
+    boxShadow: "0 0 7px 3px #e9f1f8ba",
     margin: 15,
     padding: 10,
     borderRadius: 15,
@@ -62,20 +69,23 @@ const Profile = () => {
   const [fname, setFname] = useState();
   const [lname, setlname] = useState();
   const [phone, setPhone] = useState();
+  const dispatch = useDispatch();
+
 
   const logout = () => {
     localStorage.removeItem('jwt');
     localStorage.removeItem('userid');
     history.push("/");
   };
- 
+
 
   useEffect(() => {
+    dispatch(showNav())
     const config = {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
-    }; 
+    };
     axios.get("https://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
       .then(res => {
         console.log(res)

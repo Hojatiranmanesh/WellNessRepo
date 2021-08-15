@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import { Box, Divider, Tabs, Tab } from '@material-ui/core';
 import Quizzes from '../../components/Quizzes';
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { showNav } from '../../actions';
 
 const useStyle = makeStyles({
     wiw: {
@@ -30,6 +32,10 @@ const useStyle = makeStyles({
 const Dimension = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const classes = useStyle();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(showNav())
+    }, [])
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)
     }

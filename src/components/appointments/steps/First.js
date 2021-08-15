@@ -3,8 +3,6 @@ import { Box, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import persianDate from 'persian-date';
 
-
-
 const useStyles = makeStyles({
     root: {
         display: "flex",
@@ -16,6 +14,7 @@ const useStyles = makeStyles({
         height: 40,
         margin: 5,
         backgroundColor: "#cbd7e2",
+        boxShadow:"0 0 7px 3px #cbd7e24b",
         fontSize: ".9em",
         borderRadius: 10,
     },
@@ -23,6 +22,7 @@ const useStyles = makeStyles({
         height: 40,
         margin: 5,
         backgroundColor: "#08afe4",
+        boxShadow:"0 0 7px 3px #08afe44b",
         color: "#fff",
         fontSize: ".9em",
         borderRadius: 10,

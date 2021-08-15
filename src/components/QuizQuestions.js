@@ -16,7 +16,8 @@ const useStyles = makeStyles({
         backgroundColor: "#082464",
         padding: 5,
         width: 250,
-        borderRadius: 10
+        borderRadius: 10,
+        boxShadow:"0 0 7px 3px #0824644b",
     },
     paper: {
         height: 410,

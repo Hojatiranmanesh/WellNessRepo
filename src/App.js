@@ -33,6 +33,9 @@ import Signup from "./pages/auth/Signup";
 import "./assets/fonts/fonts.css";
 import { useSelector } from 'react-redux';
 
+
+
+
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 const useStyles = makeStyles({
@@ -41,7 +44,7 @@ const useStyles = makeStyles({
     background: "linear-gradient(180deg, rgba(215,226,238,1) 0%, rgba(111,189,205,1) 100%)"
   },
   main: {
-    height: "calc(100vh - 77px)",
+    // height: "calc(100vh - 77px)",
     overflow: "auto"
   }
 });
@@ -50,13 +53,16 @@ const useStyles = makeStyles({
 const App = props => {
   const classes = useStyles();
   const state = useSelector(state => state.authentication)
+  const nav = useSelector(state => {
+    return state.quiz;
+  });
   console.log(state)
   return (
     <Router>
       <ThemeProvider theme={CustomTheme}>
         <StylesProvider jss={jss}>
           <div className={classes.root}>
-            <div className={classes.main}>
+            <div className={classes.main} style={{ height: (nav) ? "calc(100vh - 77px)" : "100vh" }}>
               <Switch>
                 <Route path="/" exact component={Index} />
                 <Route path="/profile" exact component={Profile} />
@@ -76,10 +82,7 @@ const App = props => {
                 <Route path="/activate" component={ActivateProfile} />
               </Switch>
             </div>
-            {window.location.pathname === '/login' ||
-              window.location.pathname === '/signup' ||
-              window.location.pathname === '/' ||
-              window.location.pathname === '/activate' ? null : <BootomNav />}
+            <Route path="(/profile|/profile/quizzes|/quizzes/dimensio|/quizzes/dimension/quiz|/evolution|/evolution/breathing|/evolution/relaxation|/products|/products/product|/appointments|/appointments/reserve)" component={() => <BootomNav />} />
           </div>
         </StylesProvider>
       </ThemeProvider>

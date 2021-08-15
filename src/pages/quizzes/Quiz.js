@@ -8,6 +8,8 @@ import { Doughnut } from 'react-chartjs-2';
 import QuizQuestion from '../../components/QuizQuestions';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { showNav } from '../../actions';
 
 
 const useStyle = makeStyles({
@@ -52,7 +54,7 @@ const useStyle = makeStyles({
 
 
 const Quiz = () => {
-
+    const dispatch = useDispatch()
     const [selectedTab, setSelectedTab] = useState(0);
     const [testStart, setTestStart] = useState(false);
     const [score, setScore] = useState(0);
@@ -66,6 +68,7 @@ const Quiz = () => {
     const user = localStorage.getItem('userid')
     const token = `bearer ${localStorage.getItem('jwt')}`
     useEffect(() => {
+        dispatch(showNav())
         axios.get(`https://hamyarwellness.com/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
             { headers: { 'Authorization': token } },
         ).then(res => {
