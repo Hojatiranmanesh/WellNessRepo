@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core';
 import breath from '../assets/images/breathing.jpg';
 import relax from '../assets/images/nature.jpg';
 import Link from 'react-router-dom/Link';
-import { ButtonBase } from '@material-ui/core'
+import { ButtonBase } from '@material-ui/core';
+import FontSize from './FontSize';
+
 
 const useStyles = makeStyles({
     root: {
@@ -32,8 +34,8 @@ const useStyles = makeStyles({
         height: "100%",
         backgroundColor: "#00000057",
         textAlign: 'right',
-        paddingTop:35,
-        paddingRight:10
+        paddingTop: 35,
+        paddingRight: 10
     },
     relax: {
         background: `url(${relax}) `,
@@ -53,16 +55,16 @@ const EvolutionCards = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <ButtonBase component={Link} to="/evolution/breathing" className={classes.breath}>
+            <ButtonBase style={{ fontSize: FontSize(1.1) }} component={Link} to="/evolution/breathing" className={classes.breath}>
                 <div className={classes.overlay}>
-                    <p style={{ fontWeight: "bold" }}>تنفس</p>
-                    <p>به شما کمک می‌کند تا آرام شوید</p>
+                    <p style={{ fontWeight: "bold", fontSize: FontSize(1.1) }}>تنفس</p>
+                    <p style={{ fontSize: FontSize(1.1) }}>به شما کمک می‌کند تا آرام شوید</p>
                 </div>
             </ButtonBase>
             <ButtonBase component={Link} to="/evolution/relaxation" className={classes.relax}>
                 <div className={classes.overlay}>
-                    <p style={{ fontWeight: "bold" }}>صدای طبیعت</p>
-                    <p>ریلکس، خوابیدن و مدیتیت</p>
+                    <p style={{ fontWeight: "bold", fontSize: FontSize(1.1) }}>صدای طبیعت</p>
+                    <p style={{ fontSize: FontSize(1.1) }}>ریلکس، خوابیدن و مدیتیت</p>
                 </div>
             </ButtonBase>
         </div>

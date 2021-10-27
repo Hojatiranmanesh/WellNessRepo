@@ -7,51 +7,60 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { hideNav } from '../../actions';
-
+import FontSize from '../../components/FontSize';
 
 const useStyles = makeStyles({
-    header: { height: 300, maxHeight: "40vh", background: "#d7e5f2", padding: 40 },
-    headerTitle: { fontWeight: 'bold', color: "#465b92", textShadow: "0px 2px 4px #00000054" },
+    header: { height: 220, maxHeight: "40vh", backgroundColor: "#c4dffaad", padding: 40 },
+    headerTitle: { fontWeight: 'bold', color: "#465b92", textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1", },
     body: {
         padding: 10,
-
+    },
+    enterCodeText: {
+        textAlign: "center",
+        color: "#465b92",
+        textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1",
+        marginBottom: 35,
+        marginTop: 15,
     },
     inputRoot: {
-        fontSize: 30
+        fontSize: FontSize(1)
     },
     labelRoot: {
-        fontSize: 30,
+        fontSize: FontSize(1),
         "&$labelFocused": {
             marginBottom: 10
         }
     },
     sendActivation: {
-        width: "100%",
+        width: 289,
         color: "#fff",
-        marginTop: 15,
+        margin: "70px auto 0 auto",
         background: "linear-gradient(0deg, rgba(85,145,120,1) 0%, rgba(100,160,134,1) 100%)",
-        fontSize: "1.5em",
+        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
+        fontSize: FontSize(1.1),
         borderRadius: 15,
-        height: 50,
-        paddingBottom: 4
+        height: 57,
+        paddingBottom: 4,
+        fontWeight: "bold",
     },
     otpRoot: { flexDirection: "row-reverse", margin: "0 auto", width: "fit-content" },
     activationButton: {
-        margin: "0 auto",
-        width: "100%",
+        width: 289,
         color: "#fff",
-        marginTop: 15,
+        margin: "35px auto 0 auto",
         background: "linear-gradient(0deg, rgba(85,145,120,1) 0%, rgba(100,160,134,1) 100%)",
-        boxShadow: "0 0 7px 3px rgba(85,145,120,0.75)",
-        fontSize: "1.5em",
+        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
+        fontSize: FontSize(1.1),
         borderRadius: 15,
-        height: 50,
-        paddingBottom: 4
+        height: 57,
+        paddingBottom: 4,
+        fontWeight: "bold",
     },
     resendActivation: {
         textAlign: "center",
         color: "#ee5e68",
-        fontSize: "1.3em"
+        fontSize: FontSize(1.1),
+        fontWeight: "Bold",
     }
 });
 
@@ -66,7 +75,6 @@ const ActivateProfile = () => {
         axios.post('https://api.hamyarwellness.com/api/v1/users/activation', { userId: userId })
             .then(res => {
                 setActivated(true)
-
             })
             .catch(err => {
                 if (err.response.status === 401) {
@@ -93,9 +101,12 @@ const ActivateProfile = () => {
     return (
         <Grid container className={classes.root}>
             <Grid item container justify="center" alignContent="flex-start" className={classes.header}>
-                <Typography className={classes.headerTitle} variant={'h4'}>کد فعالسازی</Typography>
+                <Typography className={classes.headerTitle} variant={'h5'}>کد فعالسازی</Typography>
             </Grid>
             <Grid item container direction="column" className={classes.body} justify="center">
+                <Grid item>
+                    <h2 className={classes.enterCodeText}>کد فعالسازی را وارد نمایید</h2>
+                </Grid>
                 <Grid item className={classes.otpContainer}>
                     <OTPInput
                         value={OTP}
@@ -105,7 +116,7 @@ const ActivateProfile = () => {
                         otpType="number"
                         disabled={false}
                         className={classes.otpRoot}
-                        inputStyles={{ margin: "0 10px", fontSize: "1.5em", backgroundColor: "#cbd5e1", border: "none", padding: 8, borderRadius: "30%", outline: 0, color: "#4f649b" }}
+                        inputStyles={{ margin: "0 5px", fontSize: FontSize(1.5), boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1", fontWeight: "bold", backgroundColor: "#c9d3e0", border: "none", padding: 8, borderRadius: "30%", outline: 0, color: "#4f649b" }}
                     />
                 </Grid>
                 <Grid item>
@@ -115,7 +126,7 @@ const ActivateProfile = () => {
                         // onTimerComplete={() => setActiveResend(true)}
                         renderButton={() => { }} />
                 </Grid>
-                <Grid item style={{ textAlign: "center", color: "#7886a3" }}>
+                <Grid item style={{ textAlign: "center", color: "#7886a3", fontSize: FontSize(1) }}>
                     زمان معتبر بودن کد فعالسازی
                 </Grid>
                 <Grid item container justify={"center"} style={{ width: "100%", marginBottom: 15 }}>

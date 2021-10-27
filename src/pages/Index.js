@@ -2,30 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import { Box } from '@material-ui/core';
-import logo from '../assets/images/LogoWellness.png';
+import logo from '../assets/images/ezgif-2-be875f80ec84.gif';
 import { makeStyles } from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles({
   logo: {
-    width: 300
+    height: "100vh",
+    width: 456,
+    margin: "0 auto",
+    maxWidth: "100vw"
   },
   root: {
-    height: "100%"
+    height: "100vh",
+    width: "100vw",
+    overflow: "hidden",
+    backgroundColor: "#080c29",
+    display: "flex",
+    justifyContent: "center"
   },
   logoWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    paddingTop: "27vh"
+
   },
-  devTeam: {
-    position: "fixed",
-    bottom: 10,
-    textAlign: "center",
-    width: "100%",
-    fontWeight: "bold",
-    color: "#ad87c0",
-  }
+
 });
 
 const Index = () => {
@@ -33,10 +32,7 @@ const Index = () => {
   const [login, setLogin] = useState();
   const [content, setContent] = useState(
     <Box className={classes.root}>
-      <Box className={classes.logoWrapper}>
-        <img className={classes.logo} src={logo} alt="logo" />
-      </Box>
-      <Box className={classes.devTeam}>طراحی و توسعه توسط شرکت اکسین فراوان سپنتا</Box>
+      <img className={classes.logo} src={logo} alt="logo" />
     </Box>
   );
   const checkLogin = () => {
@@ -56,20 +52,19 @@ const Index = () => {
     checkLogin()
   }, [])
   useEffect(() => {
-    if (login === false) {
-      setContent(<Redirect to={"/login"} />)
-    } else if (login === true) {
-      setContent(<Redirect to={"/profile"} />)
-    } else {
-    setContent(
-      <Box className={classes.root}>
-        <Box className={classes.logoWrapper}>
-          <img className={classes.logo} src={logo} alt="logo" />
-        </Box>
-        <Box className={classes.devTeam}>طراحی و توسعه توسط شرکت اکسین فراوان سپنتا</Box>
-      </Box>
-    )
-    }
+    setTimeout(() => {
+      if (login === false) {
+        setContent(<Redirect to={"/login"} />)
+      } else if (login === true) {
+        setContent(<Redirect to={"/profile"} />)
+      } else {
+        setContent(
+          <Box className={classes.root}>
+            <img className={classes.logo} src={logo} alt="logo" />
+          </Box>
+        )
+      }
+    }, 1000)
   }, [login])
   return (content)
 };

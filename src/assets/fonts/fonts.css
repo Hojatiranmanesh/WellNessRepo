@@ -1,10 +1,25 @@
 @font-face {
     font-family: Kalame;
+    font-style: normal;
+    font-weight: bolder;
+    src: url("./WebFonts/_eot/KalamehWeb\(FaNum\)-Black.eot");
+    src: url("./WebFonts/_eot/KalamehWeb(FaNum)-Black.eot?#iefix") format("embedded-opentype"), url("./WebFonts/_Woff2//KalamehWeb(FaNum)-Black.woff2") format("woff2"), url("./WebFonts//_Woff//KalamehWeb\(FaNum\)-Black.woff") format("woff");
+}
+
+@font-face {
+    font-family: Kalame;
+    font-style: normal;
+    font-weight: bold;
+    src: url("./WebFonts/_eot/KalamehWeb\(FaNum\)-Bold.eot");
+    src: url("./WebFonts/_eot/KalamehWeb(FaNum)-Bold.eot?#iefix") format("embedded-opentype"), url("./WebFonts/_Woff2//KalamehWeb(FaNum)-Bold.woff2") format("woff2"), url("./WebFonts//_Woff//KalamehWeb\(FaNum\)-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: Kalame;
+    font-style: normal;
+    font-weight: normal;
     src: url("./WebFonts/_eot/KalamehWeb\(FaNum\)-Regular.eot");
-    src: url("./WebFonts/_eot/KalamehWeb(FaNum)-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-8 */
-    url("./WebFonts/_Woff2//KalamehWeb(FaNum)-Regular.woff2") format("woff2"), /* FF39+,Chrome36+, Opera24+*/
-    url("./WebFonts//_Woff//KalamehWeb\(FaNum\)-Regular.woff") format("woff");
-    /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    src: url("./WebFonts/_eot/KalamehWeb(FaNum)-Regular.eot?#iefix") format("embedded-opentype"), url("./WebFonts/_Woff2//KalamehWeb(FaNum)-Regular.woff2") format("woff2"), url("./WebFonts//_Woff//KalamehWeb\(FaNum\)-Regular.woff") format("woff");
 }
 
 * {
@@ -14,4 +29,8 @@
 input:-webkit-autofill {
     transition: background-color 5000s;
     background-color: rgba(0, 255, 255, 0)
+}
+
+.circle_reactGradientProgressPercentageSpan__1HdhL {
+    display: none!important;
 }

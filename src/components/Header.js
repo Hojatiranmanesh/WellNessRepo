@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Grid, Button, SwipeableDrawer, ListItem, ListItemText, List, ButtonBase } from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CloseIcon from '@material-ui/icons/Close';
+import React, { useState, useEffect } from 'react';
+import { Grid, Button, Drawer, ButtonBase } from '@material-ui/core';
+import settings from "../assets/images/settings.png";
+import dots from "../assets/images/dots.png";
 import { makeStyles } from "@material-ui/core/styles";
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import back from "../assets/images/Right Arrow 2.png";
 import { Link } from 'react-router-dom';
-
+import Slider from '@material-ui/core/Slider';
+import FontSize from './FontSize';
+import { useHistory } from 'react-router-dom';
+import cartIcon from '../assets/images/Cart 2.png';
 
 const useStyles = makeStyles({
   settingsButton: {
@@ -15,11 +18,12 @@ const useStyles = makeStyles({
   },
   back: {
     position: "fixed",
-    left: 10,
-    top: 17,
+    left: 21,
+    top: 22,
   },
-  backIcon:{
-    fontSize:"2em"
+  backIcon: {
+    height: 23,
+    width: 32,
   },
   settingIcon: {
     fontSize: "2em",
@@ -47,15 +51,13 @@ const useStyles = makeStyles({
     background: "transparent"
   },
   exitButton: {
-    position: "absolute",
-    top: 27,
-    right: 33
+
   },
   list: {
     width: "100vw",
     background: "#ffffff00",
     height: "100vh",
-    display: "flex",
+    display: "grid",
     justifyContent: "center",
     alignItems: "center",
     "& ul": {
@@ -65,13 +67,31 @@ const useStyles = makeStyles({
     },
 
   },
-  listItems: {
+  topList: {
     fontWeight: "bold",
+    display: "grid",
+    gridGap: "5em",
   },
+  dotsIcon: {
+    width: 28
+  },
+  listItem: {
+    fontWeight: "bold",
+    fontSize: "1.1em",
+    color: "#4b6097",
+    textAlign: "center",
+    textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1",
+  }
 });
 
-const Header = ({ component, to }) => {
+const Header = ({ component, to, setting, cart }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const [fontSizeState, setFontSize] = useState('1em');
+  useEffect(() => {
+
+  }, [fontSizeState])
+
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -89,32 +109,52 @@ const Header = ({ component, to }) => {
 
     setState({ ...state, [anchor]: open });
   };
+  if (!setting) {
+    setting = false;
+  } else {
+    setting = true
+  }
   const backButton = () => {
     switch (component) {
       case "function":
-        return (<ButtonBase className={classes.back} onClick={to}><ArrowForwardIcon className={classes.backIcon} /></ButtonBase>)
+        return (<ButtonBase className={classes.back} onClick={to}><img src={back} alt="بازگشت" className={classes.backIcon} /></ButtonBase>)
       case "link":
-        return (<ButtonBase className={classes.back} component={Link} to={to}><ArrowForwardIcon className={classes.backIcon} /></ButtonBase>)
+        return (<ButtonBase className={classes.back} component={Link} to={to}><img src={back} alt="بازگشت" className={classes.backIcon} /></ButtonBase>)
+      case "dots":
+        return (<ButtonBase className={classes.back} component={Link} to={to}><img src={dots} className={classes.dotsIcon} alt="dots" /></ButtonBase>)
       default:
         return ("");
     }
+  }
+  const handleChange = (e, value) => {
+    localStorage.setItem('fontSize', value);
+    setFontSize(FontSize(1))
   }
   return (
     <Grid item>
       <div>
         <React.Fragment key={"right"}>
-          <Button
+          {(cart) ? <Button
+            className={classes.settingsButton}
+
+            onClick={() => history.push("/products/cart")}
+          >
+            <img style={{ width: 40, height: 40 }} src={cartIcon} alt="سبد خرید" />
+          </Button> : null}
+          {(setting) ? <Button
             className={classes.settingsButton}
             onClick={toggleDrawer("right", true)}
           >
-            <SettingsIcon className={classes.settingIcon} />
-          </Button>
+            <img src={settings} alt="settings" />
+          </Button> : null}
+
           {backButton()}
-          <SwipeableDrawer
+          <Drawer
             anchor={"right"}
             open={state["right"]}
             onClose={toggleDrawer("right", false)}
             onOpen={toggleDrawer("right", true)}
+            disableBackdropClick
             BackdropProps={{
               classes: {
                 root: classes.BackdropProps
@@ -129,33 +169,36 @@ const Header = ({ component, to }) => {
             <div
               className={classes.list}
               role="presentation"
-              onClick={toggleDrawer("right", false)}
-              onKeyDown={toggleDrawer("right", false)}
             >
+              <div className={classes.topList}>
+                <div className={classes.slider}>
+                  <p style={{ fontSize: fontSizeState }} className={classes.listItem}>سایز متن</p>
+                  <Slider
+                    defaultValue={(localStorage.getItem('fontSize')) ? localStorage.getItem('fontSize') : 1}
+                    marks
+                    min={0}
+                    track={false}
+                    style={{ width: 289 }}
+                    max={2}
+                    onChange={handleChange}
+                    classes={{ markLabel: classes.sliderLabel }}
+                  />
+                </div>
+                <ButtonBase style={{ fontSize: fontSizeState }} className={classes.listItem}>جلوه‌های صوتی</ButtonBase>
+                <ButtonBase style={{ fontSize: fontSizeState }} className={classes.listItem}>زبان فارسی</ButtonBase>
+              </div>
               <ButtonBase
-                className={classes.exitButton}
-                onClick={toggleDrawer("right", true)}
+                onClick={() => { toggleDrawer("right", false); window.location.reload(false); }}
+                className={classes.listItem}
+                style={{ color: "#e1515a", fontSize: FontSize(1.1) }}
               >
-                <CloseIcon className={classes.settingIcon} />
+                بازگشت
               </ ButtonBase>
-              <List>
-                <ListItem className={classes.listItems} button key={"darklight"}>
-                  <ListItemText primary={"حالت تیره/روشن"} />
-                </ListItem>
-
-                <ListItem className={classes.listItems} button key={"soundEffects"}>
-                  <ListItemText primary={"جلوه های صوتی"} />
-                </ListItem>
-
-                <ListItem className={classes.listItems} button key={"language"}>
-                  <ListItemText primary={"فارسی"} />
-                </ListItem>
-              </List>
             </div>
-          </SwipeableDrawer>
+          </Drawer>
         </React.Fragment>
       </div>
-    </Grid>
+    </Grid >
   )
 }
 export default Header;

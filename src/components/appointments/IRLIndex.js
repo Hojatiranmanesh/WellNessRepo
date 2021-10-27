@@ -2,6 +2,9 @@ import React from 'react';
 import { ButtonBase, Box, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'react-router-dom/Link';
+import { useDispatch } from "react-redux";
+import { setResType } from '../../actions';
+import FontSize from '../FontSize';
 
 const useStyle = makeStyles({
     root: {
@@ -14,34 +17,38 @@ const useStyle = makeStyles({
         alignItems: "center",
     },
     button: {
-        height: 40,
-        backgroundColor: "#cad1db",
+        height: 59,
+        backgroundColor: "#c4dffaad",
         borderRadius: 10,
-        width: "80%",
+        maxWidth: "80%",
+        width: 289,
         color: "#2f4167",
         fontSize: "0.9em",
         margin: 10,
-        boxShadow:"0 0 7px 3px #cad1db4b",
     },
     recordButton: {
-        height: 40,
+        height: 57,
         backgroundColor: "#08afe4",
         borderRadius: 10,
-        width: "80%",
+        maxWidth: "80%",
         color: "#fff",
         fontSize: "0.9em",
-        margin: 10
+        margin: 10,
+        marginTop: 15,
+        width: 289,
+        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
     }
 })
 
 const IRLIndex = () => {
     const classes = useStyle()
+    const dispatch = useDispatch()
     return (
         <Box className={classes.root}>
-            <ButtonBase component={Link} to="/appointments/reserve" className={classes.button}>ارزیابی و ارتقاء تخصصی</ButtonBase>
-            <ButtonBase component={Link} to="/appointments/reserve" className={classes.button}>ارزیابی و ارتقاء عمومی</ButtonBase>
-            <Divider style={{ width: "90%" }} />
-            <ButtonBase className={classes.recordButton} >مشاهده فایل های مشاوره پیشین</ButtonBase>
+            <ButtonBase style={{ fontSize: FontSize(1) }} component={Link} to="/appointments/reserve" onClick={() => { dispatch(setResType("specialized")) }} className={classes.button}>ارزیابی و ارتقاء تخصصی</ButtonBase>
+            <ButtonBase style={{ fontSize: FontSize(1) }} component={Link} to="/appointments/reserve" onClick={() => { dispatch(setResType("general")) }} className={classes.button}>ارزیابی و ارتقاء عمومی</ButtonBase>
+            <Divider style={{ width: "90%", margin: "20px auto", fontSize: FontSize(1) }} />
+            <ButtonBase style={{ fontSize: FontSize(1) }} className={classes.recordButton} >مشاهده فایل های مشاوره پیشین</ButtonBase>
         </Box>
     )
 }

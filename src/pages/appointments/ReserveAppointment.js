@@ -9,6 +9,9 @@ import First from '../../components/appointments/steps/First';
 import Second from '../../components/appointments/steps/Second';
 import Third from '../../components/appointments/steps/Third';
 import Final from '../../components/appointments/steps/Final';
+import FontSize from '../../components/FontSize';
+import { useSelector } from 'react-redux';
+
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,27 +22,32 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         width: '100%',
-        marginTop: 20
-
+        paddingTop: 20
     },
     button: {
-        margin: "0 auto",
-        width: 300,
-        borderRadius: 10
+        width: 289,
+        height: 57,
+        margin: 15,
+        borderRadius: 15,
+        background: "linear-gradient(126deg, rgba(73,94,149,1) 0%, rgba(87,108,164,1) 100%)",
+        fontSize: FontSize(1.1),
+        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
+        fontWeight: "bold",
     },
     instructions: {
         textAlign: "center",
     },
     topDesc: {
         textAlign: "center",
-        marginBottom: 30,
-        paddingTop: 60
+        paddingTop: 90,
+        paddingBottom: 26,
+        backgroundColor: "#c4dffaad",
 
     },
     descRoot: {
         color: "#68c7f5",
         fontWeight: "bold",
-        fontSize: "1.3em"
+        fontSize: FontSize(1.3)
     }
 }));
 
@@ -70,6 +78,9 @@ const ReserveAppointment = () => {
     const [hour, setHour] = useState();
     const [desc, setDesc] = useState();
     const steps = getSteps();
+    const resType = useSelector(state => {
+        return state.resType;
+    });
 
     const getStepContent = (step) => {
         switch (step) {
@@ -80,7 +91,7 @@ const ReserveAppointment = () => {
             case 2:
                 return <Third setHour={(hour) => setHour(hour)} />;
             case 3:
-                return <Final day={day} duration={duration} hour={hour} setDesc={(desc) => setDesc(desc)} />;
+                return <Final day={day} duration={duration} hour={hour} setDesc={(desc) => setDesc(desc)} resType={resType} />;
             default:
                 return 'Unknown step';
         }
@@ -125,13 +136,14 @@ const ReserveAppointment = () => {
     };
     return (
         <div className={classes.root}>
-            <Header component={(activeStep === 0) ? "link" : "function"} to={(activeStep === 0) ? "/appointments" : handleBack} />
-            <Step >
+
+            <Step style={{ height: 130, }}>
+                <Header component={(activeStep === 0) ? "link" : "function"} to={(activeStep === 0) ? "/appointments" : handleBack} />
+
                 <StepLabel classes={{ label: classes.descRoot }} className={classes.topDesc}>{myStep(activeStep)}{steps[activeStep]}</StepLabel>
             </Step>
             <div>
-
-                <div>
+                <div style={{ paddingTop: 50 }}>
                     <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
                     <div className={classes.buttonWrapper}>
                         {/* <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>

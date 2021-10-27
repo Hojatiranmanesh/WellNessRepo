@@ -53,3 +53,17 @@ export const showNav = (nav) => {
         nav
     }
 }
+
+export const setResType = (resType) => {
+    return {
+        type: 'SET_RESTYPE',
+        resType
+    }
+}
+
+export const setFontSize = (fontSize) => {
+    return {
+        type: 'SET_FONT_SIZE',
+        fontSize
+    }
+}

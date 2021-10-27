@@ -1,33 +1,33 @@
 import React from "react";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import MusicNoteOutlinedIcon from '@material-ui/icons/MusicNoteOutlined';
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import EqualizerOutlinedIcon from '@material-ui/icons/EqualizerOutlined';
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import PersonOutlinedIcon from '@material-ui/icons/PersonOutlined';
+import profile from '../assets/images/navIcon/profile.png';
+import quizzes from '../assets/images/navIcon/quizzes.png';
+import store from '../assets/images/navIcon/store.png';
+import reservation from '../assets/images/navIcon/reservation.png';
+import evolution from '../assets/images/navIcon/evolution.png';
+import FontSize from "./FontSize";
 
 const useStyles = makeStyles({
   root: {
     position: "fixed",
-    bottom: "5px",
+    bottom: "0px",
     left: "0px",
     right: "0px",
-    height: "60px",
-    margin: "0 5px",
-    borderRadius: 10,
-    background: "rgba(255, 255, 255, 0.2)",
+    height: 54,
+    background: "linear-gradient(264deg, rgba(144,192,211,1) 0%, rgba(163,190,233,1) 53%, rgba(142,206,210,1) 100%)",
     padding: 5,
-    backdropFilter: "blur(10px)",
   },
   navItem: {
     padding: 0,
     fontWeight: "bold",
+    fontSize: FontSize(1.1),
+    minWidth: 69
   },
   navIcon: {
-    fontSize: 30,
+    height: 30
   },
 });
 
@@ -49,7 +49,7 @@ const BootomNav = () => {
         to="/quizzes"
         label="ارزیابی"
         value="quizzes"
-        icon={<FavoriteIcon className={classes.navIcon} />}
+        icon={<img src={quizzes} alt="آزمون" className={classes.navIcon} />}
       />
       <BottomNavigationAction
         className={classes.navItem}
@@ -57,7 +57,7 @@ const BootomNav = () => {
         to="/products"
         label="فروشگاه"
         value="shop"
-        icon={<ShoppingCartOutlinedIcon className={classes.navIcon} />}
+        icon={<img src={store} alt="store" className={classes.navIcon} />}
       />
       <BottomNavigationAction
         className={classes.navItem}
@@ -65,7 +65,7 @@ const BootomNav = () => {
         to="/appointments"
         label="مشاوره"
         value="reservation"
-        icon={<EqualizerOutlinedIcon className={classes.navIcon} />}
+        icon={<img src={reservation} alt="مشاوره" className={classes.navIcon} />}
       />
       <BottomNavigationAction
         className={classes.navItem}
@@ -73,7 +73,7 @@ const BootomNav = () => {
         to="/evolution"
         label="ارتقاء"
         value="evolution"
-        icon={<MusicNoteOutlinedIcon className={classes.navIcon} />}
+        icon={<img src={evolution} alt="ارتقاء" className={classes.navIcon} />}
       />
       <BottomNavigationAction
         className={classes.navItem}
@@ -81,7 +81,7 @@ const BootomNav = () => {
         to="/profile"
         label="پروفایل"
         value="profile"
-        icon={<PersonOutlinedIcon className={classes.navIcon} />}
+        icon={<img src={profile} alt="profile" className={classes.navIcon} />}
       />
     </BottomNavigation>
   );

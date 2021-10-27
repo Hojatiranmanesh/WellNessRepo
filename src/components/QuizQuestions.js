@@ -2,43 +2,84 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Slider, ButtonBase, Modal } from '@material-ui/core';
+import FontSize from './FontSize';
 
 const useStyles = makeStyles({
     root: {
         width: 300,
         margin: "10px auto",
         textAlign: 'center',
+        display: "flex",
+        flexDirection: "column",
+        height: 330,
+        justifyContent: "space-evenly",
     },
     button: {
-        fontSize: "1.3em",
+        height: 57,
+        width: 289,
+        margin: "5px auto",
+        backgroundColor: "#08afe4",
+        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
         color: "#fff",
-        backgroundColor: "#082464",
-        padding: 5,
-        width: 250,
+        fontSize: FontSize(.9),
         borderRadius: 10,
-        boxShadow:"0 0 7px 3px #0824644b",
     },
     paper: {
         height: 410,
-        backgroundColor: "#fff",
+        backgroundColor: "#cedae8",
         maxWidth: "80%",
         width: 400,
         overflow: "scroll",
         padding: 30,
         margin: "60px auto",
-        textAlign: "justify"
+        textAlign: "justify",
+        borderRadius: 15
+
     },
     readMore: {
-        fontSize:"1em",
-        color:"#59a8ff",
-        marginTop:10,
-        textDecoration:"underline"
+        fontSize: "1em",
+        color: "#59a8ff",
+        textDecoration: "underline",
+        position: "relative",
+        bottom: 10
+    },
+    modalContent: {
+        height: 280,
+        overflow: "auto",
+        fontWeight: "bold",
+        color: "#6074a6",
+        borderBottom: "1px solid #b6c2ce",
+        borderTop: "1px solid #b6c2ce"
+    },
+    modalTitle: {
+        color: "#7787a1"
+    },
+    returnButton: {
+        height: 60,
+        width: "100%",
+        fontSize: FontSize(1.05),
+        color: "#ee5760",
+    },
+    sliderRail: {
+        height: 4,
+    },
+    sliderTrack: {
+        height: 4,
+    },
+    sliderMark: {
+        height: 4,
+    },
+    sliderThumb: {
+        height: 15,
+        width: 15,
     }
 });
 
 const QuizQuestion = () => {
     const classes = useStyles();
+    const history = useHistory()
     const [level, setLevel] = useState(1);
     const [questions, setQustions] = useState([]);
     const [questionTitle, setQustionTitle] = useState("");
@@ -79,7 +120,7 @@ const QuizQuestion = () => {
 
             )
                 .then(response => {
-                    console.log(response)
+                    history.push("/quizzes?tab=result")
                 })
                 .catch(err => {
                     console.log(err)
@@ -119,16 +160,17 @@ const QuizQuestion = () => {
 
     const body = (
         <div className={classes.paper}>
-            <h3 id="simple-modal-title">{questionTitle}</h3>
-            <p id="simple-modal-description">
+            <p className={classes.modalTitle} id="simple-modal-title">{questionTitle}</p>
+            <p class={classes.modalContent} id="simple-modal-description">
                 {questionDesc}
             </p>
+            <ButtonBase onClick={handleClose} className={classes.returnButton}>بازگشت</ButtonBase>
         </div>
     );
 
     return (
         <div className={classes.root}>
-            <h2>{questionTitle}</h2>
+            <h4 style={{ color: "#516597" }}>{questionTitle}</h4>
             <Slider
                 defaultValue={5}
                 aria-labelledby="discrete-slider"
@@ -136,6 +178,7 @@ const QuizQuestion = () => {
                 step={1}
                 value={answer}
                 onChange={(event, newValue) => setAnswer(newValue)}
+                classes={{ rail: classes.sliderRail, track: classes.sliderTrack, mark: classes.sliderMark, thumb: classes.sliderThumb }}
                 marks
                 min={1}
                 max={10}
