@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
 import persianDate from 'persian-date';
 import { useLocation, Link } from 'react-router-dom';
+import AdminNav from '../../components/AdminNav';
+import moment from 'moment-jalaali';
 
 const useStyles = makeStyles({
     container: {
@@ -61,8 +63,33 @@ const useStyles = makeStyles({
 });
 
 const getId = name => {
-    if (name === 'breathing') {
-        return "61646f76257f280090fbb8d7";
+    switch (name) {
+        case 'love':
+            return ('61657fe4141561d3a5604158');
+        case 'breathing':
+            return ('61646f76257f280090fbb8d7');
+        case 'food':
+            return ('6165804c141561d3a560415a');
+        case 'feeling':
+            return ('616580a8141561d3a560415c');
+        case 'moving':
+            return ('6165815e141561d3a560415e');
+        case 'felt':
+            return ('61658232141561d3a5604160');
+        case 'thinking':
+            return ('6165a06a141561d3a560416b');
+        case 'playing':
+            return ('6165a0a4141561d3a560416d');
+        case 'connecting':
+            return ('6165a100141561d3a560416f');
+        case 'realationgship':
+            return ('6165a145141561d3a5604171');
+        case 'meaning':
+            return ('6165a182141561d3a5604173');
+        case 'transcening':
+            return ('6165a1bf141561d3a5604175');
+        default:
+            return (null)
     }
 };
 
@@ -76,7 +103,7 @@ const HealthFiles = () => {
     let query = useQuery();
     console.log(getId(query.get("quiz")))
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/?user=${getId(query.get("quiz"))}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/quiz/${getId(query.get("quiz"))}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(res => {
                 console.log(res)
                 setSubjects(res.data.data)
@@ -88,40 +115,44 @@ const HealthFiles = () => {
             })
     }, [])
     return (
-        <Box className={classes.container}>
-            <Box className={classes.header}>
-                <h2 className={classes.headerTitle}>مسیر تنفس</h2>
-            </Box>
-            <Box className={classes.innerContainer}>
-                <Box className={classes.tableWrapper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead className={classes.tableHeader}>
-                            <TableRow>
-                                <TableCell className={classes.cell} align="center">نام</TableCell>
-                                <TableCell className={classes.cell} align="center">نام‌خانوادگی</TableCell>
-                                <TableCell className={classes.cell} align="center">شماره‌همراه</TableCell>
-                                <TableCell className={classes.cell} align="center">تاریخ زمان آزمون</TableCell>
-                                <TableCell className={classes.cell} align="center">ساعت زمان آزمون</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {subjects.map(data => (
-                                <TableRow className={classes.tableRow} component={Link} to={`/admin/quiz-result?id=${data._id}`}>
-                                    <TableCell className={classes.cell} align="center">{data.user.firstname}</TableCell>
-                                    <TableCell className={classes.cell} align="center">{data.user.lastname}</TableCell>
-                                    <TableCell className={classes.cell} align="center">{data.user.phone}</TableCell>
-                                    <TableCell className={classes.cell} align="center">{new persianDate(data.quiz.created_at).format("D MMMM YYYY")}</TableCell>
-                                    <TableCell className={classes.cell} align="center">{new persianDate(data.quiz.created_at).format("H:m:s")}</TableCell>
+        <>
+            <AdminNav />
+            <Box className={classes.container}>
+                <Box className={classes.header}>
+                    <h2 className={classes.headerTitle}>مسیر تنفس</h2>
+                </Box>
+                <Box className={classes.innerContainer}>
+                    <Box className={classes.tableWrapper}>
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead className={classes.tableHeader}>
+                                <TableRow>
+                                    <TableCell className={classes.cell} align="center">نام</TableCell>
+                                    <TableCell className={classes.cell} align="center">نام‌خانوادگی</TableCell>
+                                    <TableCell className={classes.cell} align="center">شماره‌همراه</TableCell>
+                                    <TableCell className={classes.cell} align="center">تاریخ زمان آزمون</TableCell>
+                                    <TableCell className={classes.cell} align="center">ساعت زمان آزمون</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {subjects.map(data => (
+
+                                    <TableRow className={classes.tableRow} component={Link} to={`/admin/quiz-result?id=${data._id}`}>
+                                        <TableCell className={classes.cell} align="center">{data.user.firstname}</TableCell>
+                                        <TableCell className={classes.cell} align="center">{data.user.lastname}</TableCell>
+                                        <TableCell className={classes.cell} align="center">{data.user.phone}</TableCell>
+                                        <TableCell className={classes.cell} align="center">{moment(new Date(data.created_at)).format('jYYYY/jM/jD')}</TableCell>
+                                        <TableCell className={classes.cell} align="center">{moment(new Date(data.created_at)).format('HH:mm:ss')}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Box>
+                </Box>
+                <Box className={classes.botButtons}>
+                    <ButtonBase component={Link} to={'/admin/paths'} className={classes.return}>بازگشت</ButtonBase>
                 </Box>
             </Box>
-            <Box className={classes.botButtons}>
-                <ButtonBase component={Link} to={'/admin/paths'} className={classes.return}>بازگشت</ButtonBase>
-            </Box>
-        </Box>
+        </>
     )
 }
 

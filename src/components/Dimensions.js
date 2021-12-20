@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setDimension } from '../actions';
+
 import CenterLogo from '../assets/images/dims/1.png';
 import dim1 from '../assets/images/dims/2.png';
 import dim2 from '../assets/images/dims/3.png';
@@ -146,9 +147,10 @@ const useStyles = makeStyles({
     }
 });
 
-const Dimensions = () => {
+const Dimensions = ({ onCenterClick }) => {
     const dispatch = useDispatch()
     const classes = useStyles();
+    const history = useHistory()
     return (
         <Box className={classes.circle} >
             <Link
@@ -199,7 +201,8 @@ const Dimensions = () => {
                     <Box style={{ margin: "41px 53px" }}></Box>
                 </div>
             </Link>
-            <div className={classes.centerLogoWrappwe}>
+
+            <div onClick={() => { onCenterClick(1) }} className={classes.centerLogoWrappwe}>
                 <img src={CenterLogo} className={classes.logo} alt="center logo" />
             </div>
         </Box>

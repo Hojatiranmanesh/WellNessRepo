@@ -3,6 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, ButtonBase } from '@material-ui/core';
 import NatureBG from '../../assets/images/112eaaba131289e5258ee0920c259499.jpg'
 import Header from '../../components/Header';
+import breath1 from "../../assets/audio/Breath1.mp3";
+import pad from "../../assets/audio/Pad.mp3";
+import AudioPlayer from 'react-h5-audio-player';
+import breath2 from '../../assets/audio/Breath2.mp3';
+import breath3 from '../../assets/audio/Breath3.mp3';
+import useSound from "use-sound";
 
 const useStyles = makeStyles({
     root: {
@@ -84,7 +90,7 @@ const useStyles = makeStyles({
         height: "98%",
         width: "98%",
         borderRadius: "50%",
-        border: "3px solid #9eb7e5" ,
+        border: "3px solid #9eb7e5",
         boxShadow: "0 0 20px 5px #55fdfb99"
     },
     rotatorWrapper: {
@@ -107,12 +113,16 @@ const Breathing = () => {
     const [inhale, setInhale] = useState(2);
     const [exhale, setExhale] = useState(2);
     const [pause, setPause] = useState(2);
+    const [b1] = useSound(breath1);
+    const [b2] = useSound(breath2);
+    const [b3] = useSound(breath3);
+
     let animation = `${inhale}s infinite cubic-bezier(0.32, 0.3, 1, 1) firstSpin `
     useEffect(() => {
         if (activeState === 'دم') {
             const timeoutID = window.setTimeout(() => {
                 setActiveState('بازدم');
-
+                b3()
             }, inhale * 1000);
 
             return () => window.clearTimeout(timeoutID);
@@ -120,7 +130,7 @@ const Breathing = () => {
         if (activeState === 'بازدم') {
             const timeoutID = window.setTimeout(() => {
                 setActiveState('مکث');
-
+                b1()
             }, exhale * 1000);
 
             return () => window.clearTimeout(timeoutID);
@@ -128,6 +138,7 @@ const Breathing = () => {
         if (activeState === 'مکث') {
             const timeoutID = window.setTimeout(() => {
                 setActiveState('دم');
+                b2()
             }, pause * 1000);
 
             return () => window.clearTimeout(timeoutID);
@@ -137,7 +148,7 @@ const Breathing = () => {
     let scale = "scale(1)";
     if (activeState === 'دم') {
         transitionDuration = `${inhale}s `;
-        scale = "scale(1.2)"
+        scale = "scale(1.2)";
     } else if (activeState === 'بازدم') {
         transitionDuration = `${exhale}s `;
         scale = "scale(1)";
@@ -157,6 +168,17 @@ const Breathing = () => {
                             </div>
                         </div>
                     </div>
+                    <AudioPlayer
+                        style={{ direction: "ltr", display: "none" }}
+                        src={pad}
+                        autoPlay
+                        loop={true}
+                        onPlay={e => console.log("onPlay")}
+                        showJumpControls={false}
+                        layout="horizontal"
+                        customAdditionalControls={[]}
+                        customVolumeControls={[]}
+                    />
                     <Divider variant="middle" />
                     <Box className={classes.options}>
                         <Box className={classes.optionButtons}>

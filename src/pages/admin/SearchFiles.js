@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import AdminNav from '../../components/AdminNav'
 
 const useStyles = makeStyles({
     container: {
@@ -63,21 +64,24 @@ const useStyles = makeStyles({
 const HealthFiles = () => {
     const classes = useStyles()
     return (
-        <Box className={classes.container}>
-            <Box className={classes.header}>
-                <h2 className={classes.headerTitle}>جستجوی فایل‌های ارزیابی آپلود شده</h2>
-            </Box>
-            <Box className={classes.innerContainer}>
-                <Box className={classes.inputs}>
-                    <input type="text" className={classes.Input} placeholder="نام" />
-                    <input type="text" className={classes.Input} placeholder="نام خانوادگی" />
+        <>
+            <AdminNav />
+            <Box className={classes.container}>
+                <Box className={classes.header}>
+                    <h2 className={classes.headerTitle}>جستجوی فایل‌های ارزیابی آپلود شده</h2>
+                </Box>
+                <Box className={classes.innerContainer}>
+                    <Box className={classes.inputs}>
+                        <input type="text" className={classes.Input} placeholder="نام" />
+                        <input type="text" className={classes.Input} placeholder="نام خانوادگی" />
+                    </Box>
+                </Box>
+                <Box className={classes.botButtons}>
+                    <ButtonBase className={classes.register}>جستجو</ButtonBase>
+                    <ButtonBase className={classes.return}>بازگشت</ButtonBase>
                 </Box>
             </Box>
-            <Box className={classes.botButtons}>
-                <ButtonBase className={classes.register}>جستجو</ButtonBase>
-                <ButtonBase className={classes.return}>بازگشت</ButtonBase>
-            </Box>
-        </Box>
+        </>
     )
 }
 

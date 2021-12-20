@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, ButtonBase, Backdrop, Modal, Fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link, } from 'react-router-dom';
+import AdminNav from '../../components/AdminNav';
+import axios from 'axios';
 
 const useStyles = makeStyles({
     container: {
@@ -31,7 +33,7 @@ const useStyles = makeStyles({
     },
     button: {
         borderRadius: 15,
-        fontSize:".8em",
+        fontSize: ".8em",
         width: 180,
         height: 50,
         color: "#fff",
@@ -72,10 +74,31 @@ const useStyles = makeStyles({
     }
 });
 
+
 const Paths = () => {
     const classes = useStyles()
-    const [open, setOpen] = React.useState(true);
-
+    const [open, setOpen] = React.useState(false);
+    const [unres, setUnres] = useState([]);
+    const [unresCount, setUnresCount] = useState(0);
+    useEffect(() => {
+        const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
+        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/`, header)
+            .then(res => {
+                let arr = [];
+                res.data.data.forEach((item,index,array) => {
+                    if (!item.specilistNote) {
+                        arr.push(item.quiz.quizCategory)
+                        console.log(item);
+                        setUnresCount(array.length)
+                    }
+                })
+                setUnres(arr.filter(function (value, index, array) {
+                    return array.indexOf(value) === index;
+                }))
+                setOpen(true)
+                console.log(unres, unresCount)
+            })
+    }, [])
     const handleOpen = () => {
         setOpen(true);
     };
@@ -84,55 +107,63 @@ const Paths = () => {
         setOpen(false);
     };
     return (
-        <Box className={classes.container}>
-            <Box className={classes.header}>
-                <h2 className={classes.headerTitle}>ارزیابی مسیر 12‌گانه</h2>
+        <>
+            <AdminNav />
+            <Box className={classes.container}>
+                <Box className={classes.header}>
+                    <h2 className={classes.headerTitle}>ارزیابی مسیر 12‌گانه</h2>
+                </Box>
+                <Box className={classes.innerContainer}>
+                    <Box className={classes.row}>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=love"} className={classes.button}>مسئولیت پذیری در قبال خود وعشق</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=breathing"} className={classes.button}>تنفس</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=food"} className={classes.button}>تغذیه</ButtonBase>
+                    </Box>
+                    <Box className={classes.row}>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=feeling"} className={classes.button}>حس‌کردن</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=moving"} className={classes.button}>حرکت</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=felt"} className={classes.button}>احساس کردن</ButtonBase>
+                    </Box>
+                    <Box className={classes.row}>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=thinking"} className={classes.button}>فکر کردن</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=playing"} className={classes.button}>بازی کردن و کارکردن</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=connecting"} className={classes.button}>ارتباط برقرار کردن</ButtonBase>
+                    </Box>
+                    <Box className={classes.row}>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=realationgship"} className={classes.button}>صمیمیت</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=meaning"} className={classes.button}>یافتن معنا</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=transcening"} className={classes.button}>ورا رفتن</ButtonBase>
+                    </Box>
+                </Box>
+                <Box className={classes.botButtons}>
+                    <ButtonBase component={Link} to={'/admin/specilists-panel'} className={classes.return}>بازگشت</ButtonBase>
+                </Box>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <div className={classes.paper}>
+                            <p id="transition-modal-description">
+                                تعداد {unresCount} در مسیر های زیر باقی مانده است
+                            </p>
+                            {unres.map(item => (
+                                <p>{item}</p>
+                            ))}
+                            <ButtonBase className={classes.modalButton} onClick={handleClose}>متوجه شدم</ButtonBase>
+                        </div>
+                    </Fade>
+                </Modal>
             </Box>
-            <Box className={classes.innerContainer}>
-                <Box className={classes.row}>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=love"} className={classes.button}>مسئولیت پذیری در قبال خود وعشق</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=breathing"} className={classes.button}>تنفس</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=food"} className={classes.button}>تغذیه</ButtonBase>
-                </Box>
-                <Box className={classes.row}>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=feeling"} className={classes.button}>حس‌کردن</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=moving"} className={classes.button}>حرکت</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=felt"} className={classes.button}>احساس کردن</ButtonBase>
-                </Box>
-                <Box className={classes.row}>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=thinking"} className={classes.button}>فکر کردن</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=playing"} className={classes.button}>بازی کردن و کارکردن</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=connecting"} className={classes.button}>ارتباط برقرار کردن</ButtonBase>
-                </Box>
-                <Box className={classes.row}>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=realationgship"} className={classes.button}>صمیمیت</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=meaning"} className={classes.button}>یافتن معنا</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/quiz-subjects?quiz=transcening"} className={classes.button}>ورا رفتن</ButtonBase>
-                </Box>
-            </Box>
-            <Box className={classes.botButtons}>
-                <ButtonBase component={Link} to={'/admin/specilists-panel'} className={classes.return}>بازگشت</ButtonBase>
-            </Box>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <p id="transition-modal-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود</p>
-                        <ButtonBase className={classes.modalButton} onClick={handleClose}>متوجه شدم</ButtonBase>
-                    </div>
-                </Fade>
-            </Modal>
-        </Box>
+        </>
     )
 }
 

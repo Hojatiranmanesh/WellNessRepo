@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, ButtonBase, Divider, Snackbar, Modal, Backdrop, } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 import axios from 'axios';
 import persianDate from 'persian-date';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -22,7 +23,7 @@ const useStyle = makeStyles({
         position: "relative",
         backgroundColor: "#d4ebffba",
         marginBottom: 14,
-        margin: "0 auto"
+        margin: "0 auto",
     },
     resultFiller: {
         background: "linear-gradient(0deg, rgba(253,139,173,1) 0%, rgba(248,118,224,1) 100%)",
@@ -136,6 +137,7 @@ const QuizEval = () => {
         "rgba(180, 255, 113, 1"
     ])
     const [accordion, setAccordion] = useState([]);
+    const [specilistNote, setSpecilistNote] = useState("در حال بررسی");
     const [openSnack, setOpenSnack] = React.useState(false);
     const [snackType, setSnackType] = React.useState("");
     const [snackMessage, setSnackMessage] = React.useState("");
@@ -149,9 +151,6 @@ const QuizEval = () => {
         setModal(false);
     };
 
-    let quiz = useSelector(state => {
-        return state.quiz;
-    });
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -164,21 +163,25 @@ const QuizEval = () => {
     const user = localStorage.getItem('userid')
     const token = `bearer ${localStorage.getItem('jwt')}`
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
+        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/${user}`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {
-                console.log(res.data.data)
                 res.data.data.forEach((data, index) => {
+                    const date = new Date(data.created_at)
+                    var day = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+                    var time = new Date(data.created_at).get
+                    // console.log(new persianDate([, date.getMonth(), date.getDate()]).format())
+                    console.log(new persianDate(day).format('D MMMM YYYY'))
                     let newAcc = {
                         title: data.quiz.quizCategory,
-                        date: new persianDate(res.data.data[res.data.data.length - 1].created_at).format("D MMMM YYYY"),
-                        time: new persianDate(res.data.data[res.data.data.length - 1].created_at).format("H:m:s"),
+                        date: new persianDate(day).format('D MMMM YYYY'),
+                        time: new persianDate(day).format("H:m:s"),
                         answers: data.answers
                     }
+                    setSpecilistNote((data.setSpecilistNote) ? data.setSpecilistNote : "در حال بررسی")
                     setAccordion(accordion => [...accordion, newAcc]);
                 })
-
                 let array = [];
                 answers.forEach((answer, index) => {
                     let score = 0;
@@ -200,7 +203,7 @@ const QuizEval = () => {
             })
     }, [])
     return (
-        <Box style={{ marginTop: 16 }}>
+        <Box style={{ marginTop: 16, display: "flex", flexDirection: "column-reverse" }}>
             {accordion.map(element => (
                 <Accordion elevation={0} className={classes.accordion} classes={{ expanded: classes.acordionExpended }}>
                     <AccordionSummary
@@ -227,7 +230,7 @@ const QuizEval = () => {
                                     <div className={classes.resultWrapper}>
                                         <div className={classes.resultFiller}
                                             style={{
-                                                height: data * 10 + "%",
+                                                height: data * 10 - data + "%",
                                                 background: colors[index],
                                                 boxShadow: `0 0 15px ${shadowColors[index]}`,
                                                 fontSize: FontSize(1)
@@ -262,15 +265,7 @@ const QuizEval = () => {
                 >
                     <Box className={classes.modalContainer}>
                         <p className={classes.modalTitle}>نتیجه‌ی تحلیل و ارزیابی عملکرد</p>
-                        <p className={classes.modalContext}>نمودار ها به صورت برآیندی نمودار دایره ای رو تشکیل
-                            می دن که این نمودار دایره ای بعدهای مختلف ولنس
-                            شما رو از دیدگاه بالانس یا عدم بالانس نشون می دن
-                            مواردی که پایین تر از دایره ی صد قرار دارند
-
-                            در اون بعد ها شما از حالت تعادل پایین تر هستید
-                            و نیاز به فعالیت بیشتر در این زمینه ها وجود دارد
-                            در نتیجه ی تست برخی از فاکتور ها به شکل
-                            اختصار توضیح داده شدن</p>
+                        <p className={classes.modalContext}>{specilistNote}</p>
                         <ButtonBase className={classes.modalButton} onClick={handleClose}>بازگشت</ButtonBase>
                     </Box>
                 </Modal>

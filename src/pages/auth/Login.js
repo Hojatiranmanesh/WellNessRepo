@@ -8,30 +8,57 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useDispatch } from "react-redux";
 import { hideNav } from '../../actions';
+import logo from '../../assets/images/LogoNoShadow.png';
 import FontSize from '../../components/FontSize';
 
 const useStyles = makeStyles({
-    header: { height: 210, maxHeight: "40vh", padding: 40, backgroundColor: "#c4dffaad", fontSize: FontSize(1), },
+    header: { height: 250, maxHeight: "40vh", backgroundColor: "#c4dffaad", fontSize: FontSize(1), },
     headerTitle: {
         color: "#465b92",
         fontWeight: "bold",
-        width: "95%",
-        fontSize: FontSize(1),
-        textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1",
+        fontSize: FontSize(1.2),
+        // textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1",
         textAlign: "center",
-        padding: "0px 0 19px 0",
-        margin: 25,
         borderRadius: 20,
     },
+    headSubText: {
+        textAlign: "center",
+        marginBottom: 25,
+        marginTop: 10,
+        color: "#2f416788",
+    },
     body: {
-        padding: "20px 10px",
+        padding: "0px",
         margin: "30px auto 0 auto",
         borderRadius: 20,
         width: "95%",
         maxWidth: 600,
     },
     inputRoot: {
-        fontSize: FontSize(.9)
+        fontSize: FontSize(.9),
+        borderRadius: 15,
+        background: "#c4dffaad",
+        border: "1px solid #bbd7f2",
+        color: "#2f4167",
+        "& input": {
+            padding: 10,
+            height: 42,
+            textAlign: "center",
+        }
+    },
+    passwordRoot: {
+        fontSize: FontSize(.9),
+        borderRadius: 15,
+        textAlign: "center",
+        background: "#c4dffaad",
+        border: "1px solid #bbd7f2",
+        color: "#2f4167",
+        "& input": {
+            padding: 10,
+            height: 42,
+            marginLeft: 60,
+            textAlign: "center",
+        },
     },
     labelRoot: {
         fontWeight: "bold",
@@ -47,9 +74,10 @@ const useStyles = makeStyles({
         height: 57,
         margin: 15,
         borderRadius: 15,
-        background: "linear-gradient(126deg, rgba(73,94,149,1) 0%, rgba(87,108,164,1) 100%)",
+        // background: "linear-gradient(126deg, rgba(73,94,149,1) 0%, rgba(87,108,164,1) 100%)",
+        background: "#08afe4",
         fontSize: "1.1em",
-        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
+        // boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
         fontWeight: "bold",
         color: "#fff"
     },
@@ -57,19 +85,18 @@ const useStyles = makeStyles({
         width: 285,
         height: 52,
         borderRadius: 15,
-        borderWidth: 3,
         fontWeight: "bold",
         fontSize: FontSize(1.05),
-        border: "2px solid #5a9a7f",
-        color: "#5a9a7f",
-        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
+        border: "2px solid rgba(73,94,149,1)",
+        color: "rgba(73,94,149,1)",
+        // boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
     },
     forgotPassword: {
-        color: "#e65660",
-        textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1",
+        color: "#2f416788",
+        // textShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px  #ffffffd1",
         fontSize: FontSize(1.1),
         textAlign: "center",
-        fontWeight: "bold"
+        // fontWeight: "bold"
     },
 });
 
@@ -79,6 +106,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [logedIn, setLogedIn] = useState("");
     const [admin, setAdmin] = useState(false);
+    const [specialist, setSpecialist] = useState(false);
     const [openSnack, setOpenSnack] = React.useState(false);
     const [snackType, setSnackType] = React.useState("");
     const [snackMessage, setSnackMessage] = React.useState("");
@@ -101,6 +129,9 @@ const Login = () => {
                 localStorage.setItem('jwt', response.data.token);
                 if (response.data.user.userType === 'admin') {
                     setAdmin(true)
+                }
+                if (response.data.user.userType === 'specialist') {
+                    setSpecialist(true)
                 }
                 setLogedIn(true);
                 setOpenSnack(true);
@@ -126,10 +157,13 @@ const Login = () => {
     if (logedIn) {
         if (admin) {
             return <Redirect to='/admin/panel-selection' />
+        } else if (specialist) {
+            return <Redirect to='/panel-selection' />
         } else {
             return <Redirect to='/profile' />
         }
     }
+
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -142,39 +176,51 @@ const Login = () => {
     return (
         <Grid container direction="column" className={classes.root}>
             <Grid item container justify="center" alignContent="flex-start" className={classes.header}>
-                <Typography className={classes.headerTitle} variant={'h5'}>ورود به پنل کاربری </Typography>
+                <img style={{ width: 230 }} src={logo} alt="" />
+
             </Grid>
             <Grid item container className={classes.body} justify="center">
 
                 <form>
-                    <Grid item style={{ width: "100%", marginBottom: 35, display: "flex", justifyContent: "center" }} >
-                        <TextField id="phone" style={{ width: 316 }}
+                    <Typography className={classes.headerTitle} variant={'h5'}>ورود به پنل کاربری </Typography>
+                    <p className={classes.headSubText}>جهت ورود اطلاعات کاربری خود را وارد نمایید </p>
+                    <Grid item style={{ width: "100%", marginBottom: 20, display: "flex", justifyContent: "center" }} >
+                        <TextField id="phone" style={{ width: 289 }}
                             value={phone}
+                            placeholder="شماره‌همراه"
+                            variant="filled"
                             onChange={e => setPhone(e.target.value)}
                             InputProps={{
-                                classes: { root: classes.inputRoot }
+                                classes: { root: classes.inputRoot },
+                                disableUnderline: true,
                             }}
                             InputLabelProps={{
                                 classes: {
                                     root: classes.labelRoot,
                                     focused: classes.labelFocused
                                 }
-                            }} label="شماره همراه"
+                            }}
                         />
                     </Grid>
-                    <Grid item style={{ width: "100%", marginBottom: 45, display: "flex", justifyContent: "center" }}>
-                        <TextField id="password" style={{ width: 316 }} InputProps={{
-                            classes: { root: classes.inputRoot },
-                            endAdornment:
-                                <InputAdornment position="end" >
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                    >
-                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                        }}
+                    <Grid item style={{ width: "100%", marginBottom: 50, display: "flex", justifyContent: "center" }}>
+                        <TextField
+                            placeholder="گذرواژه"
+                            variant="filled"
+                            id="password"
+                            style={{ width: 289 }}
+                            InputProps={{
+                                classes: { root: classes.passwordRoot },
+                                disableUnderline: true,
+                                endAdornment:
+                                    <InputAdornment position="end" >
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                        >
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                            }}
                             onChange={e => setPassword(e.target.value)}
                             InputLabelProps={{
                                 classes: {
@@ -183,17 +229,20 @@ const Login = () => {
                                 }
                             }}
                             type={showPassword ? 'text' : 'password'}
-                            autoComplete="current-password" label="رمزعبور" />
+                            autoComplete="current-password" />
                     </Grid>
-                    <Grid item style={{ width: "100%", marginBottom: 5 }}>
+                    <Grid item style={{ width: "100%", }}>
                         <ButtonBase onClick={loginAction} className={classes.loginButton}>ورود</ButtonBase>
                     </Grid>
-                    <Grid item style={{ width: "100%", marginBottom: 15, display: "flex", justifyContent: "center" }}>
+                    {/* <Grid item style={{ width: "100%", marginBottom: 15, display: "flex", justifyContent: "center" }}>
                         <ButtonBase component={Link} to="/signup" className={classes.signupButton}>ثبت‌نام</ButtonBase>
-                    </Grid>
+                    </Grid> */}
 
-                    <Grid item>
-                        <Typography className={classes.forgotPassword} varient="body1">رمز عبور خود را فراموش کرده‌اید؟</Typography>
+                    <Grid item style={{ textAlign: "center" }}>
+                        <ButtonBase component={Link} to="/signup" className={classes.forgotPassword} varient="body1">
+                            حساب کاربری ندارید؟
+                            <span style={{ color: "#08afe4", marginRight: 8 }}>ثبت ‌نام کنید  </span>
+                        </ButtonBase>
                     </Grid>
                 </form>
             </Grid>

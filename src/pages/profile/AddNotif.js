@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Delete from '../../assets/images/Delete.png'
-import { Box, ButtonBase, Divider, FormControl, Select, MenuItem, TextField, Button } from '@material-ui/core';
+import { Box, ButtonBase, Divider, FormControl, Select, MenuItem, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from '../../components/Header';
 import addIcon from '../../assets/images/Add.png';
@@ -8,6 +8,8 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import water from '../../assets/images/water.png';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FontSize from '../../components/FontSize';
+import sendNotif from '../../sendNotif';
+import axios from 'axios';
 
 const useStyle = makeStyles({
     topContainer: {
@@ -98,12 +100,14 @@ const useStyle = makeStyles({
     timesAdded: {
         width: "100%",
         display: "flex",
+        flexWrap: "wrap",
         boxSizing: "border-box",
         justifyContent: "space-around",
         margin: "10px 0"
     },
     timeAdded: {
         backgroundColor: "#67c8f3",
+        margin: 5,
         width: 160,
         height: 50,
         display: "flex",
@@ -157,69 +161,23 @@ const useStyle = makeStyles({
     },
 });
 
-const publicVapidKey = 'BPBc8omBrJ-NtB_XcIW0S_QS4pVe_dNVECdvRiDWH3DsIQF2CshhYYUgep2U9DWlu7Huns5dzkrlypdRIrIgp8Q';
-async function send(minute, hour) {
-    // Register Service Worker
-    console.log("Registering service worker...");
-    const register = await navigator.serviceWorker.register("../../service-worker.js", {
-        scope: "/profile/notifications"
-    });
-    console.log("Service Worker Registered...");
-    console.log(register)
-    if (!('PushManager' in window)) {
-        console.log('Push messaging isn\'t supported.');
-        return;
-    }
-    //
-    if (Notification.permission === 'denied') {
-        console.log('The user has blocked notifications.');
-        return;
-    }
-    // Register Push.
-    await navigator.serviceWorker.ready;
-    console.log("Registering Push...");
-    let subscription = await register.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    });
-    console.log("Push Registered...");
-
-    let data = {
-        subscription: JSON.stringify(subscription),
-        minute: minute,
-        hour: hour
-    };
-    // Send Push Notification
-    console.log("Sending Push...");
-    await fetch("https://api.hamyarwellness.com/api/v1/subscribe", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            "content-type": "application/json"
-        }
-    });
-    console.log("Push Sent...");
-}
-
-function urlBase64ToUint8Array(base64String) {
-    const padding = "=".repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-        .replace(/\-/g, "+")
-        .replace(/_/g, "/");
-
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-
-    for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
+const deleteNotif = i => {
+    console.log("hce")
+    axios.delete(`https://api.hamyarwellness.com/api/v1/notifs/${i}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        .then(function (response) {
+            console.log(response.data.data)
+            window.location.reload(false); 
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 }
 
 const AddNotif = () => {
     const classes = useStyle();
     const [hour, setHour] = useState(22);
     const [minute, setMinute] = useState(22);
+    const [notifs, setNotifs] = useState([]);
     const incMin = () => {
         if (minute === 59) {
             setMinute(0);
@@ -248,13 +206,19 @@ const AddNotif = () => {
             setMinute(minute - 1)
         }
     }
-    const publicVapidKey = 'BPBc8omBrJ-NtB_XcIW0S_QS4pVe_dNVECdvRiDWH3DsIQF2CshhYYUgep2U9DWlu7Huns5dzkrlypdRIrIgp8Q';
-
-    //check serv worker
-
-
-
-    // Register SW, Register Push, Send Push
+    useEffect(() => {
+        axios.get(`https://api.hamyarwellness.com/api/v1/notifs`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+            .then(function (response) {
+                console.log(response.data.data)
+                setNotifs(response.data.data)
+            })
+            .catch(function (error) {
+                if (error.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+                console.log(error);
+            })
+    }, [])
 
     return (
         <Box>
@@ -264,7 +228,7 @@ const AddNotif = () => {
             </Box>
             <Box style={{ padding: "0 20px" }}>
                 <p className={classes.recomendText}>یادآوری‌های پیشنهادی مرکز ولنس برای شما</p>
-                <Box className={classes.daySelection}>
+                {/* <Box className={classes.daySelection}>
                     <ButtonBase className={classes.dayButton}>شنبه</ButtonBase>
                     <ButtonBase className={classes.dayButton}>یک‌شنبه</ButtonBase>
                     <ButtonBase className={classes.dayButton}>دوشنبه</ButtonBase>
@@ -273,13 +237,13 @@ const AddNotif = () => {
                     <ButtonBase className={classes.dayButton}>پنج‌شنبه</ButtonBase>
                     <ButtonBase className={classes.dayButton}>جمعه</ButtonBase>
                     <ButtonBase className={classes.dayButton}>همه</ButtonBase>
-                </Box>
+                </Box> */}
                 <Divider variant="middle" style={{ with: "90%", marginBottom: 20 }} />
                 <Box className={classes.timeSelectionContainer}>
-                    <ButtonBase className={classes.add} onClick={send}>
+                    {/* <ButtonBase className={classes.add}>
                         <img style={{ margin: "0 auto", width: 27, height: 27, opacity: .9 }} src={addIcon} alt="اضافه" />
                         <span>اضافه کردن</span>
-                    </ButtonBase>
+                    </ButtonBase> */}
                     <Box className={classes.timeSelection}>
                         <Box className={classes.minAdjust}>
                             <ExpandLessIcon onClick={incMin} />
@@ -296,14 +260,14 @@ const AddNotif = () => {
                 </Box>
                 <Box>
                     <Box className={classes.timesAdded}>
-                        <Box className={classes.timeAdded}>
-                            <img style={{ width: 27, height: 27, opacity: .8 }} src={Delete} alt="حذف" />
-                            <span style={{ opacity: .9 }}>18:50</span>
-                        </Box>
-                        <Box className={classes.timeAdded}>
-                            <img style={{ width: 27, height: 27, opacity: .8 }} src={Delete} alt="حذف" />
-                            <span style={{ opacity: .9 }}>21:50</span>
-                        </Box>
+                        {notifs.map(item => (
+                            <Box className={classes.timeAdded}>
+                                <ButtonBase onClick={() => deleteNotif(item._id)}>
+                                    <img style={{ width: 27, height: 27, opacity: .8 }} src={Delete} alt="حذف" />
+                                </ButtonBase>
+                                <span style={{ opacity: .9 }}>{item.hour}:{item.minute}</span>
+                            </Box>
+                        ))}
                     </Box>
                 </Box>
                 <Divider variant="middle" style={{ with: "90%", marginTop: 20 }} />
@@ -316,10 +280,10 @@ const AddNotif = () => {
                             id="demo-simple-select-filled"
                             disableUnderline
                         >
-                            <MenuItem value="">
+                            <MenuItem value="" >
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={10}>
+                            <MenuItem value={1}>
                                 <Box className={classes.selectitem}>
                                     <img src={water} alt="" />
                                     <span style={{ marginRight: 20, }}>یادآوری نوشیدن آب</span>
@@ -335,7 +299,7 @@ const AddNotif = () => {
                     />
                     <ButtonBase onClick={() => {
                         if ("serviceWorker" in navigator) {
-                            send(minute, hour).catch(err => console.error(err));
+                            sendNotif(minute, hour, "آب بنوشید").catch(err => console.error(err));
                         } else {
                             console.log("no service worker")
                         }

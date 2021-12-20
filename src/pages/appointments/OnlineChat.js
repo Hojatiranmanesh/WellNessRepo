@@ -9,6 +9,7 @@ import VideoIcon from '../../assets/images/Video.png';
 import CallIcon from '../../assets/images/Call.png';
 import FolderIcon from '../../assets/images/Fully Charged.png';
 import Chat from '../../components/Chat';
+import Headphone from '../../assets/images/headphones.png';
 
 
 const useStyle = makeStyles({
@@ -58,7 +59,21 @@ const useStyle = makeStyles({
     },
     tabLogo: {
         margin: "0 auto"
-    }
+    },
+    headphone: {
+        borderRadius: "50%",
+        background: "#737cf1",
+        width: 90,
+        height: 90,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 20,
+        "& img": {
+            width: 60,
+            height: 60,
+        },
+    },
 });
 
 const Appointments = () => {
@@ -71,14 +86,14 @@ const Appointments = () => {
     return (
         <>
             <Box>
-                <Header component="link" to="/appointments/OnlineApoointment" setting={true} />
+                <Header component="link" to="/appointments" warning={true} />
                 <Box className={classes.topWrapper}>
-                    <Box className={classes.docPic}>
-                        <img src={DoctorImage} alt="عکس متخصص" />
+                    <Box className={classes.headphone}>
+                        <img src={Headphone} alt="" />
                     </Box>
-                    <Box className={classes.docDesc}>
-                        <p className={classes.docName}>دکتر سارا شکیبایی پور</p>
-                        <p className={classes.conTime}> زمان مشاوره شما 21:18</p>
+                    <Box>
+                        <p style={{ color: "#839bb5" }}>گفتگو با مشاوران ولنس </p>
+                        <p style={{ color: "#839bb5", fontSize: ".8em" }}>ساعات پاسخگویی 8 الی 17</p>
                     </Box>
                 </Box>
                 <Tabs style={{ backgroundColor: "#c4dffaad" }} TabIndicatorProps={{
@@ -95,25 +110,25 @@ const Appointments = () => {
                             </ButtonBase>
                         )} />
 
-                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }}
+                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }} disabled
                         label="مشاوره صوتی" component={() => (
-                            <ButtonBase className={classes.tabButton} onClick={() => setSelectedTab(1)}>
-                                <img style={{ width: 32, height: 32 }} className={classes.tabLogo} src={CallIcon} alt="صوت" />
-                                <p className={classes.tabText}>مشاوره صوتی</p>
+                            <ButtonBase className={classes.tabButton}>
+                                <img style={{ width: 32, height: 32, opacity: .3 }} className={classes.tabLogo} src={CallIcon} alt="صوت" />
+                                <p style={{ opacity: .3 }} className={classes.tabText}>مشاوره صوتی</p>
                             </ButtonBase>
                         )} />
-                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }}
+                    <Tab disabled classes={{ root: classes.tabRoot, selected: classes.selectedTab }}
                         label="مشاوره تصویری" component={() => (
-                            <ButtonBase className={classes.tabButton} onClick={() => setSelectedTab(2)}>
-                                <img style={{ width: 40, height: 28 }} className={classes.tabLogo} src={VideoIcon} alt="ویدیو" />
-                                <p className={classes.tabText}>مشاوره تصویری</p>
+                            <ButtonBase className={classes.tabButton} >
+                                <img style={{ width: 40, height: 28, opacity: .3 }} className={classes.tabLogo} src={VideoIcon} alt="ویدیو" />
+                                <p style={{ opacity: .3 }} className={classes.tabText}>مشاوره تصویری</p>
                             </ButtonBase>
                         )} />
-                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }}
+                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }} disabled
                         label="ارسال پرونده" component={() => (
-                            <ButtonBase className={classes.tabButton} onClick={() => setSelectedTab(3)}>
-                                <img style={{ width: 32, height: 32 }} className={classes.tabLogo} src={FolderIcon} alt="پرونده" />
-                                <p className={classes.tabText}>ارسال پرونده</p>
+                            <ButtonBase className={classes.tabButton} >
+                                <img style={{ width: 32, height: 32, opacity: .3 }} className={classes.tabLogo} src={FolderIcon} alt="پرونده" />
+                                <p style={{ opacity: .3 }} className={classes.tabText}>ارسال نتایج</p>
                             </ButtonBase>
                         )} />
                 </Tabs>

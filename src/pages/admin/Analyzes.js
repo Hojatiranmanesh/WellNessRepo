@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, ButtonBase, Backdrop, Modal, Fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link, } from 'react-router-dom';
+import AdminNav from '../../components/AdminNav'
+import axios from 'axios';
 
 const useStyles = makeStyles({
     container: {
@@ -38,7 +40,7 @@ const useStyles = makeStyles({
         borderRadius: 11,
         width: 180,
         height: 40,
-        fontSize:".7em",
+        fontSize: ".7em",
         color: "#fff",
         backgroundColor: "#506497",
         margin: "20px 5px",
@@ -79,7 +81,10 @@ const useStyles = makeStyles({
 
 const Analyzes = () => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = useState(false);
+    const [unResEDS, setUnResEDS] = useState([]);
+    const [unResHealth, setUnResHealth] = useState([]);
+    const [unResQuiz, setUnResQuiz] = useState([]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -88,42 +93,90 @@ const Analyzes = () => {
     const handleClose = () => {
         setOpen(false);
     };
+    useEffect(() => {
+        const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
+        const url = `https://api.hamyarwellness.com/api/v1/appointments/`
+        axios.get(url, header)
+            .then(response => {
+                response.data.data.forEach(item => {
+                    if (item.status === 'confirm' && !item.response) {
+                        if (item.type === 'special') {
+                            console.log(item)
+                            setUnResEDS(oldArray => [...oldArray, item]);
+                        }
+                        if (item.type === 'general') {
+                            console.log(item)
+                            setUnResHealth(oldArray => [...oldArray, item]);
+                        }
+                    }
+
+                })
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err)
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+            })
+        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/`, header)
+            .then(res => {
+                res.data.data.forEach(item => {
+                    if (!item.specilistNote) {
+                        setUnResQuiz(oldArray => [...oldArray, item]);
+                    }
+                })
+                setOpen(true)
+                console.log(res.data.data)
+            })
+    }, [])
     return (
-        <Box className={classes.container}>
-            <Box className={classes.header}>
-                <h2 className={classes.headerTitle}>آنالیز‌ها</h2>
-            </Box>
-            <Box className={classes.innerContainer}>
-                <p className={classes.caption}>به منظور بازگزاری فایل‌های نتیجه، بخش مورد نظر خود را انتخاب کنید</p>
-                <Box className={classes.buttons}>
-                    <ButtonBase component={Link} to={"/admin/paths"} className={classes.button}>ارزیابی مسیرهای 12 گانه</ButtonBase>
-                    <ButtonBase className={classes.button}>فایل‌های مراجعه کنندگان دستگاه هلث</ButtonBase>
-                    <ButtonBase className={classes.button}>فایل‌های مراجعه کنندگان دستگاه EDS</ButtonBase>
+        <>
+            <AdminNav />
+            <Box className={classes.container}>
+                <Box className={classes.header}>
+                    <h2 className={classes.headerTitle}>ارزیابی‌ها</h2>
                 </Box>
-                <Box className={classes.botButtons}>
-                    <ButtonBase className={classes.return}>بازگشت</ButtonBase>
+                <Box className={classes.innerContainer}>
+                    <p className={classes.caption}>به منظور بازگزاری فایل‌های نتیجه، بخش مورد نظر خود را انتخاب کنید</p>
+                    <Box className={classes.buttons}>
+                        <ButtonBase component={Link} to={"/admin/paths"} className={classes.button}>ارزیابی مسیرهای 12 گانه</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/analyzes/health"} className={classes.button}>فایل‌های مراجعه کنندگان دستگاه هلث</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/analyzes/eds"} className={classes.button}>فایل‌های مراجعه کنندگان دستگاه EDS</ButtonBase>
+                    </Box>
+                    <Box className={classes.botButtons}>
+                        <ButtonBase className={classes.return}>بازگشت</ButtonBase>
+                    </Box>
                 </Box>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <div className={classes.paper}>
+                            <p id="transition-modal-description">
+                                تست های EDS در انتظار پاسخ: {unResEDS.length}
+                            </p>
+                            <p id="transition-modal-description">
+                                تست های Health در انتظار پاسخ: {unResHealth.length}
+                            </p>
+                            <p id="transition-modal-description">
+                                آزمون های ذر انتظار پاسخ: {unResQuiz.length}
+                            </p>
+                            <ButtonBase className={classes.modalButton} onClick={handleClose}>متوجه شدم</ButtonBase>
+                        </div>
+                    </Fade>
+                </Modal>
             </Box>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <p id="transition-modal-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود</p>
-                        <ButtonBase className={classes.modalButton} onClick={handleClose}>متوجه شدم</ButtonBase>
-                    </div>
-                </Fade>
-            </Modal>
-        </Box>
+        </>
     )
 }
 

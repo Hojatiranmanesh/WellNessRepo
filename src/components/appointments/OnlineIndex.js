@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from 'react-router-dom/Link';
 import { useDispatch } from "react-redux";
 import { setResType } from '../../actions';
+import FontSize from '../FontSize';
 
 const useStyle = makeStyles({
     root: {
@@ -44,10 +45,8 @@ const OnlineIndex = () => {
     const dispatch = useDispatch()
     return (
         <Box className={classes.root}>
-            <ButtonBase component={Link} to="/appointments/OnlineApoointment" onClick={() => { dispatch(setResType("specialized")) }} className={classes.button}>ارزیابی و ارتقاء تخصصی</ButtonBase>
-            <ButtonBase component={Link} to="/appointments/OnlineApoointment" onClick={() => { dispatch(setResType("general")) }} className={classes.button}>ارزیابی و ارتقاء عمومی</ButtonBase>
-            <Divider style={{ width: "90%", margin: "20px auto" }} />
-            <ButtonBase className={classes.recordButton} >مشاهده فایل های مشاوره پیشین</ButtonBase>
+            <ButtonBase style={{ fontSize: FontSize(1) }} component={Link} to="/appointments/OnlineApoointment/chat" onClick={() => { dispatch(setResType("specialized")) }} className={classes.button}>گفتگوی آنلاین</ButtonBase>
+            
         </Box>
     )
 }

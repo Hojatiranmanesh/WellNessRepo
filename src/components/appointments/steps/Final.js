@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Box, TextField } from '@material-ui/core';
-import persianDate from 'persian-date';
-import { useSelector } from 'react-redux';
+import moment from 'moment-jalaali';
+import { useLocation } from 'react-router-dom';
 import FontSize from '../../FontSize';
 
 const useStyles = makeStyles({
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
-        color: "#2f4167",
+        color: "#5469a0",
         fontWeight: "Bold",
         fontSize: ".9em"
     },
@@ -43,19 +43,28 @@ const useStyles = makeStyles({
     }
 })
 
+function isWholeNumber(num) {
+    return num === Math.round(num);
+}
+
+function useQuery() {
+    const { search } = useLocation();
+
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 const Final = ({ setDesc, day, duration, hour }) => {
+    let query = useQuery();
     const classes = useStyles()
     const [state, setState] = useState()
-    const resType = useSelector(state => {
-        return state.resType;
-    });
+    const resType = query.get("type");
     useEffect(() => {
         setDesc(state)
 
     }, [state, setDesc])
     let date = new Date();
     date.setDate(date.getDate() + day);
-    const persian_date = new persianDate(date).toLocale('fa').format('dd MMMM');
+    console.log(day)
+    const persian_date = new moment(day).format('jDD jMMMM');
     return (
         <Box className={classes.root}>
             <Box className={classes.info} style={{ fontSize: FontSize(1) }}>
@@ -63,8 +72,8 @@ const Final = ({ setDesc, day, duration, hour }) => {
                 {(resType === "general" ? " عمومی" : " تخصصی")}
             </Box>
             <Box style={{ fontSize: FontSize(1) }} className={classes.info}>تاریخ {persian_date}</Box>
-            <Box style={{ fontSize: FontSize(1) }} className={classes.info}>مشاوره {duration * 60} دقیقه‌ای</Box>
-            <Box style={{ fontSize: FontSize(1) }} className={classes.info}>{hour}:00</Box>
+            <Box style={{ fontSize: FontSize(1) }} className={classes.info}>{duration}</Box>
+            <Box style={{ fontSize: FontSize(1) }} className={classes.info}>{Math.floor(hour)}:{isWholeNumber(hour) ? "00" : "30"}</Box>
             <Box style={{ fontSize: FontSize(1) }} className={classes.desc}>
                 <p style={{ fontSize: FontSize(1) }} className={classes.label}>توضیحات</p>
                 <TextField style={{ fontSize: FontSize(1) }} className={classes.input} value={state} onChange={(e) => setState(e.target.value)}

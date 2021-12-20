@@ -69,9 +69,9 @@ const useStyles = makeStyles({
     boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
     margin: 9,
     padding: 10,
-    borderRadius: 23,
-    height: 45,
-    width: 45,
+    borderRadius: 16,
+    height: 53,
+    width: 53,
     "& img": {
       height: 30,
     },
@@ -114,6 +114,7 @@ const Profile = () => {
   const [phone, setPhone] = useState();
   const [image, setImage] = useState();
   const dispatch = useDispatch();
+ 
 
 
   const logout = () => {
@@ -154,7 +155,7 @@ const Profile = () => {
     <Box>
 
       <Grid className={classes.topBar} container justify="flex-end">
-        <Header component="dots" setting={true} />
+        <Header component="dots" setting={true} to={'/profile/broadcast'} />
         <Grid
           item
           className={classes.nameBox}
@@ -174,7 +175,7 @@ const Profile = () => {
           </Grid>
         </Grid>
         <Grid className={classes.morphButtons} item container justify="center">
-          <ButtonBase component={Link} className={classes.sqareButtons}>
+          <ButtonBase component={Link} to={"/profile/support"} className={classes.sqareButtons}>
             <img style={{ height: 28 }} src={settings} alt="settings" />
           </ButtonBase>
           <ButtonBase component={Link} to="/profile/notifications" className={classes.sqareButtons}>

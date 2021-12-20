@@ -76,8 +76,10 @@ self.addEventListener('message', function (event) {
 self.addEventListener('push', function (e) {
   var data = e.data.json();
   console.log('push recieved');
+  console.log('check');
+  console.log(data.payload.body);
+  console.log("title is ".concat(data.title));
   self.registration.showNotification(data.title, {
-    body: 'آب بنوشید',
-    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJuSURBVFiF1ZdLaxNRFIC/c2YS00bRYFuRumiLm4KKIrh0pwtduPEPdCMu3QuKP8CNK3Gpda/YjT9AkKLiokXEB9Xio2k1kbbpIzNzXDRTpzZpOjMXxAMh99x7Hh8nZ87cCAkpXn9xQ4RbmxtLK0RfawkDf7U5fqEHh6Iug/2XAH5SOTu8vz/ANvWylRk4fnBTDxDv/gNTEYlcAUi8+Lhk50NjwlcK8V4jgOr6VodejzdnKhxzBaFxchEeJZN3kkbI6GSNKTNz8vNpnBzYdXe7hFARHqdJnoR4WedmbgCglNXZYJ8LgH8qKrCQ2Rk+5wXwpxZ55guX2h02d3jQQjD6uJsbYLLGiU6H82swvdjRVwZnuQyM5wFQYDirc6SczJM8BsgsYvmb2Ae+AYezOHvC+3j9qW4VSlTa2f1Y5xBCsS2AwBODK2mTFzyiL6e5F+tWZMxCbrezXQtgNdy+r2BqcDFtcoBmiA6+YizWo4hq2hie0lRgMAsAQBgxmlDn0voLrOZqIhOSkyJ1BVRYVHJMM42YjteSpQJGXYGnWZIXPKKgzMNYHyozD6S6pKiw4EP7MdxNmiHqrXAVuAMgIuHMsv0Mjb7nta22SwGJix6M9EJBAeW7DwxkAQDAGNqqUlWh70MDgkQtXv+CevOPfm0EKkXQiFm3r2PZ6IOeLlFLXsvcY8YtQGsW9Hg7mxVbWc145/pCMgdQ6hLVb52r8dYpgAnz0L0C0vqcOuC6B3ZRAQUiAxVCEYmcAgjde6B/z8a3B2vw11+z3ABC1QyO7oUjiYv+uf7EhLLWWmm4B1DmLISCQCEReTnc/jpWoQ7wG5qswN4w+5QKAAAAAElFTkSuQmCC"
+    body: data.payload.body
   });
 }); // Any other custom service worker logic can go here.

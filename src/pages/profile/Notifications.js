@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, ButtonBase, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from '../../components/Header';
@@ -7,6 +7,7 @@ import delte from '../../assets/images/Delete.png';
 import water from '../../assets/images/water.png';
 import { Link } from 'react-router-dom';
 import FontSize from '../../components/FontSize';
+import axios from 'axios';
 
 const useStyle = makeStyles({
     topContainer: {
@@ -90,8 +91,34 @@ const useStyle = makeStyles({
 });
 
 
+const deleteNotif = i => {
+    console.log("hce")
+    axios.delete(`https://api.hamyarwellness.com/api/v1/notifs/${i}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        .then(function (response) {
+            console.log(response.data.data)
+            window.location.reload(false); 
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+}
+
 const Notifications = () => {
     const classes = useStyle();
+    const [notifs, setNotifs] = useState([]);
+    useEffect(() => {
+        axios.get(`https://api.hamyarwellness.com/api/v1/notifs`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+            .then(function (response) {
+                console.log(response.data.data)
+                setNotifs(response.data.data)
+            })
+            .catch(function (error) {
+                if (error.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+                console.log(error);
+            })
+    }, [])
     return (
         <Box>
             <Box className={classes.topContainer}>
@@ -111,26 +138,20 @@ const Notifications = () => {
                     <img className={classes.add} src={add} alt="اضافه" />
                     اضافه کردن یادآوری جدید
                 </ButtonBase>
-                <Box className={classes.reminder}>
-                    <Box className={classes.reminderLeft}>
-                        <img src={water} alt="آب" />
-                        <p style={{ marginRight: 10 }}>یادآوری نوشیدن آب</p>
+                {notifs.map(item => (
+                    <Box className={classes.reminder}>
+                        <Box className={classes.reminderLeft}>
+                            <img src={water} alt="آب" />
+                            <p style={{ marginRight: 10 }}>{item.body}</p>
+                        </Box>
+                        <Box className={classes.reminderRight}>
+                            <span style={{ marginLeft: 10, fontSize: "1.3em" }}>{item.hour}:{item.minute}</span>
+                            <ButtonBase onClick={()=>{deleteNotif(item._id)}}><img className={classes.delete} src={delte} alt="حذف" /></ButtonBase>
+                        </Box>
                     </Box>
-                    <Box className={classes.reminderRight}>
-                        <span style={{ marginLeft: 10, fontSize: "1.3em" }}>18:30</span>
-                        <ButtonBase><img className={classes.delete} src={delte} alt="حذف" /></ButtonBase>
-                    </Box>
-                </Box>
-                <Box className={classes.reminder}>
-                    <Box className={classes.reminderLeft}>
-                        <img src={water} alt="آب" />
-                        <p style={{ marginRight: 10, fontSize: FontSize(1) }}>یادآوری نوشیدن آب</p>
-                    </Box>
-                    <Box className={classes.reminderRight}>
-                        <span style={{ marginLeft: 10, fontSize: FontSize(1.3) }}>18:30</span>
-                        <ButtonBase><img className={classes.delete} src={delte} alt="حذف" /></ButtonBase>
-                    </Box>
-                </Box>
+                ))}
+
+
             </Box>
 
         </Box>

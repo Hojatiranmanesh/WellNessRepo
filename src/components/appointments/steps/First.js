@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, ButtonBase } from '@material-ui/core';
+import { Box, Snackbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import persianDate from 'persian-date';
-import FontSize from '../../FontSize';
+import Alert from '@material-ui/lab/Alert';
+import DatePicker from 'react-datepicker2';
+import moment from 'moment-jalaali';
+import isHoliday from 'shamsi-holiday';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
     root: {
@@ -27,55 +30,68 @@ const useStyles = makeStyles({
         color: "#fff",
         fontSize: ".9em",
         borderRadius: 10,
+    },
+    calender: {
+        border: "none",
+        textAlign: "center",
+        padding: 10,
+        fontSize: "1.3em",
+        backgroundColor: "#c9e3fc",
+        width: 283,
+        height: 60,
+        borderRadius: 15,
+        color: "#52679f",
+        "&::placeholder": {
+            color: "#52679f50",
+        }
     }
 });
 
 const First = ({ setDay }) => {
     const classes = useStyles();
-    const [active, setActive] = useState('list');
-    const array = [];
-    for (let i = 1; i <= 6; i++) {
-        let newDate = new Date();
-        const date = new persianDate(newDate.setDate(newDate.getDate() + i)).toLocale('fa').format('dddd / DD MMMM');
-        array.push(date)
-    }
+    const [date, setDate] = useState(new Date());
+    const [openSnack, setOpenSnack] = useState(false);
     useEffect(() => {
-        setDay(active)
+        setDay(date)
+    }, [date, setDay])
+    const newDate = e => {
+        console.log(e._d)
+        console.log(isHoliday(e._d))
+        if (isHoliday(e._d)) {
+            setDate("")
+            setOpenSnack(true)
+        } else {
+            setDate(e)
+        }
+    }
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
-    }, [active, setDay])
+        setOpenSnack(false);
+    };
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
     return (
         <Box className={classes.root}>
-            <ButtonBase
-                className={(active === 0) ? classes.buttonActive : classes.button}
-                style={{ fontSize: FontSize(1) }}
-                onClick={() => setActive(0)}>
-                {array[0]}
-            </ButtonBase>
-            <ButtonBase
-                style={{ fontSize: FontSize(1) }}
-                className={(active === 1) ? classes.buttonActive : classes.button} onClick={() => setActive(1)}>
-                {array[1]}
-            </ButtonBase>
-            <ButtonBase
-                style={{ fontSize: FontSize(1) }}
-                className={(active === 2) ? classes.buttonActive : classes.button} onClick={() => setActive(2)}>
-                {array[2]}
-            </ButtonBase>
-            <ButtonBase
-                style={{ fontSize: FontSize(1) }}
-                className={(active === 3) ? classes.buttonActive : classes.button} onClick={() => setActive(3)}>
-                {array[3]}
-            </ButtonBase>
-            <ButtonBase
-                style={{ fontSize: FontSize(1) }}
-                className={(active === 4) ? classes.buttonActive : classes.button} onClick={() => setActive(4)}>
-                {array[4]}
-            </ButtonBase>
-            <ButtonBase
-                style={{ fontSize: FontSize(1) }}
-                className={(active === 5) ? classes.buttonActive : classes.button} onClick={() => setActive(5)}>
-                {array[5]}
-            </ButtonBase>
+            <DatePicker
+                date={date}
+                className={classes.calender}
+                onChange={newDate}
+                min={moment()}
+                max={moment().add(6, 'months')}
+                timePicker={false}
+                showTodayButton={false}
+                isGregorian={false}
+                placeholder="تاریخ مورد نظر"
+            />
+            <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleCloseSnack}>
+                <Alert onClose={handleCloseSnack} severity='error'>
+                    روز تعطیل
+                </Alert>
+            </Snackbar>
         </Box >
     );
 }

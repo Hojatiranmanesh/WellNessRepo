@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { Box, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import user from "../assets/images/sweatDreams.png";
+import user from "../assets/images/demoUser.png";
 import send from "../assets/images/send.png";
 import axios from "axios";
+import moment from 'moment-jalaali';
+
 
 const socket = io.connect('https://api.hamyarwellness.com');
 
@@ -21,32 +23,37 @@ const useStyles = makeStyles({
     },
     messageBox: {
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        padding: "5px 15px"
+        padding: "5px 15px",
     },
     userImage: {
-        height: 62,
-        width: 62,
+        height: 50,
+        width: 50,
         borderRadius: "50%",
         margin: "0 15px",
+        objectFit: "cover",
         boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
     },
     messageContainer: {
-        padding: 5,
-        borderRadius: 5,
-        height: 35,
+        padding: "2px 20px",
+        borderRadius: 15,
+        minHeight: 35,
+        minWidth: 143,
         display: 'flex',
+        fontSize: ".9em",
         alignItems: 'center'
     },
     input: {
         position: "fixed",
         bottom: 66,
-        width: "100%",
-        backgroundColor: "#d5e1ed",
+        width: "calc(100% - 20px)",
+        backgroundColor: "#c9e3fc",
         height: 70,
         alignItems: "center",
         display: 'flex',
         justifyContent: 'center',
+        padding: "0 10px"
     },
     chatInput: {
         width: "calc(100% - 70px)",
@@ -54,14 +61,23 @@ const useStyles = makeStyles({
         borderRadius: 15,
         height: 50,
         margin: "0 5px",
-        backgroundColor: "#dde7f3",
+        backgroundColor: "#d4ebff",
         outline: 0,
+        padding: "0 10px",
+        color: "rgb(119, 134, 163)",
+        "&::placeholder": {
+            color: "#00000044"
+        }
     },
     sendButton: {
-        padding: "11px 7px 9px 12px",
+        padding: "16px 12px 14px 17px",
         backgroundColor: "#08afe4",
         borderRadius: 15,
         marginRight: 5
+    },
+    chatName: {
+        fontSize: ".7em",
+        color: "#7787a1",
     }
 });
 
@@ -71,22 +87,22 @@ const Chat = () => {
     const classes = useStyles();
     const [messageInput, setMessageInput] = useState('');
     const [messages, setMessages] = useState([
-        { type: "recieved", message: "سلام", },
+
     ]);
     useEffect(() => {
         axios.get(`https://api.hamyarwellness.com/api/v1/messages/${localStorage.getItem('userid')}`)
             .then(res => {
+                console.log(res);
                 res.data.data.forEach(element => {
                     let type;
-                    if (element.user === localStorage.getItem('userid')) {
+                    if (element.user._id === element.sender._id) {
                         type = 'sent'
                     } else {
                         type = 'recieved'
                     }
-                    console.log(element)
-                    setMessages(messages => [...messages, { type: type, message: element.message }]) 
+                    setMessages(messages => [...messages, { type: type, message: element.message, image: element.sender.image, name: element.sender.firstname + " " + element.sender.lastname, date: element.date }])
                 });
-                
+
             })
             .catch(err => {
                 console.log(err)
@@ -99,7 +115,7 @@ const Chat = () => {
     }
 
     const sendMessage = () => {
-        socket.emit('chatMessage', { message: messageInput, user: localStorage.getItem('userid') });
+        socket.emit('chatMessage', { message: messageInput, user: localStorage.getItem('userid'), sender: localStorage.getItem('userid') });
         setMessageInput("");
         const messageListener = message => {
             console.log(message);
@@ -109,10 +125,9 @@ const Chat = () => {
             } else {
                 type = 'recieved'
             }
-            setMessages(messages => [...messages, { type: type, message: message.message }])
+            setMessages(messages => [...messages, { type: type, message: message.message, date: new Date() }])
         }
         socket.once('message', messageListener);
-
     };
 
 
@@ -123,23 +138,28 @@ const Chat = () => {
                     return (
                         <Box className={classes.messageBox}
                             style={{
-                                flexDirection: (item.type === "recieved") ? "row" : "row-reverse",
-                            }}
-                        >
-                            <img className={classes.userImage} src={user} alt="user" />
-                            <Box className={classes.messageContainer}
-                                style={{
-                                    background: (item.type === "recieved") ? "#d7e1ed" : "#08afe4",
-                                    color: (item.type === "recieved") ? "#7786a3" : "#dbe9f4",
-                                }}
-                            >{item.message}</Box>
+                                alignItems: (item.type === "sent") ? "flex-end" : "flex-start",
+                            }}>
+                            <Box style={{
+                                display: 'flex',
+                                flexDirection: (item.type === "sent") ? "row" : "row-reverse",
+                            }}>
+                                <Box className={classes.messageContainer}
+                                    style={{
+                                        background: (item.type === "sent") ? "#c9e3fc" : "#08afe4",
+                                        color: (item.type === "sent") ? "#7786a3" : "#dbe9f4",
+                                    }}
+                                >{item.message}</Box>
+                                {(item.type === "sent") ? <img className={classes.userImage} src={(item.image !== undefined) ? `https://api.hamyarwellness.com/${item.image}` : user} alt="user" /> : <img className={classes.userImage} src={(item.image) ? `https://api.hamyarwellness.com/${item.image}` : user} alt="user" />}
+                            </Box>{console.log(item.date)}
+                            <p className={classes.chatName} style={{ marginRight: (item.type === "sent") ? "0" : 80, marginLeft: (item.type === "recieved") ? "0" : 80, }}>{item.name} {moment(new Date(item.date)).format('jD jMMMM jYYYY HH:SS')}</p>
                         </Box>
                     )
                 })}
             </Box>
             <Box className={classes.input}>
                 <ButtonBase className={classes.sendButton} onClick={sendMessage}>
-                    <img style={{ width: 32 }} src={send} alt="ارسال" />
+                    <img style={{ width: 20 }} src={send} alt="ارسال" />
                 </ButtonBase>
                 <input
                     className={classes.chatInput}
@@ -151,7 +171,7 @@ const Chat = () => {
                     onChange={handleMessageWrite}
                 />
             </Box>
-        </Box>
+        </Box >
     )
 }
 

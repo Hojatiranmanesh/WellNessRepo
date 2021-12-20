@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import breath from '../assets/images/breathing.jpg';
+import breath from '../assets/images/120088-Just-Breathe.png';
 import relax from '../assets/images/nature.jpg';
 import Link from 'react-router-dom/Link';
 import { ButtonBase } from '@material-ui/core';
 import FontSize from './FontSize';
+
 
 
 const useStyles = makeStyles({
@@ -33,9 +34,8 @@ const useStyles = makeStyles({
         width: "100%",
         height: "100%",
         backgroundColor: "#00000057",
-        textAlign: 'right',
-        paddingTop: 35,
-        paddingRight: 10
+        paddingTop: 20,
+        paddingLeft: 10
     },
     relax: {
         background: `url(${relax}) `,

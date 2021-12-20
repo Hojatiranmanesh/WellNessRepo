@@ -1,4 +1,4 @@
-import { Box, ButtonBase } from '@material-ui/core';
+import { Box, ButtonBase, Divider } from '@material-ui/core';
 import react, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import banner from '../assets/images/banner.png';
@@ -12,11 +12,11 @@ const useStyle = makeStyles({
         display: "flex",
         justifyContent: "center",
         textAlign: "center",
-        margin: "40px 10px",
+        margin: "40px 10px 10px",
         flexWrap: "wrap"
     },
     category: {
-        width: 156,
+        width: "40%",
         height: 50,
         display: "flex",
         borderRadius: 10,
@@ -31,24 +31,41 @@ const useStyle = makeStyles({
     bannerWrapper: {
         display: "flex",
         justifyContent: "center",
+        marginBottom: 40,
     },
     banner: {
         width: 500,
         maxWidth: "90vw",
         marginBottom: 50
-    }
+    },
+    cartButton: {
+        width: 320,
+        height: 52,
+        textAlign: "center",
+        margin: "15px auto",
+        borderRadius: 15,
+        background: "#08afe4",
+        color: "#fff"
+    },
 })
 
 const ProductsTab = () => {
     const classes = useStyle();
     const token = `bearer ${localStorage.getItem('jwt')}`
     const [categories, setCategories] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
     useEffect(() => {
         axios.get(`https://api.hamyarwellness.com/api/v1/categories`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {
                 setCategories(res.data.data)
+            })
+        axios.get(`https://api.hamyarwellness.com/api/v1/products/cart`,
+            { headers: { 'Authorization': token } },
+        )
+            .then(res => {
+                setCartCount(res.data.data.length)
             })
     }, [])
     return (
@@ -63,6 +80,12 @@ const ProductsTab = () => {
                         {item.name}
                     </ButtonBase>
                 ))}
+            </Box>
+            <Divider variant="middle" />
+            <Box style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+                <ButtonBase className={classes.cartButton} component={Link} to={'/products/cart'}>
+                    مشاهده سبد خرید ({cartCount})
+                </ButtonBase>
             </Box>
             <Box className={classes.bannerWrapper}>
                 <Link to={"/products/product-list?isFeatured=true"}>

@@ -77,7 +77,7 @@ const NewQuizTab = ({ onStart }) => {
         setChecked((prev) => !prev);
     };
     const classes = useStyle();
-    const readMoreText = () => (checked) ? "بستن" : "مطالعه بیشتز"
+    const readMoreText = () => (checked) ? "بستن" : "مطالعه بیشتر"
 
 
     useEffect(() => {

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core';
 import Header from '../../components/Header';
 import EvolutionCards from '../../components/EvolutionCards';
 import FontSize from '../../components/FontSize';
+import ChalengesCard from '../../components/ChalengesCard'
 
 const useStyles = makeStyles({
     headWrapper: {
@@ -42,8 +43,8 @@ const Evolution = () => {
         <div>
             <Header />
             <Box className={classes.headWrapper}>
-                <p className={classes.headTitle}>به سلامت و روح خود اهمیت دهید</p>
-                <p className={classes.headDesc}>مجموعه اقدامات برای رشد و ارتقاء خود</p>
+                <p className={classes.headTitle}>در ارتقاء ولنس و کیفیت زندگی‌تان همراهتان هستیم</p>
+
             </Box>
             <Tabs style={{ backgroundColor: "#c4dffaad", color: "#7887a2" }} TabIndicatorProps={{
                 style: {
@@ -54,7 +55,7 @@ const Evolution = () => {
                 <Tab classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="چالش ها" />
             </Tabs>
             {selectedTab === 0 && <EvolutionCards />}
-            {selectedTab === 1 && <h1> </h1>}
+            {selectedTab === 1 && <ChalengesCard />}
         </div>
     )
 }

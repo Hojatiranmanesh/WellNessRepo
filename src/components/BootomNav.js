@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     padding: 0,
     fontWeight: "bold",
     fontSize: FontSize(1.1),
-    minWidth: 69
+    minWidth: 69,
   },
   navIcon: {
     height: 30

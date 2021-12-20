@@ -5,6 +5,7 @@ import { useLocation, Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import persianDate from 'persian-date';
 import MuiAlert from '@material-ui/lab/Alert';
+import AdminNav from '../../components/AdminNav'
 
 const useStyles = makeStyles({
     container: {
@@ -172,7 +173,7 @@ const HealthFiles = () => {
         const data = {
             specilistNote: desc
         }
-        axios.patch(`https://api.hamyarwellness.com/api/v1/quiz/results/${query.get("id")}`, data, config)
+        axios.put(`https://api.hamyarwellness.com/api/v1/quiz/results/${query.get("id")}`, data, config)
             .then(res => {
                 console.log(res)
                 setSnackType("success")
@@ -186,7 +187,7 @@ const HealthFiles = () => {
     }
 
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/?user=${query.get("id")}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/perc/${query.get("id")}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(res => {
                 console.log(res.data.data[0])
                 setQuizData(res.data.data[0])
@@ -199,70 +200,73 @@ const HealthFiles = () => {
             })
     }, [])
     useEffect(() => {
-        updateDesc((quizData) ? quizData.specilistNote : "")
+        // updateDesc((quizData) ? quizData.specilistNote : "")
     }, [quizData])
     return (
-        <Box className={classes.container}>
-            <Box className={classes.header}>
-                <h2 className={classes.headerTitle}>آپلود دستگاه‌های هلث</h2>
-            </Box>
-            <Box className={classes.innerContainer}>
-                <Box className={classes.details}>
-                    <p>تاریح انجام آزمون: {(quizData) ? new persianDate(quizData.quiz.created_at).format("D MMMM YYYY") : ""}</p>
-                    <p>ساعت انجام آزمون: {(quizData) ? new persianDate(quizData.quiz.created_at).format("H:m:s") : ""}</p>
-                    <p>شماره همراه آزمون دهنده: {(quizData) ? quizData.user.phone : ""}</p>
-                    <p>نام و نام‌‌خانوادگی آزمون دهنده: {(quizData) ? quizData.user.firstname : ""} {(quizData) ? quizData.user.lastname : ""}</p>
+        <>
+            <AdminNav />
+            <Box className={classes.container}>
+                <Box className={classes.header}>
+                    <h2 className={classes.headerTitle}>آپلود دستگاه‌های هلث</h2>
                 </Box>
-                <Box className={classes.results}>
-                    {(quizData) ? quizData.answers.map((data, index) => (
-                        <Box className={classes.result}>
+                <Box className={classes.innerContainer}>
+                    <Box className={classes.details}>
+                        <p>تاریح انجام آزمون: {(quizData) ? new persianDate(quizData.quiz.created_at).format("D MMMM YYYY") : ""}</p>
+                        <p>ساعت انجام آزمون: {(quizData) ? new persianDate(quizData.quiz.created_at).format("H:m:s") : ""}</p>
+                        <p>شماره همراه آزمون دهنده: {(quizData) ? quizData.user.phone : ""}</p>
+                        <p>نام و نام‌‌خانوادگی آزمون دهنده: {(quizData) ? quizData.user.firstname : ""} {(quizData) ? quizData.user.lastname : ""}</p>
+                    </Box>
+                    <Box className={classes.results}>
+                        {(quizData) ? quizData.answers.map((data, index) => (
+                            <Box className={classes.result}>
+                                <div className={classes.resultWrapper}>
+                                    <div className={classes.resultFiller}
+                                        style={{
+                                            height: data * 10 + "%",
+                                            background: colors[index],
+                                            boxShadow: `0 0 15px ${shadowColors[index]}`,
+                                        }}
+                                    >
+                                    </div>
+                                </div>
+                                <p style={{ color: "#97a6c1", }}>گزینه {index + 1}</p>
+                                <p style={{ color: "#667690", fontWeight: "bold", }}> {data * 10 + "٪"}</p>
+                            </Box>
+                        )) : <Box className={classes.result}>
                             <div className={classes.resultWrapper}>
                                 <div className={classes.resultFiller}
                                     style={{
-                                        height: data * 10 + "%",
-                                        background: colors[index],
-                                        boxShadow: `0 0 15px ${shadowColors[index]}`,
+                                        height: 0 * 10 + "%",
+                                        background: colors[1],
+                                        boxShadow: `0 0 15px ${shadowColors[1]}`,
                                     }}
                                 >
                                 </div>
                             </div>
-                            <p style={{ color: "#97a6c1", }}>گزینه {index + 1}</p>
-                            <p style={{ color: "#667690", fontWeight: "bold", }}> {data * 10 + "٪"}</p>
-                        </Box>
-                    )) : <Box className={classes.result}>
-                        <div className={classes.resultWrapper}>
-                            <div className={classes.resultFiller}
-                                style={{
-                                    height: 0 * 10 + "%",
-                                    background: colors[1],
-                                    boxShadow: `0 0 15px ${shadowColors[1]}`,
-                                }}
-                            >
-                            </div>
-                        </div>
-                        <p style={{ color: "#97a6c1", }}>گزینه {0 + 1}</p>
-                        <p style={{ color: "#667690", fontWeight: "bold", }}> {0 * 10 + "٪"}</p>
-                    </Box>}
+                            <p style={{ color: "#97a6c1", }}>گزینه {0 + 1}</p>
+                            <p style={{ color: "#667690", fontWeight: "bold", }}> {0 * 10 + "٪"}</p>
+                        </Box>}
 
+                    </Box>
+                    <Box className={classes.buttons}>
+                        <ButtonBase className={classes.button}>انتخاب فایل تصویر</ButtonBase>
+                        <ButtonBase className={classes.button}>انتخاب فایل پی‌دی‌اف</ButtonBase>
+                        <ButtonBase className={classes.button}>انتخاب فایل ویدیو</ButtonBase>
+                        <ButtonBase className={classes.button}>انتخاب فایل صوتی</ButtonBase>
+                    </Box>
+                    <textarea onChange={updateDesc} placeholder={"توضیحات خود را وارد نمایید"} className={classes.textArea}>{desc}</textarea>
                 </Box>
-                <Box className={classes.buttons}>
-                    <ButtonBase className={classes.button}>انتخاب فایل تصویر</ButtonBase>
-                    <ButtonBase className={classes.button}>انتخاب فایل پی‌دی‌اف</ButtonBase>
-                    <ButtonBase className={classes.button}>انتخاب فایل ویدیو</ButtonBase>
-                    <ButtonBase className={classes.button}>انتخاب فایل صوتی</ButtonBase>
+                <Box className={classes.botButtons}>
+                    <ButtonBase onClick={send} className={classes.register}>ارسال</ButtonBase>
+                    <ButtonBase onClick={() => history.go(-1)} className={classes.return}>بازگشت</ButtonBase>
                 </Box>
-                <textarea onChange={updateDesc} placeholder={"توضیحات خود را وارد نمایید"} className={classes.textArea}>{desc}</textarea>
+                <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleCloseSnack}>
+                    <Alert onClose={handleCloseSnack} severity={snackType}>
+                        {snackMessage}
+                    </Alert>
+                </Snackbar>
             </Box>
-            <Box className={classes.botButtons}>
-                <ButtonBase onClick={send} className={classes.register}>ارسال</ButtonBase>
-                <ButtonBase onClick={() => history.go(-1)} className={classes.return}>بازگشت</ButtonBase>
-            </Box>
-            <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleCloseSnack}>
-                <Alert onClose={handleCloseSnack} severity={snackType}>
-                    {snackMessage}
-                </Alert>
-            </Snackbar>
-        </Box>
+        </>
     )
 }
 

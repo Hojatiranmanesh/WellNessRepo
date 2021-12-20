@@ -69,8 +69,8 @@ const PanelSelection = () => {
     const [fname, setFname] = useState();
     const [lname, setlname] = useState();
     const [phone, setPhone] = useState();
+    const [admin, setAdmin] = useState(true);
     useEffect(() => {
-
         const config = {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
@@ -82,13 +82,15 @@ const PanelSelection = () => {
                 setFname(res.data.data.firstname)
                 setlname(res.data.data.lastname)
                 setPhone(res.data.data.phone)
+                if (res.data.data.userType === 'admin') {
+                    setAdmin(false)
+                }
             })
             .catch(err => {
                 if (err.response.status === 401) {
                     localStorage.removeItem('jwt')
                 }
             })
-
     }, [])
     return (
         <Box className={classes.container}>
@@ -102,7 +104,7 @@ const PanelSelection = () => {
             <Box className={classes.innerContainer}>
                 <Box className={classes.buttons}>
                     <ButtonBase component={Link} to={"/profile"} className={classes.button}>پنل کاربری</ButtonBase>
-                    <ButtonBase className={classes.button}>پنل مدیریت</ButtonBase>
+                    <ButtonBase disabled={admin} component={Link} to={"/admin/management-panel"} className={classes.button}>پنل مدیریت</ButtonBase>
                     <ButtonBase component={Link} to={"/admin/specilists-panel"} className={classes.button}>پنل متخصص</ButtonBase>
                 </Box>
             </Box>

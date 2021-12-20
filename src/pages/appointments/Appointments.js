@@ -55,7 +55,7 @@ const Appointments = () => {
                 <Header />
                 <Box className={classes.topWrapper}>
                     <Box className={classes.assitance}>
-                        <h1 className={classes.assistanceHeader}>دریافت مشاوره</h1>
+                        <h1 className={classes.assistanceHeader}>پشتیبانی تخصصی ولنسی</h1>
                         {/* <p className={classes.requestAssistance}>خرید اشتراک طلایی برای مشاوره آنلاین</p> */}
                     </Box>
                 </Box>
@@ -67,10 +67,10 @@ const Appointments = () => {
                 }} centered value={selectedTab} onChange={handleChange}>
                     <Tab classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
                         // style={{ color: (selectedTab === 0) ? "#08afe4" : "#02d4166" }}
-                        label="مشاوره حضوری" />
+                        label="پشتیبانی حضوری" />
                     <Tab classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
                         // style={{ color: (selectedTab === 1) ? "#08afe4" : "#02d4166" }}
-                        label="مشاوره آنلاین" />
+                        label="پشتیبانی آنلاین" />
                 </Tabs>
                 {selectedTab === 0 && <IRLIndex />}
                 {selectedTab === 1 && <OnlineIndex />}

@@ -120,6 +120,7 @@ const useStyle = makeStyles({
         backdropFilter: "blur(2px)",
     },
 });
+
 const token = `bearer ${localStorage.getItem('jwt')}`
 const deleteItem = (id) => {
     axios.delete(`https://api.hamyarwellness.com/api/v1/products/cart/${id}`, { headers: { 'Authorization': token } },)
@@ -185,7 +186,13 @@ const Cart = () => {
                             <p className={classes.productName}>{item.product.name}</p>
                             <p className={classes.productDetail}>{item.product.price} تومان </p>
                         </Box>
-                        <ButtonBase className={classes.productDetail} onClick={() => sendNotif(item.product)}>پیش‌نمایش یادآور</ButtonBase>
+                        <ButtonBase className={classes.productDetail} onClick={() => {
+                            if ("serviceWorker" in navigator) {
+                                sendNotif(item.product.name).catch(err => console.error(err));
+                            } else {
+                                console.log("no service worker")
+                            }
+                        }}>پیش‌نمایش یادآور</ButtonBase>
                         <ButtonBase onClick={() => deleteItem(item._id)} className={classes.productDetail} style={{ marginLeft: 10 }}>
                             <img className={classes.deleteIcon} src={Delete} alt="" />
                         </ButtonBase>

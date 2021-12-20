@@ -4,11 +4,12 @@ import Header from '../../components/Header';
 import { makeStyles } from '@material-ui/core/styles'
 import axios from 'axios';
 import { useLocation, Link } from "react-router-dom";
+import desertBanner from '../../assets/images/desserts.jpg';
 
 const useStyle = makeStyles({
     listContainer: {
         display: "flex",
-        padding: "80px 30px",
+        padding: "37px 30px",
         flexWrap: "wrap",
         justifyContent: "space-around",
     },
@@ -16,11 +17,14 @@ const useStyle = makeStyles({
         display: "flex",
         flexDirection: "column",
         width: 310,
-        backgroundColor: "#c4dffaad",
         borderRadius: 15,
         color: "#696969",
         textDecoration: "none",
         marginBottom: 25,
+        height: 114,
+        overflow: "hidden",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
     },
     productImage: {
         height: 150,
@@ -32,7 +36,9 @@ const useStyle = makeStyles({
     },
     productInfo: {
         display: "flex",
-        alignItems: "center",
+        flexDirection: "column",
+        alignItems: "left",
+        color: "#c5d0de",
         justifyContent: "space-between",
         marginLeft: 10,
         "& p": {
@@ -40,11 +46,36 @@ const useStyle = makeStyles({
         }
     },
     headerContainer: {
-        backgroundColor: "#d4ebff",
-        height: "74px",
-        position: "fixed",
-        width: "100%"
-    }
+        height: "215px",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#c9e3fc",
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+    },
+    gradientLayer: {
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.6786064767703957) 100%)",
+    },
+    showMore: {
+        border: "2px solid #9f7b1d",
+        width: 70,
+        paddingLeft: 16,
+        borderRadius: 5,
+    },
+    headerText: {
+        fontSize: "1.5em",
+        color: "#2d4166"
+    },
+    headerimage: {
+        width: "100%",
+        position: "absolute",
+        top: 0,
+    },
+
 });
 
 function useQuery() {
@@ -56,13 +87,26 @@ const ProductList = () => {
     const classes = useStyle();
     const token = `bearer ${localStorage.getItem('jwt')}`
     const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState('');
+    const [background, setbackground] = useState('');
     useEffect(() => {
         let params = "";
         if (query.get("category")) {
             params = "category=" + query.get("category")
+            axios.get(`https://api.hamyarwellness.com/api/v1/categories/${query.get("category")}`,
+                { headers: { 'Authorization': token } })
+                .then(res => {
+                    setCategory(res.data.data.name)
+                    if (res.data.data.name === "دسرهای ارگانیک") {
+                        setbackground(desertBanner)
+                        console.log(desertBanner)
+                    }
+                })
         } else if (query.get("isFeatured")) {
             params = "isFeatured=true"
+            setCategory('محصولات پیشنهاد شده')
         }
+
         axios.get(`https://api.hamyarwellness.com/api/v1/products/search?${params}`,
             { headers: { 'Authorization': token } })
             .then(res => {
@@ -72,16 +116,23 @@ const ProductList = () => {
     }, [])
     return (
         <Box>
-            <Box className={classes.headerContainer}>
+            <Box className={classes.headerContainer} style={{ backgroundImage: `url(${background})` }}>
                 <Header component="link" to="/products" />
+                
+                {(!category === "دسرهای ارگانیک") ?<p className={classes.headerText}>{category}</p> : ""}
             </Box>
             <Box className={classes.listContainer}>
                 {products.map((item, index, array) => (
-                    <Box className={classes.itemContainer} component={Link} to={`/products/product?pid=${item._id}`}>
-                        <img className={classes.productImage} src={"https://api.hamyarwellness.com/" + item.image} alt="" />
-                        <Box className={classes.productInfo}>
-                            <p style={{ fontWeight: "bold", fontSize: "1.3em" }}>{item.name}</p>
-                            <p style={{ paddingLeft: 10 }}>مشاهده</p>
+                    <Box
+                        style={{ backgroundImage: `url(https://api.hamyarwellness.com/${item.image})` }}
+                        className={classes.itemContainer}
+                        component={Link}
+                        to={`/products/product?pid=${item._id}`}>
+                        <Box className={classes.gradientLayer}>
+                            <Box className={classes.productInfo}>
+                                <p style={{ fontWeight: "bold", fontSize: "1.3em" }}>{item.name}</p>
+                                <p className={classes.showMore}>مشاهده</p>
+                            </Box>
                         </Box>
                     </Box>
 

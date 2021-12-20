@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import video from '../../assets/Video/210329_06B_Bali_1080p_008.mp4';
+import gif from '../../assets/images/ezgif-gif-maker.gif';
 import Bird from '../../assets/audio/Bird.mp3';
 import Rain from '../../assets/audio/Rain.mp3';
 import Sea from '../../assets/audio/Sea.mp3';
@@ -9,7 +10,6 @@ import { Box, ButtonBase, Divider, Slider, ListItem, SwipeableDrawer, List, } fr
 import ReactAudioPlayer from 'react-audio-player';
 import TimeIcon from '../../assets/images/Time.png';
 import EQIcon from '../../assets/images/Equalizer Settings.png';
-import Countdown from 'react-countdown';
 
 
 const useStyle = makeStyles({
@@ -106,12 +106,13 @@ const useStyle = makeStyles({
         border: "1px solid white",
         margin: "20px auto",
         borderRadius: 15,
+        color: "#fff"
     },
     timerButtons: {
         height: 275,
     },
     counter: {
-        left: "44%",
+        left: "calc(50% - 70px)",
         top: 120,
         fontSize: "1.6em",
         background: "rgba(0, 0, 0, 0.12)",
@@ -142,10 +143,21 @@ const Norbu = () => {
         bottom: false,
         right: false,
     });
-    
-    const startClock = (minutes) => {
-        setCounter(5)
-    }
+    const fadeout = () => {
+        setBirdVolume(0)
+        setRainVolume(0)
+        setSeaVolume(0)
+        setWaterVolume(0)
+    };
+    React.useEffect(() => {
+        const timer =
+            counter > 0 && setInterval(() => {
+                if (counter === 1) { fadeout() }
+                setCounter(counter - 1)
+            }, 1000);
+        return () => clearInterval(timer);
+    }, [counter]);
+
     const toggleVolumeDrawer = (anchor, open) => (event) => {
         if (
             event &&
@@ -182,27 +194,27 @@ const Norbu = () => {
     const waterChange = (event, newValue) => {
         setWaterVolume(newValue);
     };
+    const display = seconds => {
+        const format = val => `0${Math.floor(val)}`.slice(-2)
+        const minutes = (seconds % 3600) / 60
 
-    const renderer = ({  minutes, seconds, completed }) => {
-        if (completed) {
-            // Render a completed state
-            return "00:00"
-        } else {
-            // Render a countdown
-            return <span className={classes.counter}>
-                {(minutes < 10 ? `0${minutes}` : minutes)}:{(seconds < 10 ? `0${seconds}` : seconds)}
-            </span>;
-        }
-    };
-    
+        return [minutes, seconds % 60].map(format).join(':')
+    }
+
+
     return (
         <>
             <Box className={classes.videoWrapper}>
-                <Countdown date={Date.now() + {counter} * 60 * 1000} renderer={renderer} />
-                
-                <video className={classes.video} onloadedmetadata="this.muted = true" muted playsInline autoPlay loop >
+                {(counter !== 0) ? (
+                    <Box className={classes.counter}>
+                        {display(counter)}
+                    </Box>
+                ) : " "}
+
+                {/* <video className={classes.video} onloadedmetadata="this.muted = true" muted playsInline autoPlay loop >
                     <source src={video} type="video/mp4" />
-                </video>
+                </video> */}
+                <img className={classes.video} src={gif} alt="" />
                 <Box className={classes.buttons}>
                     <ButtonBase
                         onClick={(volumeDrawer['right']) ? toggleVolumeDrawer("right", false) : toggleVolumeDrawer("right", true)}
@@ -308,6 +320,9 @@ const Norbu = () => {
                                     }}
                                     onChange={waterChange} aria-labelledby="continuous-slider" />
                             </ListItem>
+                            <ListItem className={classes.sliderRow}>
+                                <ButtonBase onClick={() => toggleVolumeDrawer("right", false)} className={classes.offButton}>بازگشت</ButtonBase>
+                            </ListItem>
                         </List>
                     </div>
                 </SwipeableDrawer>
@@ -339,12 +354,13 @@ const Norbu = () => {
                         <div className={classes.timerWrapper}>
                             <h2>تنظیم مدت زمان</h2>
                             <div className={classes.timerButtons}>
-                                ‌<ButtonBase onClick={() => startClock(5)} className={classes.timerButton}>5 دقیقه</ButtonBase>
-                                ‌<ButtonBase className={classes.timerButton}>10 دقیقه</ButtonBase>
-                                ‌<ButtonBase className={classes.timerButton}>20 دقیقه</ButtonBase>
-                                ‌<ButtonBase className={classes.timerButton}>30 دقیقه</ButtonBase>
+                                ‌<ButtonBase onClick={() => setCounter(5 * 60)} className={classes.timerButton}>5 دقیقه</ButtonBase>
+                                ‌<ButtonBase onClick={() => setCounter(10 * 60)} className={classes.timerButton}>10 دقیقه</ButtonBase>
+                                ‌<ButtonBase onClick={() => setCounter(20 * 60)} className={classes.timerButton}>20 دقیقه</ButtonBase>
+                                ‌<ButtonBase onClick={() => setCounter(30 * 60)} className={classes.timerButton}>30 دقیقه</ButtonBase>
                             </div>
-                            ‌<ButtonBase className={classes.offButton}>خاموش</ButtonBase>
+                            ‌<ButtonBase onClick={() => setCounter(0)} className={classes.offButton}>خاموش</ButtonBase>
+                            <ButtonBase onClick={() => toggleTimerDrawer("left", false)} className={classes.offButton}>بازگشت</ButtonBase>
                         </div>
                     </div>
                 </SwipeableDrawer>

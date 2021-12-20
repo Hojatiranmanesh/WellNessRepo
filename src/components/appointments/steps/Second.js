@@ -40,24 +40,19 @@ const Second = ({ setDuration }) => {
         <Box className={classes.root}>
             <ButtonBase
                 style={{ fontSize: FontSize(1) }}
-                className={(active === 0.5) ? classes.buttonActive : classes.button}
-                onClick={() => setActive(0.5)}>
-                مشاوره 30 دقیقه‌ای
+                className={(active === 'assessment') ? classes.buttonActive : classes.button}
+                onClick={() => setActive('assessment')}>
+                مشاوره ارزیابی
             </ButtonBase>
             <ButtonBase
                 style={{ fontSize: FontSize(1) }}
-                className={(active === 1) ? classes.buttonActive : classes.button} onClick={() => setActive(1)}>
-                مشاوره 60 دقیقه‌ای
+                className={(active === "evolution") ? classes.buttonActive : classes.button} onClick={() => setActive("evolution")}>
+                مشاوره ارتقاء
             </ButtonBase>
             <ButtonBase
                 style={{ fontSize: FontSize(1) }}
-                className={(active === 1.5) ? classes.buttonActive : classes.button} onClick={() => setActive(1.5)}>
-                مشاوره 90 دقیقه‌ای
-            </ButtonBase>
-            <ButtonBase
-                style={{ fontSize: FontSize(1) }}
-                className={(active === 2) ? classes.buttonActive : classes.button} onClick={() => setActive(2)}>
-                مشاوره 120 دقیقه‌ای
+                className={(active === "both") ? classes.buttonActive : classes.button} onClick={() => setActive("both")}>
+                مشاوره ارزیابی و ارتقاء
             </ButtonBase>
         </Box >
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link, } from 'react-router-dom';
+import AdminNav from '../../components/AdminNav'
 
 const useStyles = makeStyles({
     container: {
@@ -35,6 +36,11 @@ const useStyles = makeStyles({
         margin: "20px 5px",
         boxShadow: "-7px 6px 13px #a6a6a6b8, -7px -8px 20px 0px #ffffffd1",
     },
+    row: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+    },
     botButtons: {
         display: "flex",
         justifyContent: "center",
@@ -60,25 +66,27 @@ const useStyles = makeStyles({
 const SpecilistsPanel = () => {
     const classes = useStyles()
     return (
-        <Box className={classes.container}>
-            <Box className={classes.header}>
-                <h2 className={classes.headerTitle}>پنل متخصص</h2>
+        <>
+            <AdminNav />
+            <Box className={classes.container}>
+                <Box className={classes.header}>
+                    <h2 className={classes.headerTitle}>پنل متخصص</h2>
+                </Box>
+                <Box className={classes.innerContainer}>
+                    <Box className={classes.row}>
+                        <ButtonBase component={Link} to="/admin/online-support" className={classes.button}>پشتیبانی غیر حضوری</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/user-info"} className={classes.button}>اطلاعات کاربران</ButtonBase>
+                    </Box>
+                    <Box className={classes.row}>
+                        <ButtonBase component={Link} to='/admin/reservation' className={classes.button}>رزواسیون</ButtonBase>
+                        <ButtonBase component={Link} to={"/admin/analyzes"} className={classes.button}>ارزیابی ها</ButtonBase>
+                    </Box>
+                    <Box className={classes.botButtons}>
+                        <ButtonBase component={Link} to={"/admin/panel-selection"} className={classes.return}>بازگشت</ButtonBase>
+                    </Box>
+                </Box>
             </Box>
-            <Box className={classes.innerContainer}>
-                <Box className={classes.row}>
-                    <ButtonBase className={classes.button}>پشتیبانی غیر حضوری</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/user-info"} className={classes.button}>اطلاعات کاربران</ButtonBase>
-                </Box>
-                <Box className={classes.row}>
-                    <ButtonBase className={classes.button}>رزواسیون</ButtonBase>
-                    <ButtonBase component={Link} to={"/admin/analyzes"} className={classes.button}>آنالیز‌ها</ButtonBase>
-                </Box>
-                <Box className={classes.botButtons}>
-                    <ButtonBase component={Link} to={"/admin/panel-selection"} className={classes.return}>بازگشت</ButtonBase>
-                </Box>
-            </Box>
-
-        </Box>
+        </>
     )
 }
 
