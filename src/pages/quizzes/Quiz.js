@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { showNav } from '../../actions';
+import FontSize from "../../components/FontSize";
 
 
 const useStyle = makeStyles({
@@ -23,32 +24,36 @@ const useStyle = makeStyles({
         textDecoration: 'underline',
         textDecorationStyle: 'dotted',
     },
-
     tabRoot: {
+        fontSize: "1.05em"
+    },
+    selectedTab: {
         color: "#08afe4",
-        fontWeight: "Bold",
-        fontSize: '1.1em',
+        fontSize: FontSize(1)
     },
     performanceWraper: {
         display: 'flex',
         flexDirection: "row-reverse",
-        padding: "0 25px",
-        width: 500,
-        maxWidth: "87vw",
-        margin: "0 auto"
+        padding: "50px 0px",
+        width: "100%",
+        justifyContent: "center",
+        backgroundColor: "#c4dffaad",
     },
     preformanceReport: {
         display: 'flex',
         flexDirection: "column",
         justifyContent: 'center',
-        direction: 'rtl',
         padding: 10
     },
     preformCaption: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: "#2e4169",
+        padding: "11px 0",
+        fontSize: FontSize(1)
     },
     performScore: {
-        color: "#65c7f4"
+        color: "#65c7f4",
+        fontSize: FontSize(2)
     },
 });
 
@@ -59,6 +64,7 @@ const Quiz = () => {
     const [testStart, setTestStart] = useState(false);
     const [score, setScore] = useState(0);
     const classes = useStyle();
+    const [textScore, setTextscore] = useState("");
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)
     }
@@ -69,7 +75,7 @@ const Quiz = () => {
     const token = `bearer ${localStorage.getItem('jwt')}`
     useEffect(() => {
         dispatch(showNav())
-        axios.get(`https://hamyarwellness.com/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
+        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
             { headers: { 'Authorization': token } },
         ).then(res => {
             let temScore = 0;
@@ -82,56 +88,64 @@ const Quiz = () => {
             .catch(err => { });
     }, []);
 
+    useEffect(() => {
+        console.log(score)
+        if (score === 0) {
+            setTextscore("نامعلوم")
+        } else if (score < 2.5) {
+            setTextscore("ضعیف")
+        } else if (2.5 < score < 5.0) {
+            setTextscore("متوسط")
+        } else if (5.0 < score < 7.5) {
+            setTextscore("خوب")
+        } else if (score > 7.5) {
+            setTextscore("بسیار خوب")
+        } else {
+            setTextscore("نامعلوم")
+        }
+    }, [score])
     const data = {
         datasets: [
             {
                 label: '# of Votes',
-                data: [(10 - score) * 10, score * 10],
+                data: [score * 10, (10 - score) * 10],
                 backgroundColor: [
-                    'rgba(255, 99, 132)',
-                    'rgba(54, 162, 235)',
+                    '#5fc3f4',
+                    '#c9dbef',
                 ],
+                elements: {
+                    arc: {
+                        borderWidth: 0
+                    }
+                },
             },
         ],
     };
-    
-    // const plugins = [{
-    //     beforeDraw: function (chart) {
-    //         var width = chart.width,
-    //             height = chart.height,
-    //             ctx = chart.ctx;
-    //         ctx.restore();
-    //         var fontSize = (height / 160).toFixed(2);
-    //         ctx.font = fontSize + "em sans-serif";
-    //         ctx.textBaseline = "top";
-    //         var text = score + "%",
-    //             textX = Math.round((width - ctx.measureText(text).width) / 2),
-    //             textY = height / 2;
-    //         ctx.fillText(text, textX, textY);
-    //         ctx.save();
-    //     }
-    // }]
+
     return (
         <>
             <Box>
-                <Header />
+                <Header component="link" to="/quizzes" />
                 <Box className={classes.performanceWraper}>
-                    <Box>
-                        <Doughnut data={data} width={200} height={100} /*plugins={plugins}*/ />
-                    </Box>
                     <Box className={classes.preformanceReport}>
                         <p className={classes.preformCaption}>عملکرد شما</p>
-                        {/* <h2 className={classes.performScore}>Good</h2> */}
+                        <h2 className={classes.performScore}>
+                            {textScore}
+                        </h2>
+                    </Box>
+                    <Box>
+                        <Doughnut data={data} width={150} height={150} options={{ responsive: true }}/*plugins={plugins}*/ />
                     </Box>
                 </Box>
 
-                <Tabs TabIndicatorProps={{
+                <Tabs style={{ backgroundColor: "#c4dffaad", color: "#7887a2" }} TabIndicatorProps={{
                     style: {
-                        backgroundColor: "#08afe4"
+                        backgroundColor: "#08afe4",
+                        color: "#ff0000"
                     }
                 }} centered value={selectedTab} onChange={handleChange}>
-                    <Tab classes={{ root: classes.tabRoot }} label="ارزیابی جدید" />
-                    <Tab classes={{ root: classes.tabRoot }} label="تحلیل ارزیابی‌های پیشین" />
+                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }} label="ارزیابی جدید" />
+                    <Tab classes={{ root: classes.tabRoot, selected: classes.selectedTab }} label="تحلیل ارزیابی‌های پیشین" />
                 </Tabs>
                 {selectedTab === 0 && (testStart ? <QuizQuestion /> : <NewQuizTab onStart={() => { setTestStart(true) }} />)}
                 {selectedTab === 1 && <QuizEval />}

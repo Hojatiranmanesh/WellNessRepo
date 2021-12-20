@@ -21,6 +21,8 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
 
+console.log('service worker loaded');
+
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
@@ -68,5 +70,16 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
+
+
+
+self.addEventListener('push', e => {
+  const data = e.data.json();
+  console.log('push recieved');
+  console.log('check');
+  console.log(data.payload.body)
+  console.log( `title is ${data.title}`)
+  self.registration.showNotification(data.title, { body: data.payload.body});
+})
 
 // Any other custom service worker logic can go here.
