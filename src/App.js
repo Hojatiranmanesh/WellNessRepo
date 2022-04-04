@@ -24,6 +24,7 @@ import EditProfile from "./pages/profile/EditProfile";
 import Login from "./pages/auth/Login";
 import Product from "./pages/products/Product";
 import ProductList from "./pages/products/ProductList";
+import ClosedShop from "./pages/products/ClosedShop";
 import Cart from "./pages/products/Cart";
 import Norbu from './pages/evolution/Norbu';
 import Game from './pages/sudoku/index';
@@ -130,7 +131,7 @@ const App = props => {
                 <Route path="/evolution/breathing" component={Breathing} />
                 <Route path="/evolution/relaxation" component={Norbu} />
                 <Route path="/evolution/sudoko" component={Game} />
-                <Route path="/products" exact component={Products} />
+                <Route path="/products" exact component={ClosedShop} />
                 <Route path="/products/product" component={Product} />
                 <Route path="/products/product-list" component={ProductList} />
                 <Route path="/products/cart" component={Cart} />
