@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 const onChange = (e, id) => {
-    let url = "https://api.hamyarwellness.com/api/v1/test-results";
+    let url = "https://drab-gray-fawn-suit.cyclic.app/api/v1/test-results";
     let file = e.target.files[0];
     uploadFile(url, file, id);
 };
@@ -83,7 +83,7 @@ const HealthFiles = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
-        const url = `https://api.hamyarwellness.com/api/v1/appointments/get-unresponsed/general`
+        const url = `https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/get-unresponsed/general`
         axios.get(url, header)
             .then(response => {
                 setData(response.data.data);

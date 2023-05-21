@@ -133,7 +133,7 @@ const ReserveAppointment = () => {
             }
             const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } }
             if (duration === 'both') {
-                axios.post('https://api.hamyarwellness.com/api/v1/appointments', {
+                axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments', {
                     "date": day,
                     "time": hour,
                     "length": "assessment",
@@ -142,7 +142,7 @@ const ReserveAppointment = () => {
                 }, header)
                     .then(res => {
                         console.log(res)
-                        axios.post('https://api.hamyarwellness.com/api/v1/appointments', {
+                        axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments', {
                             "date": day,
                             "time": hour,
                             "length": "evolution",
@@ -169,7 +169,7 @@ const ReserveAppointment = () => {
                     })
             }
             else {
-                axios.post('https://api.hamyarwellness.com/api/v1/appointments', body, header)
+                axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments', body, header)
                     .then(res => {
                         console.log(res)
                         setOpenSnack(true)

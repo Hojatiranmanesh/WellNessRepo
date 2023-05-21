@@ -124,7 +124,7 @@ const BackUp = () => {
         setCurrentMessage(message)
         setCurrentTitle(title)
         setOpen(true);
-        axios.put(`https://api.hamyarwellness.com/api/v1/broadcast-messages/read-by/${id}`, {}, {
+        axios.put(`https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages/read-by/${id}`, {}, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('jwt')}`
             },
@@ -146,11 +146,11 @@ const BackUp = () => {
         };
         let url = "";
         if (activeButton === 0) {
-            url = `https://api.hamyarwellness.com/api/v1/broadcast-messages/my-messages`
+            url = `https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages/my-messages`
         } else if (activeButton === 1) {
-            url = 'https://api.hamyarwellness.com/api/v1/broadcast-messages/read'
+            url = 'https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages/read'
         } else if (activeButton === 2) {
-            url = 'https://api.hamyarwellness.com/api/v1/broadcast-messages/unread'
+            url = 'https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages/unread'
         }
         axios.get(url, config)
             .then(res => {

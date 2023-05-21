@@ -75,7 +75,7 @@ const Quiz = () => {
     const token = `bearer ${localStorage.getItem('jwt')}`
     useEffect(() => {
         dispatch(showNav())
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/?user=${user}&quiz=${quiz}`,
             { headers: { 'Authorization': token } },
         ).then(res => {
             let temScore = 0;

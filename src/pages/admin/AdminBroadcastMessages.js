@@ -58,7 +58,7 @@ const AdminBroadcastMessages = () => {
     const token = `bearer ${localStorage.getItem('jwt')}`;
 
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/users/`, { headers: { 'Authorization': token } },)
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/users/`, { headers: { 'Authorization': token } },)
             .then(res => {
                 setUsers(res.data.data)
             }).catch(err => {
@@ -72,7 +72,7 @@ const AdminBroadcastMessages = () => {
             "bradcastType": type,
             "user": user
         }
-        axios.post(`https://api.hamyarwellness.com/api/v1/broadcast-messages`, body, { headers: { 'Authorization': token } },)
+        axios.post(`https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages`, body, { headers: { 'Authorization': token } },)
             .then(res => {
                 alert('sent')
             }).catch(err => {

@@ -93,7 +93,7 @@ const Product = () => {
             "product": query.get("pid"),
             qty: 1
         };
-        axios.post(`https://api.hamyarwellness.com/api/v1/products/cart`, body, { headers: { 'Authorization': token } },)
+        axios.post(`https://drab-gray-fawn-suit.cyclic.app/api/v1/products/cart`, body, { headers: { 'Authorization': token } },)
             .then(res => {
                 history.push("/products/cart");
             }).catch(err => {
@@ -101,7 +101,7 @@ const Product = () => {
             })
     }
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/products/${query.get("pid")}`,
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/products/${query.get("pid")}`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {
@@ -114,7 +114,7 @@ const Product = () => {
         <>
             <Box className={classes.nav}><Link to="/products"><img src={WhiteBack} alt="" /></Link></Box>
             <Box className={classes.header} style={{
-                background: `url(https://api.hamyarwellness.com/${item.image})  center no-repeat`,
+                background: `url(https://drab-gray-fawn-suit.cyclic.app/${item.image})  center no-repeat`,
             }}>
                 <Typography style={{
                     textShadow: "0 0 8px #0000009c",

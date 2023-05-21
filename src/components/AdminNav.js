@@ -45,7 +45,7 @@ const AdminNav = () => {
                 "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
             },
         };
-        axios.get("https://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
+        axios.get("https://drab-gray-fawn-suit.cyclic.app/api/v1/users/getMyProfile", config)
             .then(res => {
                 console.log(res)
                 setFname(res.data.data.firstname)

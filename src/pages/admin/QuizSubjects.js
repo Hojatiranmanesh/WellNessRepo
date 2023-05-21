@@ -103,7 +103,7 @@ const HealthFiles = () => {
     let query = useQuery();
     console.log(getId(query.get("quiz")))
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/quiz/${getId(query.get("quiz"))}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/quiz/${getId(query.get("quiz"))}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(res => {
                 console.log(res)
                 setSubjects(res.data.data)

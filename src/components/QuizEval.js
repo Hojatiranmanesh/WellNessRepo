@@ -163,7 +163,7 @@ const QuizEval = () => {
     const user = localStorage.getItem('userid')
     const token = `bearer ${localStorage.getItem('jwt')}`
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/${user}`,
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/${user}`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {

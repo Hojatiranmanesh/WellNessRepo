@@ -163,7 +163,7 @@ const useStyle = makeStyles({
 
 const deleteNotif = i => {
     console.log("hce")
-    axios.delete(`https://api.hamyarwellness.com/api/v1/notifs/${i}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+    axios.delete(`https://drab-gray-fawn-suit.cyclic.app/api/v1/notifs/${i}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
         .then(function (response) {
             console.log(response.data.data)
             window.location.reload(false); 
@@ -207,7 +207,7 @@ const AddNotif = () => {
         }
     }
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/notifs`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/notifs`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(function (response) {
                 console.log(response.data.data)
                 setNotifs(response.data.data)

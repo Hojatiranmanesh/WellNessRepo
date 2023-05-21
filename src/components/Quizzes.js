@@ -64,14 +64,14 @@ const Quizzes = () => {
         dispatch(setQuiz(data))
     }
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quizzes/dimension/${dimension}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quizzes/dimension/${dimension}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(function (response) {
                 console.log(response)
                 response.data.data.forEach((element, index) => {
                     setQuizzes(quizzes => [...quizzes,
                     <ButtonBase listId={element._id} key={element._id} className={classes.button} onClick={((e) => handleClick(e, element._id))} component={Link} to="/quizzes/dimension/quiz">
                         <div style={{ background: colors[index] }} className={classes.iconWrapper}>
-                            <img className={classes.quizIcon} src={`https://api.hamyarwellness.com/${element.quizIcon}`} alt={element.quizCategory} />
+                            <img className={classes.quizIcon} src={`https://drab-gray-fawn-suit.cyclic.app/${element.quizIcon}`} alt={element.quizCategory} />
                         </div>
                         <p className={classes.buttonCaption}>{element.quizCategory}</p>
                     </ButtonBase>])

@@ -131,7 +131,7 @@ const Profile = () => {
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
     };
-    axios.get("https://api.hamyarwellness.com/api/v1/users/getMyProfile", config)
+    axios.get("https://drab-gray-fawn-suit.cyclic.app/api/v1/users/getMyProfile", config)
       .then(res => {
         console.log(res)
         setFname(res.data.data.firstname)
@@ -165,7 +165,7 @@ const Profile = () => {
           alignItems="center"
         >
           <Grid item className={classes.profPic}>
-            {(image) ? <img src={`https://api.hamyarwellness.com/${image}`} style={{ width: "100%", height: "100%", }} alt="profile pic" /> : <img src={user} alt="profile pic" />}
+            {(image) ? <img src={`https://drab-gray-fawn-suit.cyclic.app/${image}`} style={{ width: "100%", height: "100%", }} alt="profile pic" /> : <img src={user} alt="profile pic" />}
           </Grid>
           <Grid item className={classes.nameContainer}>
             <Typography className={classes.bold} variant="h6">

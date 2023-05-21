@@ -8,7 +8,7 @@ import axios from "axios";
 import moment from 'moment-jalaali';
 
 
-const socket = io.connect('https://api.hamyarwellness.com');
+const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
 
 const useStyles = makeStyles({
     chat: {
@@ -90,7 +90,7 @@ const Chat = () => {
 
     ]);
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/messages/${localStorage.getItem('userid')}`)
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/messages/${localStorage.getItem('userid')}`)
             .then(res => {
                 console.log(res);
                 res.data.data.forEach(element => {
@@ -150,7 +150,7 @@ const Chat = () => {
                                         color: (item.type === "sent") ? "#7786a3" : "#dbe9f4",
                                     }}
                                 >{item.message}</Box>
-                                {(item.type === "sent") ? <img className={classes.userImage} src={(item.image !== undefined) ? `https://api.hamyarwellness.com/${item.image}` : user} alt="user" /> : <img className={classes.userImage} src={(item.image) ? `https://api.hamyarwellness.com/${item.image}` : user} alt="user" />}
+                                {(item.type === "sent") ? <img className={classes.userImage} src={(item.image !== undefined) ? `https://drab-gray-fawn-suit.cyclic.app/${item.image}` : user} alt="user" /> : <img className={classes.userImage} src={(item.image) ? `https://drab-gray-fawn-suit.cyclic.app/${item.image}` : user} alt="user" />}
                             </Box>{console.log(item.date)}
                             <p className={classes.chatName} style={{ marginRight: (item.type === "sent") ? "0" : 80, marginLeft: (item.type === "recieved") ? "0" : 80, }}>{item.name} {moment(new Date(item.date)).format('jD jMMMM jYYYY HH:SS')}</p>
                         </Box>

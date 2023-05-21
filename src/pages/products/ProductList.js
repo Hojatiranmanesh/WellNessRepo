@@ -93,7 +93,7 @@ const ProductList = () => {
         let params = "";
         if (query.get("category")) {
             params = "category=" + query.get("category")
-            axios.get(`https://api.hamyarwellness.com/api/v1/categories/${query.get("category")}`,
+            axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/categories/${query.get("category")}`,
                 { headers: { 'Authorization': token } })
                 .then(res => {
                     setCategory(res.data.data.name)
@@ -107,7 +107,7 @@ const ProductList = () => {
             setCategory('محصولات پیشنهاد شده')
         }
 
-        axios.get(`https://api.hamyarwellness.com/api/v1/products/search?${params}`,
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/products/search?${params}`,
             { headers: { 'Authorization': token } })
             .then(res => {
                 console.log(res.data.data)
@@ -124,7 +124,7 @@ const ProductList = () => {
             <Box className={classes.listContainer}>
                 {products.map((item, index, array) => (
                     <Box
-                        style={{ backgroundImage: `url(https://api.hamyarwellness.com/${item.image})` }}
+                        style={{ backgroundImage: `url(https://drab-gray-fawn-suit.cyclic.app/${item.image})` }}
                         className={classes.itemContainer}
                         component={Link}
                         to={`/products/product?pid=${item._id}`}>

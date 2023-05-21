@@ -93,7 +93,7 @@ const App = props => {
   console.log(state)
   useEffect(() => {
     async function getData() {
-      const data = await axios.get('https://api.hamyarwellness.com/api/v1/appointments/', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+      const data = await axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
       let array = (data.data.data);
       array.sort(function (a, b) {
         return new Date(b.date) - new Date(a.date);

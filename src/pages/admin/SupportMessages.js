@@ -45,7 +45,7 @@ const SupportMessages = () => {
     const token = `bearer ${localStorage.getItem('jwt')}`;
 
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/support-messages`, { headers: { 'Authorization': token } },)
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/support-messages`, { headers: { 'Authorization': token } },)
             .then(res => {
                 setMessages(res.data.data)
                 console.log(res.data.data)

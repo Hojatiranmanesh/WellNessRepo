@@ -81,7 +81,7 @@ const NewQuizTab = ({ onStart }) => {
 
 
     useEffect(() => {
-        axios.get(`https://api.hamyarwellness.com/api/v1/quizzes/${quiz}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quizzes/${quiz}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(function (response) {
 
                 setQuizTitle(response.data.data[0].quizTitle)
@@ -105,7 +105,7 @@ const NewQuizTab = ({ onStart }) => {
             <h5 className={classes.intro} style={{ marginTop: 20 }}>{quizTitle}</h5>
             <AudioPlayer
                 style={{ direction: "ltr", display: "none" }}
-                src={`https://api.hamyarwellness.com/${quizAudio}`}
+                src={`https://drab-gray-fawn-suit.cyclic.app/${quizAudio}`}
                 onPlay={e => console.log("onPlay")}
                 showJumpControls={false}
                 layout="horizontal"

@@ -83,7 +83,7 @@ const Signup = () => {
     }, [])
     const signup = () => {
         if (password === rePassword) {
-            axios.post('https://api.hamyarwellness.com/api/v1/users/signup', { phone: phone, password: password, })
+            axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/users/signup', { phone: phone, password: password, })
                 .then(res => {
                     localStorage.setItem('userid', res.data.user._id);
                     localStorage.setItem('jwt', res.data.token);

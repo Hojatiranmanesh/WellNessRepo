@@ -75,7 +75,7 @@ const useStyles = makeStyles({
 const appStatus = (id, status, uid) => {
     const body = { "status": status };
     const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
-    const url = `https://api.hamyarwellness.com/api/v1/appointments/${id}`
+    const url = `https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/${id}`
     axios.put(url, body, header)
         .then(response => {
             console.log(response);
@@ -94,7 +94,7 @@ if (status==='confirm'){
             "bradcastType": 'user',
             "user": uid
         }
-        axios.post(`https://api.hamyarwellness.com/api/v1/broadcast-messages`, body, header)
+        axios.post(`https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages`, body, header)
             .then(res => {
                 alert('sent')
             }).catch(err => {
@@ -155,7 +155,7 @@ const Reservation = ({ highlight }) => {
         }
         const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } }
         if (newDura === 'both') {
-            axios.post('https://api.hamyarwellness.com/api/v1/appointments', {
+            axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments', {
                 "date": day,
                 "time": hour,
                 "length": "assessment",
@@ -164,7 +164,7 @@ const Reservation = ({ highlight }) => {
             }, header)
                 .then(res => {
                     console.log(res)
-                    axios.post('https://api.hamyarwellness.com/api/v1/appointments', {
+                    axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments', {
                         "date": day,
                         "time": hour + .5,
                         "length": "evolution",
@@ -190,7 +190,7 @@ const Reservation = ({ highlight }) => {
                 })
         }
         else {
-            axios.post('https://api.hamyarwellness.com/api/v1/appointments', body, header)
+            axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments', body, header)
                 .then(res => {
                     console.log(res)
                     setOpenSnack(true)
@@ -206,7 +206,7 @@ const Reservation = ({ highlight }) => {
     }
     useEffect(() => {
         async function getData() {
-            const data = await axios.get('https://api.hamyarwellness.com/api/v1/appointments/', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+            const data = await axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             let array = (data.data.data);
             array.sort(function (a, b) {
                 return new Date(b.date) - new Date(a.date);
@@ -221,7 +221,7 @@ const Reservation = ({ highlight }) => {
                 })
             })
         }
-        axios.get('https://api.hamyarwellness.com/api/v1/users/', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/users/', { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(data => {
                 setUsers(data.data.data)
             })

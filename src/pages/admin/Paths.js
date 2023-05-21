@@ -82,7 +82,7 @@ const Paths = () => {
     const [unresCount, setUnresCount] = useState(0);
     useEffect(() => {
         const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
-        axios.get(`https://api.hamyarwellness.com/api/v1/quiz/results/`, header)
+        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/`, header)
             .then(res => {
                 let arr = [];
                 res.data.data.forEach((item,index,array) => {

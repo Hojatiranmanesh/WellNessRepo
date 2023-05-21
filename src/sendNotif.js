@@ -41,7 +41,7 @@ async function sendNotif(minute, hour, body) {
         console.log(JSON.stringify(data))
         // Send Push Notification
         console.log("Sending Push...");
-        await fetch("https://api.hamyarwellness.com/api/v1/notifs/", {
+        await fetch("https://drab-gray-fawn-suit.cyclic.app/api/v1/notifs/", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -58,7 +58,7 @@ async function sendNotif(minute, hour, body) {
         console.log(JSON.stringify(data))
         // Send Push Notification
         console.log("Sending Push...");
-        await fetch("https://api.hamyarwellness.com/api/v1/subscribe", {
+        await fetch("https://drab-gray-fawn-suit.cyclic.app/api/v1/subscribe", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
