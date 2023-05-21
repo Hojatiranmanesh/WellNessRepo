@@ -120,11 +120,11 @@ const ActivateProfile = () => {
                     {/*/>*/}
                 </Grid>
                 <Grid item>
-                    <ResendOTP
-                        maxTime={120}
-                        renderTime={OTPCounter}
-                        // onTimerComplete={() => setActiveResend(true)}
-                        renderButton={() => { }} />
+                    {/*<ResendOTP*/}
+                    {/*    maxTime={120}*/}
+                    {/*    renderTime={OTPCounter}*/}
+                    {/*    // onTimerComplete={() => setActiveResend(true)}*/}
+                    {/*    renderButton={() => { }} />*/}
                 </Grid>
                 <Grid item style={{ textAlign: "center", color: "#7886a3", fontSize: FontSize(1) }}>
                     زمان معتبر بودن کد فعالسازی
