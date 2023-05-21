@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import OTPInput, { ResendOTP } from "otp-input-react";
+// import OTPInput, { ResendOTP } from "otp-input-react";
 import OTPCounter from '../../components/OTPCounter';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
@@ -108,16 +108,16 @@ const ActivateProfile = () => {
                     <h2 className={classes.enterCodeText}>کد فعالسازی را وارد نمایید</h2>
                 </Grid>
                 <Grid item className={classes.otpContainer}>
-                    <OTPInput
-                        value={OTP}
-                        onChange={setOTP}
-                        autoFocus
-                        OTPLength={6}
-                        otpType="number"
-                        disabled={false}
-                        className={classes.otpRoot}
-                        inputStyles={{ margin: "0 5px", fontSize: FontSize(1.5), boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1", fontWeight: "bold", backgroundColor: "#c9d3e0", border: "none", padding: 8, borderRadius: "30%", outline: 0, color: "#4f649b" }}
-                    />
+                    {/*<OTPInput*/}
+                    {/*    value={OTP}*/}
+                    {/*    onChange={setOTP}*/}
+                    {/*    autoFocus*/}
+                    {/*    OTPLength={6}*/}
+                    {/*    otpType="number"*/}
+                    {/*    disabled={false}*/}
+                    {/*    className={classes.otpRoot}*/}
+                    {/*    inputStyles={{ margin: "0 5px", fontSize: FontSize(1.5), boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1", fontWeight: "bold", backgroundColor: "#c9d3e0", border: "none", padding: 8, borderRadius: "30%", outline: 0, color: "#4f649b" }}*/}
+                    {/*/>*/}
                 </Grid>
                 <Grid item>
                     <ResendOTP
