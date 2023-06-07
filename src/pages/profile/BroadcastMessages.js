@@ -145,7 +145,7 @@ const BroadcastMessages = () => {
             "type": select,
             "message": text
         };
-        axios.post(`https://drab-gray-fawn-suit.cyclic.app/api/v1/support-messages`, body, { headers: { 'Authorization': token } },)
+        axios.post(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/support-messages`, body, { headers: { 'Authorization': token } },)
             .then(res => {
                 handleOpen();
                 setDisable(false);

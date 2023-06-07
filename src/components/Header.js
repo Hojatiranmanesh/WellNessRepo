@@ -135,7 +135,7 @@ const Header = ({ component, to, setting, cart, warning }) => {
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
       },
     };
-    axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/broadcast-messages/unread', config)
+    axios.get('https://tame-rose-clownfish-ring.cyclic.app/api/v1/broadcast-messages/unread', config)
       .then(res => {
         console.log(res.data.data)
         console.log(res.data.data.length > 0)

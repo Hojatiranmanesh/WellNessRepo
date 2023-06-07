@@ -95,7 +95,7 @@ const Analyzes = () => {
     };
     useEffect(() => {
         const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
-        const url = `https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/`
+        const url = `https://tame-rose-clownfish-ring.cyclic.app/api/v1/appointments/`
         axios.get(url, header)
             .then(response => {
                 response.data.data.forEach(item => {
@@ -119,7 +119,7 @@ const Analyzes = () => {
                     localStorage.removeItem('jwt')
                 }
             })
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/`, header)
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/quiz/results/`, header)
             .then(res => {
                 res.data.data.forEach(item => {
                     if (!item.specilistNote) {

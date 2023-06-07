@@ -68,10 +68,10 @@ const AdminOrders = () => {
     const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
     const deliveredOrder = id => {
         console.log(header)
-        axios.put(`https://drab-gray-fawn-suit.cyclic.app/api/v1/orders/delivered/${id}`, {}, header)
+        axios.put(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/orders/delivered/${id}`, {}, header)
             .then(res => {
                 setOrders([]);
-                axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/orders', header)
+                axios.get('https://tame-rose-clownfish-ring.cyclic.app/api/v1/orders', header)
                     .then(res => {
                         res.data.data.forEach(items => {
                             items.items.forEach(item => {
@@ -91,7 +91,7 @@ const AdminOrders = () => {
             })
     }
     useEffect(() => {
-        axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/orders', header)
+        axios.get('https://tame-rose-clownfish-ring.cyclic.app/api/v1/orders', header)
             .then(res => {
                 res.data.data.forEach(items => {
                     items.items.forEach(item => {

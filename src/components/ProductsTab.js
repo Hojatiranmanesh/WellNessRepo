@@ -55,13 +55,13 @@ const ProductsTab = () => {
     const [categories, setCategories] = useState([]);
     const [cartCount, setCartCount] = useState(0);
     useEffect(() => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/categories`,
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/categories`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {
                 setCategories(res.data.data)
             })
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/products/cart`,
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/products/cart`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {

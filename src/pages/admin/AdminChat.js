@@ -7,7 +7,7 @@ import axios from 'axios';
 import moment from 'moment-jalaali';
 import { Link } from 'react-router-dom';
 
-// const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
+// const socket = io.connect('https://tame-rose-clownfish-ring.cyclic.app');
 
 
 const uniq = (a) => {
@@ -82,7 +82,7 @@ const AdminChat = () => {
         },
     ]
     useEffect(() => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/messages/`)
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/messages/`)
             .then(res => {
                 let array = [];
                 res.data.data.forEach(element => {
@@ -99,7 +99,7 @@ const AdminChat = () => {
     }, [])
     useEffect(() => {
         for (const user of users) {
-            axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/messages/${user}`)
+            axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/messages/${user}`)
                 .then(res => {
                     setMessages(oldArray => [...oldArray, res.data.data]);
                     console.log(res.data.data[res.data.data.length - 1].date)

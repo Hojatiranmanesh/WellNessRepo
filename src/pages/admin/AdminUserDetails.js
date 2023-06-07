@@ -81,7 +81,7 @@ const AdminUserDetails = () => {
     let query = useQuery();
     useEffect(() => {
         const header = { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } };
-        const url = `https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/`
+        const url = `https://tame-rose-clownfish-ring.cyclic.app/api/v1/appointments/`
         axios.get(url, header)
             .then(response => {
                 response.data.data.forEach(item => {
@@ -96,7 +96,7 @@ const AdminUserDetails = () => {
                     localStorage.removeItem('jwt')
                 }
             })
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/`, header)
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/quiz/results/`, header)
             .then(res => {
                 res.data.data.forEach(item => {
                     if (item.user._id === query.get("id")) {
@@ -104,7 +104,7 @@ const AdminUserDetails = () => {
                     }
                 })
             })
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/users/search?_id=${query.get("id")}`, header)
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/search?_id=${query.get("id")}`, header)
             .then(res => {
 
                 setName(`${res.data.data[0].firstname} ${res.data.data[0].lastname}`)

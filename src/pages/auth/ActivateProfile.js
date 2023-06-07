@@ -72,7 +72,7 @@ const ActivateProfile = () => {
     useEffect(() => {
         dispatch(hideNav())
         const userId = localStorage.getItem('userid');
-        axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/users/activation', { userId: userId })
+        axios.post('https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/activation', { userId: userId })
             .then(res => {
                 setActivated(true)
             })
@@ -84,7 +84,7 @@ const ActivateProfile = () => {
     }, [])
     const checkActivationCode = () => {
         console.log("test")
-        axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/users/activate', { activationCode: OTP, userId: localStorage.getItem('userid') })
+        axios.post('https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/activate', { activationCode: OTP, userId: localStorage.getItem('userid') })
             .then(res => {
                 console.log(res)
             })

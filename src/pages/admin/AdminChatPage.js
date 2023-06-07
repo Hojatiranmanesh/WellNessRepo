@@ -9,7 +9,7 @@ import send from "../../assets/images/send.png";
 import AdminNav from '../../components/AdminNav'
 
 
-// const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
+// const socket = io.connect('https://tame-rose-clownfish-ring.cyclic.app');
 
 const useQuery = () => {
     const { search } = useLocation();
@@ -125,7 +125,7 @@ const AdminChatPage = () => {
     };
 
     useEffect(() => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/messages/${query.get('user')}`)
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/messages/${query.get('user')}`)
             .then(res => {
                 setMessages(res.data.data);
                 setName(res.data.data[0].user.firstname + " " + res.data.data[0].user.lastname)

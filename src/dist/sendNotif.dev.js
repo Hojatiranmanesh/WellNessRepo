@@ -80,7 +80,7 @@ function sendNotif(minute, hour, body) {
 
           console.log("Sending Push...");
           _context.next = 28;
-          return regeneratorRuntime.awrap(fetch("https://drab-gray-fawn-suit.cyclic.app/api/v1/notifs/", {
+          return regeneratorRuntime.awrap(fetch("https://tame-rose-clownfish-ring.cyclic.app/api/v1/notifs/", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -103,7 +103,7 @@ function sendNotif(minute, hour, body) {
 
           console.log("Sending Push...");
           _context.next = 36;
-          return regeneratorRuntime.awrap(fetch("https://drab-gray-fawn-suit.cyclic.app/api/v1/subscribe", {
+          return regeneratorRuntime.awrap(fetch("https://tame-rose-clownfish-ring.cyclic.app/api/v1/subscribe", {
             method: "POST",
             body: JSON.stringify(_data),
             headers: {

@@ -173,7 +173,7 @@ const HealthFiles = () => {
         const data = {
             specilistNote: desc
         }
-        axios.put(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/${query.get("id")}`, data, config)
+        axios.put(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/quiz/results/${query.get("id")}`, data, config)
             .then(res => {
                 console.log(res)
                 setSnackType("success")
@@ -187,7 +187,7 @@ const HealthFiles = () => {
     }
 
     useEffect(() => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/quiz/results/perc/${query.get("id")}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/quiz/results/perc/${query.get("id")}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(res => {
                 console.log(res.data.data[0])
                 setQuizData(res.data.data[0])

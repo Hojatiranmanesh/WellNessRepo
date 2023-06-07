@@ -91,7 +91,7 @@ const Third = ({ setHour, day, duration }) => {
     useEffect(() => {
         setHour(active)
         console.log(active)
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/appointments/`, { headers: { 'Authorization': token } })
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/appointments/`, { headers: { 'Authorization': token } })
             .then(res => {
                 res.data.data.forEach(item => {
                     // console.log(new Date(item.date), day._d)

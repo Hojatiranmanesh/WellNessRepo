@@ -123,7 +123,7 @@ const Login = () => {
     }, [])
 
     const loginAction = () => {
-        axios.post('https://drab-gray-fawn-suit.cyclic.app/api/v1/users/login', { phone: phone, password: password })
+        axios.post('https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/login', { phone: phone, password: password })
             .then(function (response) {
                 localStorage.setItem('userid', response.data.user._id);
                 localStorage.setItem('jwt', response.data.token);

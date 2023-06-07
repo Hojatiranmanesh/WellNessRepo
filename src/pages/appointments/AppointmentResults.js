@@ -55,7 +55,7 @@ const AppointmentResults = () => {
     const token = `bearer ${localStorage.getItem('jwt')}`;
 
     useEffect(() => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/test-results/my`,
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/test-results/my`,
             { headers: { 'Authorization': token } },
         )
             .then(res => {
@@ -92,7 +92,7 @@ const AppointmentResults = () => {
                                 <p>
                                     {moment(new Date(item.created_at)).format('HH:mm:ss')}
                                 </p>
-                                <a href={`https://drab-gray-fawn-suit.cyclic.app/${item.resultFile}`}>
+                                <a href={`https://tame-rose-clownfish-ring.cyclic.app/${item.resultFile}`}>
                                     <img className={classes.downloadImage} src={Download} alt="دانلود" />
                                 </a>
                             </Box>
@@ -116,7 +116,7 @@ const AppointmentResults = () => {
                                 <p>
                                     {moment(new Date(item.created_at)).format('HH:mm')}
                                 </p>
-                                <a href={`https://drab-gray-fawn-suit.cyclic.app/${item.resultFile}`}>
+                                <a href={`https://tame-rose-clownfish-ring.cyclic.app/${item.resultFile}`}>
                                     <img className={classes.downloadImage} src={Download} alt="دانلود" />
                                 </a>
                             </Box>

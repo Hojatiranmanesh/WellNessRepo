@@ -123,7 +123,7 @@ const useStyle = makeStyles({
 
 const token = `bearer ${localStorage.getItem('jwt')}`
 const deleteItem = (id) => {
-    axios.delete(`https://drab-gray-fawn-suit.cyclic.app/api/v1/products/cart/${id}`, { headers: { 'Authorization': token } },)
+    axios.delete(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/products/cart/${id}`, { headers: { 'Authorization': token } },)
         .then(res => {
             window.location.reload();
         })
@@ -135,8 +135,8 @@ const sendNotif = (data) => {
         console.log("we have permission!");
         const notification = new Notification("ایران‌ولنس", {
             body: `یادآوری جهت ${data.name}`,
-            icon: `https://drab-gray-fawn-suit.cyclic.app/${data.image}`,
-            image: `https://drab-gray-fawn-suit.cyclic.app/${data.image}`,
+            icon: `https://tame-rose-clownfish-ring.cyclic.app/${data.image}`,
+            image: `https://tame-rose-clownfish-ring.cyclic.app/${data.image}`,
         });
     } else if (Notification.permission !== "denied") {
         Notification.requestPermission().then(permission => {
@@ -161,7 +161,7 @@ const Cart = () => {
     };
 
     useEffect(() => {
-        axios.get('https://drab-gray-fawn-suit.cyclic.app/api/v1/products/cart', { headers: { 'Authorization': token } },)
+        axios.get('https://tame-rose-clownfish-ring.cyclic.app/api/v1/products/cart', { headers: { 'Authorization': token } },)
             .then(res => {
                 console.log(res.data.data)
                 setCartItems(res.data.data)
@@ -181,7 +181,7 @@ const Cart = () => {
             <Box className={classes.cartContainer}>
                 {cartItems.map(item => (
                     <Box className={classes.cartItem}>
-                        {/* <img className={classes.productImage} src={`https://drab-gray-fawn-suit.cyclic.app/${item.product.image}`} alt="" /> */}
+                        {/* <img className={classes.productImage} src={`https://tame-rose-clownfish-ring.cyclic.app/${item.product.image}`} alt="" /> */}
                         <Box className={classes.productDetails}>
                             <p className={classes.productName}>{item.product.name}</p>
                             <p className={classes.productDetail}>{item.product.price} تومان </p>

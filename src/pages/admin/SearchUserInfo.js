@@ -238,7 +238,7 @@ const SearchUserInfo = () => {
         setModal(false);
     };
     const searchUsers = () => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/users/search?${searchFirstname ? 'firstname=' + searchFirstname : ""}${searchLastname ? '&lastname=' + searchLastname : ""}${searchPhone ? '&phone=' + searchPhone : ""} `, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')} ` } })
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/search?${searchFirstname ? 'firstname=' + searchFirstname : ""}${searchLastname ? '&lastname=' + searchLastname : ""}${searchPhone ? '&phone=' + searchPhone : ""} `, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')} ` } })
             .then(res => {
                 setUsers(res.data.data)
             })
@@ -252,7 +252,7 @@ const SearchUserInfo = () => {
     const showModal = e => {
         console.log(e)
         handleOpen()
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/users/search?_id=${e}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/search?_id=${e}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(res => {
                 console.log(res.data.data[0])
                 setModalFname(res.data.data[0].firstname);
@@ -283,7 +283,7 @@ const SearchUserInfo = () => {
             address: modalAddress,
             jobTitle: modaljobTitle,
         }
-        axios.put(`https://drab-gray-fawn-suit.cyclic.app/api/v1/users/${modalId}`, data, header)
+        axios.put(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/users/${modalId}`, data, header)
             .then(res => {
                 console.log(res)
                 alert('ثبت شد')
@@ -295,7 +295,7 @@ const SearchUserInfo = () => {
     };
 
     useEffect(() => {
-        axios.get(`https://drab-gray-fawn-suit.cyclic.app/api/v1/users`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/users`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
             .then(res => {
                 console.log(res)
                 setUsers(res.data.data)
