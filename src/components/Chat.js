@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { Box, ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import user from "../assets/images/demoUser.png";
@@ -8,7 +8,7 @@ import axios from "axios";
 import moment from 'moment-jalaali';
 
 
-const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
+// const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
 
 const useStyles = makeStyles({
     chat: {
@@ -115,19 +115,19 @@ const Chat = () => {
     }
 
     const sendMessage = () => {
-        socket.emit('chatMessage', { message: messageInput, user: localStorage.getItem('userid'), sender: localStorage.getItem('userid') });
-        setMessageInput("");
-        const messageListener = message => {
-            console.log(message);
-            let type;
-            if (message.user === localStorage.getItem('userid')) {
-                type = 'sent'
-            } else {
-                type = 'recieved'
-            }
-            setMessages(messages => [...messages, { type: type, message: message.message, date: new Date() }])
-        }
-        socket.once('message', messageListener);
+        // socket.emit('chatMessage', { message: messageInput, user: localStorage.getItem('userid'), sender: localStorage.getItem('userid') });
+        // setMessageInput("");
+        // const messageListener = message => {
+        //     console.log(message);
+        //     let type;
+        //     if (message.user === localStorage.getItem('userid')) {
+        //         type = 'sent'
+        //     } else {
+        //         type = 'recieved'
+        //     }
+        //     setMessages(messages => [...messages, { type: type, message: message.message, date: new Date() }])
+        // }
+        // socket.once('message', messageListener);
     };
 
 

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Box, ButtonBase, } from '@material-ui/core';
 import { DataGrid } from '@mui/x-data-grid'
 import { makeStyles } from '@material-ui/styles';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 import { Link } from 'react-router-dom';
 
-const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
+// const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
 
 
 const uniq = (a) => {

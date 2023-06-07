@@ -4,12 +4,12 @@ import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 import { useLocation } from "react-router-dom";
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import send from "../../assets/images/send.png";
 import AdminNav from '../../components/AdminNav'
 
 
-const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
+// const socket = io.connect('https://drab-gray-fawn-suit.cyclic.app');
 
 const useQuery = () => {
     const { search } = useLocation();
@@ -109,19 +109,19 @@ const AdminChatPage = () => {
     }
 
     const sendMessage = () => {
-        socket.emit('chatMessage', { message: messageInput, user: id, sender: localStorage.getItem('userid') });
-        setMessageInput("");
-        const messageListener = message => {
-            console.log(message);
-            let type;
-            if (message.user === localStorage.getItem('userid')) {
-                type = 'sent'
-            } else {
-                type = 'recieved'
-            }
-            setMessages(messages => [...messages, { user: { _id: id }, sender: { _id: localStorage.getItem('userid'), }, message: message.message, date: new Date() }])
-        }
-        socket.once('message', messageListener);
+        // socket.emit('chatMessage', { message: messageInput, user: id, sender: localStorage.getItem('userid') });
+        // setMessageInput("");
+        // const messageListener = message => {
+        //     console.log(message);
+        //     let type;
+        //     if (message.user === localStorage.getItem('userid')) {
+        //         type = 'sent'
+        //     } else {
+        //         type = 'recieved'
+        //     }
+        //     setMessages(messages => [...messages, { user: { _id: id }, sender: { _id: localStorage.getItem('userid'), }, message: message.message, date: new Date() }])
+        // }
+        // socket.once('message', messageListener);
     };
 
     useEffect(() => {
