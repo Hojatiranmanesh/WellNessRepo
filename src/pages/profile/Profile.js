@@ -165,7 +165,7 @@ const Profile = () => {
           alignItems="center"
         >
           <Grid item className={classes.profPic}>
-            {(image) ? <img src={`https://tame-rose-clownfish-ring.cyclic.app/${image}`} style={{ width: "100%", height: "100%", }} alt="profile pic" /> : <img src={user} alt="profile pic" />}
+            {(image) ? <img src={`${image}`} style={{ width: "100%", height: "100%", }} alt="profile pic" /> : <img src={user} alt="profile pic" />}
           </Grid>
           <Grid item className={classes.nameContainer}>
             <Typography className={classes.bold} variant="h6">

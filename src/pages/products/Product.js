@@ -114,7 +114,7 @@ const Product = () => {
         <>
             <Box className={classes.nav}><Link to="/products"><img src={WhiteBack} alt="" /></Link></Box>
             <Box className={classes.header} style={{
-                background: `url(https://tame-rose-clownfish-ring.cyclic.app/${item.image})  center no-repeat`,
+                background: `url(${item.image})  center no-repeat`,
             }}>
                 <Typography style={{
                     textShadow: "0 0 8px #0000009c",

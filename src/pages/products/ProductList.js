@@ -124,7 +124,7 @@ const ProductList = () => {
             <Box className={classes.listContainer}>
                 {products.map((item, index, array) => (
                     <Box
-                        style={{ backgroundImage: `url(https://tame-rose-clownfish-ring.cyclic.app/${item.image})` }}
+                        style={{ backgroundImage: `url(${item.image})` }}
                         className={classes.itemContainer}
                         component={Link}
                         to={`/products/product?pid=${item._id}`}>

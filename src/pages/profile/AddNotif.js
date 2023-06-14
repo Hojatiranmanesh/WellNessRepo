@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Delete from '../../assets/images/Delete.png'
-import { Box, ButtonBase, Divider, FormControl, Select, MenuItem, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {Box, ButtonBase, Divider, FormControl, Select, MenuItem, TextField} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import Header from '../../components/Header';
 import addIcon from '../../assets/images/Add.png';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -163,10 +163,10 @@ const useStyle = makeStyles({
 
 const deleteNotif = i => {
     console.log("hce")
-    axios.delete(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/notifs/${i}`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+    axios.delete(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/notifs/${i}`, {headers: {'Authorization': `bearer ${localStorage.getItem('jwt')}`}})
         .then(function (response) {
             console.log(response.data.data)
-            window.location.reload(false); 
+            window.location.reload(false);
         })
         .catch(function (error) {
             console.log(error);
@@ -207,7 +207,7 @@ const AddNotif = () => {
         }
     }
     useEffect(() => {
-        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/notifs`, { headers: { 'Authorization': `bearer ${localStorage.getItem('jwt')}` } })
+        axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/notifs`, {headers: {'Authorization': `bearer ${localStorage.getItem('jwt')}`}})
             .then(function (response) {
                 console.log(response.data.data)
                 setNotifs(response.data.data)
@@ -223,10 +223,10 @@ const AddNotif = () => {
     return (
         <Box>
             <Box className={classes.topContainer}>
-                <Header component="link" to='/profile/notifications' />
+                <Header component="link" to='/profile/notifications'/>
                 <h2>ثبت یادآوری جدید</h2>
             </Box>
-            <Box style={{ padding: "0 20px" }}>
+            <Box style={{padding: "0 20px"}}>
                 <p className={classes.recomendText}>یادآوری‌های پیشنهادی مرکز ولنس برای شما</p>
                 {/* <Box className={classes.daySelection}>
                     <ButtonBase className={classes.dayButton}>شنبه</ButtonBase>
@@ -238,7 +238,7 @@ const AddNotif = () => {
                     <ButtonBase className={classes.dayButton}>جمعه</ButtonBase>
                     <ButtonBase className={classes.dayButton}>همه</ButtonBase>
                 </Box> */}
-                <Divider variant="middle" style={{ with: "90%", marginBottom: 20 }} />
+                <Divider variant="middle" style={{with: "90%", marginBottom: 20}}/>
                 <Box className={classes.timeSelectionContainer}>
                     {/* <ButtonBase className={classes.add}>
                         <img style={{ margin: "0 auto", width: 27, height: 27, opacity: .9 }} src={addIcon} alt="اضافه" />
@@ -246,15 +246,15 @@ const AddNotif = () => {
                     </ButtonBase> */}
                     <Box className={classes.timeSelection}>
                         <Box className={classes.minAdjust}>
-                            <ExpandLessIcon onClick={incMin} />
-                            <ExpandMoreIcon onClick={decMin} />
+                            <ExpandLessIcon onClick={incMin}/>
+                            <ExpandMoreIcon onClick={decMin}/>
                         </Box>
                         <Box className={classes.time}>
                             {(hour < 10) ? "0" + hour : hour}:{(minute < 10) ? "0" + minute : minute}
                         </Box>
                         <Box className={classes.hrAdjust}>
-                            <ExpandLessIcon onClick={incHr} />
-                            <ExpandMoreIcon onClick={decHr} />
+                            <ExpandLessIcon onClick={incHr}/>
+                            <ExpandMoreIcon onClick={decHr}/>
                         </Box>
                     </Box>
                 </Box>
@@ -263,30 +263,30 @@ const AddNotif = () => {
                         {notifs.map(item => (
                             <Box className={classes.timeAdded}>
                                 <ButtonBase onClick={() => deleteNotif(item._id)}>
-                                    <img style={{ width: 27, height: 27, opacity: .8 }} src={Delete} alt="حذف" />
+                                    <img style={{width: 27, height: 27, opacity: .8}} src={Delete} alt="حذف"/>
                                 </ButtonBase>
-                                <span style={{ opacity: .9 }}>{item.hour}:{item.minute}</span>
+                                <span style={{opacity: .9}}>{item.hour}:{item.minute}</span>
                             </Box>
                         ))}
                     </Box>
                 </Box>
-                <Divider variant="middle" style={{ with: "90%", marginTop: 20 }} />
+                <Divider variant="middle" style={{with: "90%", marginTop: 20}}/>
                 <Box className={classes.bottomContainer}>
                     <FormControl variant="filled" className={classes.formControl}>
                         <Select
-                            classes={{ root: classes.selectRoot }}
+                            classes={{root: classes.selectRoot}}
                             IconComponent={ExpandMoreIcon}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
                             disableUnderline
                         >
-                            <MenuItem value="" >
+                            <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={1}>
                                 <Box className={classes.selectitem}>
-                                    <img src={water} alt="" />
-                                    <span style={{ marginRight: 20, }}>یادآوری نوشیدن آب</span>
+                                    <img src={water} alt=""/>
+                                    <span style={{marginRight: 20,}}>یادآوری نوشیدن آب</span>
                                 </Box>
                             </MenuItem>
                         </Select>
@@ -303,7 +303,7 @@ const AddNotif = () => {
                         } else {
                             console.log("no service worker")
                         }
-                    }} className={classes.submit}><span style={{ opacity: .9 }}> ثبت یادآوری جدید</span></ButtonBase>
+                    }} className={classes.submit}><span style={{opacity: .9}}> ثبت یادآوری جدید</span></ButtonBase>
                 </Box>
             </Box>
         </Box>

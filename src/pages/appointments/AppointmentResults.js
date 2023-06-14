@@ -92,7 +92,7 @@ const AppointmentResults = () => {
                                 <p>
                                     {moment(new Date(item.created_at)).format('HH:mm:ss')}
                                 </p>
-                                <a href={`https://tame-rose-clownfish-ring.cyclic.app/${item.resultFile}`}>
+                                <a href={`${item.resultFile}`}>
                                     <img className={classes.downloadImage} src={Download} alt="دانلود" />
                                 </a>
                             </Box>
@@ -116,7 +116,7 @@ const AppointmentResults = () => {
                                 <p>
                                     {moment(new Date(item.created_at)).format('HH:mm')}
                                 </p>
-                                <a href={`https://tame-rose-clownfish-ring.cyclic.app/${item.resultFile}`}>
+                                <a href={`${item.resultFile}`}>
                                     <img className={classes.downloadImage} src={Download} alt="دانلود" />
                                 </a>
                             </Box>

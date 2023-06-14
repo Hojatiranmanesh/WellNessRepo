@@ -198,7 +198,7 @@ const EditProfile = () => {
                 setHealthBackground(res.data.data.healthBackground)
                 setAddress(res.data.data.address)
                 if (res.data.data.image || res.data.data.image !== undefined) {
-                    setImage(`https://tame-rose-clownfish-ring.cyclic.app/${res.data.data.image}`)
+                    setImage(`${res.data.data.image}`)
                 }
             })
         // .catch(err => {

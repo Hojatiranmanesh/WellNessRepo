@@ -105,7 +105,7 @@ const NewQuizTab = ({ onStart }) => {
             <h5 className={classes.intro} style={{ marginTop: 20 }}>{quizTitle}</h5>
             <AudioPlayer
                 style={{ direction: "ltr", display: "none" }}
-                src={`https://tame-rose-clownfish-ring.cyclic.app/${quizAudio}`}
+                src={`${quizAudio}`}
                 onPlay={e => console.log("onPlay")}
                 showJumpControls={false}
                 layout="horizontal"

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Box, ButtonBase } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import React, {useState, useEffect} from 'react';
+import {Box, ButtonBase} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
 import axios from 'axios';
 import moment from 'moment-jalaali';
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 // import io from 'socket.io-client';
 import send from "../../assets/images/send.png";
 import AdminNav from '../../components/AdminNav'
@@ -12,7 +12,7 @@ import AdminNav from '../../components/AdminNav'
 // const socket = io.connect('https://tame-rose-clownfish-ring.cyclic.app');
 
 const useQuery = () => {
-    const { search } = useLocation();
+    const {search} = useLocation();
 
     return React.useMemo(() => new URLSearchParams(search), [search]);
 }
@@ -122,6 +122,21 @@ const AdminChatPage = () => {
         //     setMessages(messages => [...messages, { user: { _id: id }, sender: { _id: localStorage.getItem('userid'), }, message: message.message, date: new Date() }])
         // }
         // socket.once('message', messageListener);
+        const url = 'https://tame-rose-clownfish-ring.cyclic.app/api/v1/messages/';
+        const data = {
+            message: messageInput,
+            user: id,
+            sender: localStorage.getItem('userid')
+        };
+        const config = {headers: {'Authorization': `bearer ${localStorage.getItem('jwt')}`}};
+        axios.post(url, data, config).then(res => {
+            setMessages(messages => [...messages, {
+                user: {_id: id},
+                sender: {_id: localStorage.getItem('userid'),},
+                message: message.message,
+                date: new Date()
+            }])
+        }).catch(err => console.log(err))
     };
 
     useEffect(() => {
@@ -140,7 +155,7 @@ const AdminChatPage = () => {
 
     return (
         <>
-            <AdminNav />
+            <AdminNav/>
             <Box className={classes.container}>
 
                 <Box className={classes.header}>
@@ -148,7 +163,8 @@ const AdminChatPage = () => {
                 </Box>
                 <Box className={classes.innerContainer}>
                     {messages.map((message, index) => (
-                        <Box className={(message.user._id === message.sender._id) ? classes.recieved : classes.sent} key={index}>
+                        <Box className={(message.user._id === message.sender._id) ? classes.recieved : classes.sent}
+                             key={index}>
                             <Box className={classes.messageBox}>{message.message}</Box>
                             <Box>{moment(new Date(message.date)).format('jYYYY/jM/jD HH:mm:ss')}</Box>
                         </Box>
@@ -164,7 +180,7 @@ const AdminChatPage = () => {
                     onChange={handleMessageWrite}
                 />
                 <ButtonBase className={classes.sendButton} onClick={sendMessage}>
-                    <img style={{ width: 32 }} src={send} alt="ارسال" />
+                    <img style={{width: 32}} src={send} alt="ارسال"/>
                 </ButtonBase>
                 <Box className={classes.botButtons}>
                     <ButtonBase className={classes.return}>بازگشت</ButtonBase>

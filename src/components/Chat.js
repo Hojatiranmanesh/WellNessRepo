@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 // import io from 'socket.io-client';
-import { Box, ButtonBase } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import {Box, ButtonBase} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
 import user from "../assets/images/demoUser.png";
 import send from "../assets/images/send.png";
 import axios from "axios";
@@ -83,12 +83,10 @@ const useStyles = makeStyles({
 
 
 const Chat = () => {
-    const [state, setState] = useState({ message: "", name: "" });
+    const [state, setState] = useState({message: "", name: ""});
     const classes = useStyles();
     const [messageInput, setMessageInput] = useState('');
-    const [messages, setMessages] = useState([
-
-    ]);
+    const [messages, setMessages] = useState([]);
     useEffect(() => {
         axios.get(`https://tame-rose-clownfish-ring.cyclic.app/api/v1/messages/${localStorage.getItem('userid')}`)
             .then(res => {
@@ -100,7 +98,13 @@ const Chat = () => {
                     } else {
                         type = 'recieved'
                     }
-                    setMessages(messages => [...messages, { type: type, message: element.message, image: element.sender.image, name: element.sender.firstname + " " + element.sender.lastname, date: element.date }])
+                    setMessages(messages => [...messages, {
+                        type: type,
+                        message: element.message,
+                        image: element.sender.image,
+                        name: element.sender.firstname + " " + element.sender.lastname,
+                        date: element.date
+                    }])
                 });
 
             })
@@ -128,6 +132,16 @@ const Chat = () => {
         //     setMessages(messages => [...messages, { type: type, message: message.message, date: new Date() }])
         // }
         // socket.once('message', messageListener);
+        const url = 'https://tame-rose-clownfish-ring.cyclic.app/api/v1/messages/';
+        const data = {
+            message: messageInput,
+            user: localStorage.getItem('userid'),
+            sender: localStorage.getItem('userid')
+        };
+        const config = {headers: {'Authorization': `bearer ${localStorage.getItem('jwt')}`}};
+        axios.post(url, data, config).then(res => {
+            setMessages(messages => [...messages, { type: 'sent', message: message.message, date: new Date() }])
+        }).catch(err=> console.log(err))
     };
 
 
@@ -137,29 +151,36 @@ const Chat = () => {
                 {messages.map(item => {
                     return (
                         <Box className={classes.messageBox}
-                            style={{
-                                alignItems: (item.type === "sent") ? "flex-end" : "flex-start",
-                            }}>
+                             style={{
+                                 alignItems: (item.type === "sent") ? "flex-end" : "flex-start",
+                             }}>
                             <Box style={{
                                 display: 'flex',
                                 flexDirection: (item.type === "sent") ? "row" : "row-reverse",
                             }}>
                                 <Box className={classes.messageContainer}
-                                    style={{
-                                        background: (item.type === "sent") ? "#c9e3fc" : "#08afe4",
-                                        color: (item.type === "sent") ? "#7786a3" : "#dbe9f4",
-                                    }}
+                                     style={{
+                                         background: (item.type === "sent") ? "#c9e3fc" : "#08afe4",
+                                         color: (item.type === "sent") ? "#7786a3" : "#dbe9f4",
+                                     }}
                                 >{item.message}</Box>
-                                {(item.type === "sent") ? <img className={classes.userImage} src={(item.image !== undefined) ? `https://tame-rose-clownfish-ring.cyclic.app/${item.image}` : user} alt="user" /> : <img className={classes.userImage} src={(item.image) ? `https://tame-rose-clownfish-ring.cyclic.app/${item.image}` : user} alt="user" />}
+                                {(item.type === "sent") ? <img className={classes.userImage}
+                                                               src={(item.image !== undefined) ? `${item.image}` : user}
+                                                               alt="user"/> : <img className={classes.userImage}
+                                                                                   src={(item.image) ? `${item.image}` : user}
+                                                                                   alt="user"/>}
                             </Box>{console.log(item.date)}
-                            <p className={classes.chatName} style={{ marginRight: (item.type === "sent") ? "0" : 80, marginLeft: (item.type === "recieved") ? "0" : 80, }}>{item.name} {moment(new Date(item.date)).format('jD jMMMM jYYYY HH:SS')}</p>
+                            <p className={classes.chatName} style={{
+                                marginRight: (item.type === "sent") ? "0" : 80,
+                                marginLeft: (item.type === "recieved") ? "0" : 80,
+                            }}>{item.name} {moment(new Date(item.date)).format('jD jMMMM jYYYY HH:SS')}</p>
                         </Box>
                     )
                 })}
             </Box>
             <Box className={classes.input}>
                 <ButtonBase className={classes.sendButton} onClick={sendMessage}>
-                    <img style={{ width: 20 }} src={send} alt="ارسال" />
+                    <img style={{width: 20}} src={send} alt="ارسال"/>
                 </ButtonBase>
                 <input
                     className={classes.chatInput}
@@ -171,7 +192,7 @@ const Chat = () => {
                     onChange={handleMessageWrite}
                 />
             </Box>
-        </Box >
+        </Box>
     )
 }
 
