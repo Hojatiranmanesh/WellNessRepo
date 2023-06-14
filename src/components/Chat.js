@@ -140,7 +140,7 @@ const Chat = () => {
         };
         const config = {headers: {'Authorization': `bearer ${localStorage.getItem('jwt')}`}};
         axios.post(url, data, config).then(res => {
-            setMessages(messages => [...messages, { type: 'sent', message: message.message, date: new Date() }])
+            setMessages(messages => [...messages, { type: 'sent', message: data.message, date: new Date() }])
         }).catch(err=> console.log(err))
     };
 

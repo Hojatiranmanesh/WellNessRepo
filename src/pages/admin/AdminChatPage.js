@@ -133,7 +133,7 @@ const AdminChatPage = () => {
             setMessages(messages => [...messages, {
                 user: {_id: id},
                 sender: {_id: localStorage.getItem('userid'),},
-                message: message.message,
+                message: data.message,
                 date: new Date()
             }])
         }).catch(err => console.log(err))
