@@ -138,6 +138,7 @@ const Chat = () => {
             user: localStorage.getItem('userid'),
             sender: localStorage.getItem('userid')
         };
+        console.log(data)
         const config = {headers: {'Authorization': `bearer ${localStorage.getItem('jwt')}`}};
         axios.post(url, data, config).then(res => {
             setMessages(messages => [...messages, { type: 'sent', message: data.message, date: new Date() }])
@@ -169,7 +170,7 @@ const Chat = () => {
                                                                alt="user"/> : <img className={classes.userImage}
                                                                                    src={(item.image) ? `${item.image}` : user}
                                                                                    alt="user"/>}
-                            </Box>{console.log(item.date)}
+                            </Box>
                             <p className={classes.chatName} style={{
                                 marginRight: (item.type === "sent") ? "0" : 80,
                                 marginLeft: (item.type === "recieved") ? "0" : 80,
