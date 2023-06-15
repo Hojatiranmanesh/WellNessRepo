@@ -193,13 +193,19 @@ const QuizEval = () => {
                 setAnswers(array)
             })
             .catch(err => {
+                if (err.response.status === 401) {
+                    localStorage.removeItem('jwt')
+                }
+                if (err.response.status === 404) {
+                    setSnackType("warning")
+                    setSnackMessage("بررسی وجود ندارد")
+                    setOpenSnack(true)
+                }
                 console.log(err)
                 setSnackType("error")
                 setSnackMessage("خطا در سرور")
                 setOpenSnack(true)
-                if (err.response.status === 401) {
-                    localStorage.removeItem('jwt')
-                }
+
             })
     }, [])
     return (
