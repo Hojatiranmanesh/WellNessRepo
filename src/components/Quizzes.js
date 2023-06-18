@@ -71,7 +71,7 @@ const Quizzes = () => {
                     setQuizzes(quizzes => [...quizzes,
                     <ButtonBase listId={element._id} key={element._id} className={classes.button} onClick={((e) => handleClick(e, element._id))} component={Link} to="/quizzes/dimension/quiz">
                         <div style={{ background: colors[index] }} className={classes.iconWrapper}>
-                            <img className={classes.quizIcon} src={`${element.quizIcon}`} alt={element.quizCategory} />
+                            {/*<img className={classes.quizIcon} src={`${element.quizIcon}`} alt={element.quizCategory} />*/}
                         </div>
                         <p className={classes.buttonCaption}>{element.quizCategory}</p>
                     </ButtonBase>])
