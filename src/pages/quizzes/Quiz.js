@@ -114,9 +114,9 @@ const Quiz = () => {
                     '#c9dbef',
                 ],
                 elements: {
-                    arc: {
-                        borderWidth: 0
-                    }
+                    // arc: {
+                    //     borderWidth: 0
+                    // }
                 },
             },
         ],
