@@ -133,9 +133,9 @@ const Quiz = () => {
                             {textScore}
                         </h2>
                     </Box>
-                    <Box>
-                        <Doughnut data={data} width={150} height={150} options={{ responsive: true }}/*plugins={plugins}*/ />
-                    </Box>
+                    {/*<Box>*/}
+                    {/*    <Doughnut data={data} width={150} height={150} options={{ responsive: true }}/*plugins={plugins}*/ />*/}
+                    {/*</Box>*/}
                 </Box>
 
                 <Tabs style={{ backgroundColor: "#c4dffaad", color: "#7887a2" }} TabIndicatorProps={{
