@@ -78,9 +78,10 @@ const Quiz = () => {
             { headers: { 'Authorization': token } },
         ).then(res => {
             let temScore = 0;
+            console.log(res.data);
             res.data.data.forEach((element, index) => {
-                temScore += element.score;
-                setScore(score + element.score);
+                temScore += element['score'];
+                setScore(score + element['score']);
                 setScore(temScore / res.data.data.length)
             });
         })
