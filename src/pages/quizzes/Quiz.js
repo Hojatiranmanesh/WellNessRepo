@@ -4,7 +4,6 @@ import { Box, Tabs, Tab } from '@material-ui/core';
 import NewQuizTab from '../../components/NewQuizTab';
 import QuizEval from '../../components/QuizEval';
 import { makeStyles } from "@material-ui/core/styles";
-import { Doughnut } from 'react-chartjs-2';
 import QuizQuestion from '../../components/QuizQuestions';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -104,23 +103,6 @@ const Quiz = () => {
             setTextscore("نامعلوم")
         }
     }, [score])
-    const data = {
-        datasets: [
-            {
-                label: '# of Votes',
-                data: [score * 10, (10 - score) * 10],
-                backgroundColor: [
-                    '#5fc3f4',
-                    '#c9dbef',
-                ],
-                elements: {
-                    // arc: {
-                    //     borderWidth: 0
-                    // }
-                },
-            },
-        ],
-    };
 
     return (
         <>
@@ -133,9 +115,6 @@ const Quiz = () => {
                             {textScore}
                         </h2>
                     </Box>
-                    {/*<Box>*/}
-                    {/*    <Doughnut data={data} width={150} height={150} options={{ responsive: true }}/*plugins={plugins}*/ />*/}
-                    {/*</Box>*/}
                 </Box>
 
                 <Tabs style={{ backgroundColor: "#c4dffaad", color: "#7887a2" }} TabIndicatorProps={{
