@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, ButtonBase } from '@material-ui/core';
+import { Box, ButtonBase, Divider, Button } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,8 @@ const useStyle = makeStyles({
         display: "flex",
         justifyContent: "space-evenly",
         flexWrap: "wrap",
-        marginTop: 30
+        marginTop: 30,
+        width: "100%",
     },
     button: {
         display: "flex",
@@ -36,6 +37,27 @@ const useStyle = makeStyles({
     quizIcon: {
         height: 40,
         width: 40,
+    },
+    wraperWraper: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    divider: {
+        height: '1px',
+        width: '90%',
+        marginTop: 30,
+    },
+    suggestButton: {
+        height: 65,
+        width: 150,
+        marginTop: 30,
+        boxShadow: "-7px 6px 13px #a6a6a6b8, 7px -8px 20px 0px #ffffffd1",
+        fontWeight: "bold",
+        borderRadius: 20,
+        backgroundColor: "#CBDAF1",
+        color: "#7888A2",
     },
 });
 
@@ -76,6 +98,7 @@ const Quizzes = () => {
                         <p className={classes.buttonCaption}>{element.quizCategory}</p>
                     </ButtonBase>])
                 });
+
             })
             .catch(function (error) {
                 console.log(error);
@@ -85,9 +108,26 @@ const Quizzes = () => {
             })
     }, []);
 
+    let suggestiveQuiz = (
+        <>
+            <Divider variant='middle' className={classes.divider} />
+            <p style={{ color: "#AFBCCD", marginTop: 30 }}>SPA-S-1</p>
+            <Box display="flex" flexWrap="wrap" justifyContent="space-around" >
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/dimension/quiz/movement">تحرک</Button>
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/dimension/quiz/nutrition">تغذیه</Button>
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/physical/quiz/breath">تنفس</Button>
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/dimension/quiz/sleep">خواب</Button>
+            </Box>
+        </>
+    )
+
     return (
-        <Box className={classes.quizzesWrapper}>
-            {quizzes}
+        <Box className={classes.wraperWraper}>
+            <Box className={classes.quizzesWrapper}>
+                {quizzes}
+            </Box>
+
+            {(dimension === "physical") ? suggestiveQuiz : null}
         </Box>
     )
 }
