@@ -33,7 +33,7 @@ import ReserveAppointment from "./pages/appointments/ReserveAppointment";
 import AppointmentResults from "./pages/appointments/AppointmentResults";
 import ActivateProfile from "./pages/auth/ActivateProfile";
 import QuizzesDims from "./pages/quizzes/QuizzesDims";
-import Breath from "./pages/quizzes/quizes/breath";
+import Nutrition from "./pages/quizzes/quizes/Nutrition";
 import Dimension from './pages/quizzes/Dimension';
 import Breathing from './pages/evolution/Breathing';
 import OnlineAppointment from './pages/appointments/OnlineAppointment';
@@ -128,7 +128,7 @@ const App = props => {
                 <Route path="/quizzes" exact component={QuizzesDims} />
                 <Route path="/quizzes/dimension" exact component={Dimension} />
                 <Route path="/quizzes/dimension/quiz" component={Quiz} />
-                <Route path="/quizzes/physical/quiz/breath" component={Breath} />
+                <Route path="/quizzes/physical/quiz/breath" component={Nutrition} />
                 <Route path="/evolution" exact component={Evolution} />
                 <Route path="/evolution/breathing" exact component={Breathing} />
                 <Route path="/evolution/relaxation" component={Norbu} />
