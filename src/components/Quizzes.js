@@ -113,10 +113,10 @@ const Quizzes = () => {
             <Divider variant='middle' className={classes.divider} />
             <p style={{ color: "#AFBCCD", marginTop: 30 }}>SPA-S-1</p>
             <Box display="flex" flexWrap="wrap" justifyContent="space-around" >
-                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/dimension/quiz/movement">تحرک</Button>
-                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/dimension/quiz/nutrition">تغذیه</Button>
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/physical/quiz/movement">تحرک</Button>
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/physical/quiz/nutrition">تغذیه</Button>
                 <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/physical/quiz/breath">تنفس</Button>
-                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/dimension/quiz/sleep">خواب</Button>
+                <Button variant="contained" className={classes.suggestButton} component={Link} to="/quizzes/physical/quiz/sleep">خواب</Button>
             </Box>
         </>
     )

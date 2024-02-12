@@ -1,15 +1,43 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, Radio, RadioGroup, FormControlLabel, FormControl, Input, Button } from '@mui/material';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import {Link} from 'react-router-dom';
+import ArrowForward from '@material-ui/icons/ArrowForward';
+
 
 
 const useStyles = makeStyles({
     container: {
         padding: '2rem',
+        height: '90%',
+    },
+    accordion: {
+
+    },
+    gradientLine: {
+        height: '1px',
+        width: '100%',
+        border: "none",
+        background: 'linear-gradient(to right, transparent, black, transparent)',
+    },
+    table: {
+        width: "100%",
+        backgroundColor: "#d4ebff88",
+        borderRadius: "10px",
+        marginBottom: "1rem",
+    },
+    tableHead: {
+        backgroundColor: "#d4ebff",
+        textAlign: "center",
+    },
+    tableRow: {
+        textAlign: "center"
     },
     progressBar: {
         width: '100%',
+        height: '.5rem',
     },
     textWrapper: {
         overflow: 'auto',
@@ -18,6 +46,8 @@ const useStyles = makeStyles({
     quizText: {
         fontSize: '1.2rem',
         textAlign: 'justify',
+        fontWeight: 'bold',
+        marginBottom: '1rem',
     },
     option: {
         width: '100%',
@@ -26,28 +56,18 @@ const useStyles = makeStyles({
         padding: '0.5rem',
         border: '2px solid #2d93ad',
         backgroundColor: 'transparent',
-        "&:hover": {
-            backgroundColor: '#2d93ad',
-        }
     },
     buttonWrapepr: {
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        flexDirection: "row-reverse"
     },
     button: {
-        width: '100%',
-        maxWidth: '200px',
-        backgroundColor: '#2d93ad',
-        color: 'white',
+        backgroundColor: 'transparent',
         padding: '0.5rem',
         fontSize: '1rem',
-        fontWeight: 'bold',
         border: 'none',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-        '&:hover': {
-            backgroundColor: 'gray',
-        },
     },
 });
 
@@ -55,6 +75,8 @@ const Nutrition = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState([]);
     const classes = useStyles();
+    const [selectedValue, setSelectedValue] = useState(null);
+
     const [table1Rows, setTable1Rows] = useState([]);
     const [table2Rows, setTable2Rows] = useState([]);
     const [table3Rows, setTable3Rows] = useState([]);
@@ -142,7 +164,7 @@ const Nutrition = () => {
             food: detailsInput[4].food,
             calories: detailsInput[4].calories,
         };
-        
+
         setTable5Rows([...table5Rows, newRow]);
         setDetailsInput([
             { time: '', food: '', calories: '' },
@@ -245,10 +267,6 @@ const Nutrition = () => {
             text: 'در ادامه جدولی شامل ارزش غذایی موادی که مصرف بیش تری در کشورمان دارند تهیه شده است که توجه به آن و رژیم های غذایی معرفی شده در مراحل قبل، در کنار گرفتن مشاوره از پشتیبان می تواند کمک شایانی به بهبود سبک غذایی بکند.(اطلاعات این جدول به ازای هر 100 گرم از محصول گردآوری شده است.)در صورت دسترسی به گوشی/ساعت هوشمند می توانید از نرم افزار Nutrition Info برای داشتن اطلاعات جامع تر در این زمینه استفاده کنیدآیکون نرم افزار قرار داده شود.',
             options: [],
         },
-        {
-            text: ' ',
-            options: ['Option A', 'Option B', 'Option C'],
-        },
         // Add more questions here
     ];
 
@@ -257,23 +275,29 @@ const Nutrition = () => {
     };
 
     const handleNext = () => {
-        setCurrentQuestion(currentQuestion + 1);
+        if (questions[currentQuestion].options.length !== 0 && selectedValue === null) { } else {
+            setCurrentQuestion(currentQuestion + 1);
+            setSelectedValue(null);
+        }
     };
 
     const handlePrev = () => {
         setCurrentQuestion(currentQuestion - 1);
+    };
+    const handleChange = (event) => {
+        setSelectedValue(event.target.value);
     };
 
     return (
         <div className={classes.container}>
             <progress className={classes.progressBar} value={currentQuestion} max={questions.length}></progress>
             {currentQuestion < questions.length ? (
-                <div>
+                <Box display="flex" flexDirection="column" height="90%" justifyContent="space-between" >
                     <div className={classes.textWrapper}>
                         <p className={classes.quizText}>{questions[currentQuestion].text}</p>
                         {(currentQuestion === 2) && (
                             <div>
-                                <Accordion>
+                                <Accordion className={classes.accordion} >
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1a-content"
@@ -283,31 +307,29 @@ const Nutrition = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
-                                            <table style={{ width: "100%", border: "1px solid black" }}>
-                                                <table style={{ width: "100%", border: "1px solid black" }}>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ساعت</th>
-                                                            <th>غذا</th>
-                                                            <th>مقدار (کالری)</th>
+                                            <table className={classes.table} >
+                                                <thead className={classes.tableHead}>
+                                                    <tr>
+                                                        <th>ساعت</th>
+                                                        <th>غذا</th>
+                                                        <th>مقدار (کالری)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {table1Rows.map((row, index) => (
+                                                        <tr key={index}>
+                                                            <td className={classes.tableRow}>{row.time}</td>
+                                                            <td className={classes.tableRow}>{row.food}</td>
+                                                            <td className={classes.tableRow}>{row.calories}</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {table1Rows.map((row, index) => (
-                                                            <tr key={index}>
-                                                                <td>{row.time}</td>
-                                                                <td>{row.food}</td>
-                                                                <td>{row.calories}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                                                    ))}
+                                                </tbody>
                                             </table>
 
                                         </Box>
                                         <Box display="flex" justifyContent="space-between">
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     placeholder='ساعت'
@@ -320,7 +342,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[0].food}
@@ -333,7 +355,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[0].calories}
@@ -347,7 +369,7 @@ const Nutrition = () => {
                                             </Box>
                                         </Box>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow1}>Add More Row</button>
+                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow1}>اضافه</button>
                                         </Box>
 
 
@@ -363,31 +385,29 @@ const Nutrition = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
-                                            <table style={{ width: "100%", border: "1px solid black" }}>
-                                                <table style={{ width: "100%", border: "1px solid black" }}>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ساعت</th>
-                                                            <th>غذا</th>
-                                                            <th>مقدار (کالری)</th>
+                                            <table className={classes.table} >
+                                                <thead className={classes.tableHead}>
+                                                    <tr>
+                                                        <th>ساعت</th>
+                                                        <th>غذا</th>
+                                                        <th>مقدار (کالری)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {table2Rows.map((row, index) => (
+                                                        <tr key={index}>
+                                                            <td>{row.time}</td>
+                                                            <td>{row.food}</td>
+                                                            <td>{row.calories}</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {table2Rows.map((row, index) => (
-                                                            <tr key={index}>
-                                                                <td>{row.time}</td>
-                                                                <td>{row.food}</td>
-                                                                <td>{row.calories}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                                                    ))}
+                                                </tbody>
                                             </table>
 
                                         </Box>
                                         <Box display="flex" justifyContent="space-between">
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     placeholder='ساعت'
@@ -400,7 +420,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[1].food}
@@ -413,7 +433,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[1].calories}
@@ -427,7 +447,7 @@ const Nutrition = () => {
                                             </Box>
                                         </Box>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow2}>Add More Row</button>
+                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow2}>اضافه</button>
                                         </Box>
                                     </AccordionDetails>
                                 </Accordion>
@@ -442,31 +462,29 @@ const Nutrition = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
-                                            <table style={{ width: "100%", border: "1px solid black" }}>
-                                                <table style={{ width: "100%", border: "1px solid black" }}>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ساعت</th>
-                                                            <th>غذا</th>
-                                                            <th>مقدار (کالری)</th>
+                                            <table className={classes.table} >
+                                                <thead className={classes.tableHead}>
+                                                    <tr>
+                                                        <th>ساعت</th>
+                                                        <th>غذا</th>
+                                                        <th>مقدار (کالری)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {table3Rows.map((row, index) => (
+                                                        <tr key={index}>
+                                                            <td>{row.time}</td>
+                                                            <td>{row.food}</td>
+                                                            <td>{row.calories}</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {table3Rows.map((row, index) => (
-                                                            <tr key={index}>
-                                                                <td>{row.time}</td>
-                                                                <td>{row.food}</td>
-                                                                <td>{row.calories}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                                                    ))}
+                                                </tbody>
                                             </table>
 
                                         </Box>
                                         <Box display="flex" justifyContent="space-between">
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     placeholder='ساعت'
@@ -479,7 +497,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[2].food}
@@ -492,7 +510,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[2].calories}
@@ -506,7 +524,7 @@ const Nutrition = () => {
                                             </Box>
                                         </Box>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow3}>Add More Row</button>
+                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow3}>اضافه</button>
                                         </Box>
                                     </AccordionDetails>
                                 </Accordion>
@@ -520,32 +538,30 @@ const Nutrition = () => {
                                         <Typography>روز چهارم</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                    <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
-                                            <table style={{ width: "100%", border: "1px solid black" }}>
-                                                <table style={{ width: "100%", border: "1px solid black" }}>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ساعت</th>
-                                                            <th>غذا</th>
-                                                            <th>مقدار (کالری)</th>
+                                        <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
+                                            <table className={classes.table} >
+                                                <thead className={classes.tableHead}>
+                                                    <tr>
+                                                        <th>ساعت</th>
+                                                        <th>غذا</th>
+                                                        <th>مقدار (کالری)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {table4Rows.map((row, index) => (
+                                                        <tr key={index}>
+                                                            <td>{row.time}</td>
+                                                            <td>{row.food}</td>
+                                                            <td>{row.calories}</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {table4Rows.map((row, index) => (
-                                                            <tr key={index}>
-                                                                <td>{row.time}</td>
-                                                                <td>{row.food}</td>
-                                                                <td>{row.calories}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                                                    ))}
+                                                </tbody>
                                             </table>
 
                                         </Box>
                                         <Box display="flex" justifyContent="space-between">
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     placeholder='ساعت'
@@ -558,7 +574,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[3].food}
@@ -571,7 +587,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[3].calories}
@@ -585,7 +601,7 @@ const Nutrition = () => {
                                             </Box>
                                         </Box>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow4}>Add More Row</button>
+                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow4}>اضافه</button>
                                         </Box>
                                     </AccordionDetails>
                                 </Accordion>
@@ -599,32 +615,30 @@ const Nutrition = () => {
                                         <Typography>روز پنجم</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                    <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
-                                            <table style={{ width: "100%", border: "1px solid black" }}>
-                                                <table style={{ width: "100%", border: "1px solid black" }}>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ساعت</th>
-                                                            <th>غذا</th>
-                                                            <th>مقدار (کالری)</th>
+                                        <Box style={{ width: "100%", display: "flex", justifyContent: "center" }} >
+                                            <table className={classes.table} >
+                                                <thead className={classes.tableHead}>
+                                                    <tr>
+                                                        <th>ساعت</th>
+                                                        <th>غذا</th>
+                                                        <th>مقدار (کالری)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {table5Rows.map((row, index) => (
+                                                        <tr key={index}>
+                                                            <td>{row.time}</td>
+                                                            <td>{row.food}</td>
+                                                            <td>{row.calories}</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {table5Rows.map((row, index) => (
-                                                            <tr key={index}>
-                                                                <td>{row.time}</td>
-                                                                <td>{row.food}</td>
-                                                                <td>{row.calories}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                                                    ))}
+                                                </tbody>
                                             </table>
 
                                         </Box>
                                         <Box display="flex" justifyContent="space-between">
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     placeholder='ساعت'
@@ -637,7 +651,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[4].food}
@@ -650,7 +664,7 @@ const Nutrition = () => {
                                                 />
                                             </Box>
                                             <Box style={{ width: "30%", }}>
-                                                <input
+                                                <Input
                                                     type="text"
                                                     style={{ width: "100%" }}
                                                     value={detailsInput[4].calories}
@@ -664,35 +678,448 @@ const Nutrition = () => {
                                             </Box>
                                         </Box>
                                         <Box style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow5}>Add More Row</button>
+                                            <button className={classes.button} style={{ width: '100%', borderRadius: '10px' }} onClick={handleAddRow5}>اضافه</button>
                                         </Box>
                                     </AccordionDetails>
                                 </Accordion>
                             </div>
                         )}
 
-                        <ul style={{ display: 'grid', justifyContent: 'center', listStyle: 'none' }}>
-                            {questions[currentQuestion].options.map((option, index) => (
-                                <li key={index} style={{ width: "100%", margin: "0 auto" }}>
-                                    <button className={classes.option} onClick={() => handleAnswer(option)}>{option}</button>
-                                </li>
-                            ))}
-                        </ul>
+                        <FormControl component="fieldset" style={{ width: "100%" }}>
+                            <RadioGroup
+                                value={selectedValue}
+                                onChange={handleChange}
+                                style={{ display: 'grid', justifyContent: 'center', listStyle: 'none', width: "100%" }}
+                            >
+                                {questions[currentQuestion].options.map((option, index) => (
+                                    <>
+                                        <FormControlLabel value={index} control={<Radio />} label={option} />
+                                        <hr className={classes.gradientLine} />
+                                    </>
+                                ))}
+                            </RadioGroup>
+                        </FormControl>
                     </div>
                     <div className={classes.buttonWrapepr}>
-                        {currentQuestion > 0 && <button className={classes.button} style={{
-                            borderRadius: '0px 10px 10px 0px',
-                        }} onClick={handlePrev}>مرحله قبل</button>}
                         <button className={classes.button} onClick={handleNext}
                             style={currentQuestion > 0 ? { borderRadius: '10px 0px 0px 10px', } : { borderRadius: '10px 10px 10px 10px', }}
-                        >مرحله بعد</button>
+                        >مرحله بعد
+                            <ArrowBack style={{ position: "relative", top: 8 }} />
+                        </button>
+                        {currentQuestion > 0 && <button className={classes.button} style={{
+                            borderRadius: '0px 10px 10px 0px',
+                        }} onClick={handlePrev}>
+                            <ArrowForward style={{ position: "relative", top: 8 }} />
+                            مرحله قبل</button>}
+
                     </div>
-                </div >
+                </Box >
             ) : (
-                <div>
-                    <h2>Quiz Completed!</h2>
-                    <p>Answers: {answers.join(', ')}</p>
-                </div>
+                <>
+                    <table className={classes.table}>
+                        <thead className={classes.tableHead}>
+                            <tr>
+                                <td>نام محصول</td>
+                                <td>محتوای کالری
+                                    (کیلو کالری)</td>
+                                <td>پروتئین
+                                    (گرم)</td>
+                                <td>چربی
+                                    (گرم)</td>
+                                <td>کربوهیدرات
+                                    (گرم)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>پنیر فتا</td>
+                                <td>264</td>
+                                <td>14.20</td>
+                                <td>21.3</td>
+                                <td>4.1</td>
+                            </tr>
+                            <tr>
+                                <td>شیر کم چرب </td>
+                                <td>45</td>
+                                <td>12.00</td>
+                                <td>16.5</td>
+                                <td>9.5</td>
+                            </tr>
+                            <tr>
+                                <td> شیر پرچرب</td>
+                                <td>62</td>
+                                <td>2.90</td>
+                                <td>3.5</td>
+                                <td>4.7</td>
+                            </tr>
+                            <tr>
+                                <td>دوغ</td>
+                                <td>41</td>
+                                <td>3.30</td>
+                                <td>10</td>
+                                <td>19.4</td>
+                            </tr>
+                            <tr>
+                                <td> خامه کم چرب</td>
+                                <td>207</td>
+                                <td>2.50</td>
+                                <td>20</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>خامه پرچرب </td>
+                                <td>337</td>
+                                <td>2.20</td>
+                                <td>35</td>
+                                <td>3.2</td>
+                            </tr>
+                            <tr>
+                                <td>ماست کم چرب</td>
+                                <td>57</td>
+                                <td>4.10</td>
+                                <td>1.5</td>
+                                <td>5.9</td>
+                            </tr>
+                            <tr>
+                                <td>  ماست پرچرب</td>
+                                <td>68</td>
+                                <td>5.00</td>
+                                <td>32</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>بستنی خامه ای</td>
+                                <td>183</td>
+                                <td>3.30</td>
+                                <td>10</td>
+                                <td>19.4</td>
+                            </tr>
+                            <tr>
+                                <td> تخم مرغ</td>
+                                <td>157</td>
+                                <td>12.70</td>
+                                <td>11.5</td>
+                                <td>0.7</td>
+                            </tr>
+                            <tr>
+                                <td>  تخم بلدرچین</td>
+                                <td>168</td>
+                                <td>11.90</td>
+                                <td>13.1</td>
+                                <td>0.6</td>
+                            </tr>
+                            <tr>
+                                <td> ماهی قزل آلا صورتی</td>
+                                <td>140</td>
+                                <td>20.50</td>
+                                <td>6.5</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>میگو</td>
+                                <td>98</td>
+                                <td>20.50</td>
+                                <td>1.6</td>
+                                <td>0.3</td>
+                            </tr>
+                            <tr>
+                                <td>نان ورقه شده    </td>
+                                <td>262</td>
+                                <td>7.50</td>
+                                <td>2.9</td>
+                                <td>51.4</td>
+                            </tr>
+                            <tr>
+                                <td> ذرت شیرین</td>
+                                <td>86</td>
+                                <td>3.20</td>
+                                <td>1.2</td>
+                                <td>19</td>
+                            </tr>
+                            <tr>
+                                <td>ماکارونی آب پز</td>
+                                <td>98</td>
+                                <td>3.60</td>
+                                <td>0.4</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>  کلوچه های شکری</td>
+                                <td>417</td>
+                                <td>7.50</td>
+                                <td>9.8</td>
+                                <td>74.4</td>
+                            </tr>
+                            <tr>
+                                <td>دانه برنج</td>
+                                <td>303</td>
+                                <td>7.50</td>
+                                <td>2.6</td>
+                                <td>62.3</td>
+                            </tr>
+                            <tr>
+                                <td> نان گندم</td>
+                                <td>235</td>
+                                <td>7.90</td>
+                                <td>0</td>
+                                <td>49.2</td>
+                            </tr>
+                            <tr>
+                                <td> نان آرد کامل</td>
+                                <td>247</td>
+                                <td>13.00</td>
+                                <td>3.4</td>
+                                <td>41.3</td>
+                            </tr>
+                            <tr>
+                                <td> نان با سبوس</td>
+                                <td>242</td>
+                                <td>8.20</td>
+                                <td>2.6</td>
+                                <td>46.3</td>
+                            </tr>
+                            <tr>
+                                <td>  نخود فرنگی</td>
+                                <td>299</td>
+                                <td>23.00</td>
+                                <td>1.6</td>
+                                <td>48.1</td>
+                            </tr>
+                            <tr>
+                                <td> نخود</td>
+                                <td>309</td>
+                                <td>20.10</td>
+                                <td>4.3</td>
+                                <td>46.1</td>
+                            </tr>
+                            <tr>
+                                <td>سویا</td>
+                                <td>364</td>
+                                <td>34.90</td>
+                                <td>17.3</td>
+                                <td>17.3</td>
+                            </tr>
+                            <tr>
+                                <td>لوبیا</td>
+                                <td>298</td>
+                                <td>21.00</td>
+                                <td>2</td>
+                                <td>47</td>
+                            </tr>
+                            <tr>
+                                <td>عدس</td>
+                                <td>295</td>
+                                <td>24.00</td>
+                                <td>1.5</td>
+                                <td>46.3</td>
+                            </tr>
+                            <tr>
+                                <td>بادام زمینی</td>
+                                <td>552</td>
+                                <td>26.30</td>
+                                <td>45.2</td>
+                                <td>9.9</td>
+                            </tr>
+                            <tr>
+                                <td>گردو</td>
+                                <td>656</td>
+                                <td>16.20</td>
+                                <td>60.8</td>
+                                <td>11.1</td>
+                            </tr>
+                            <tr>
+                                <td>کنجد</td>
+                                <td>565</td>
+                                <td>19.40</td>
+                                <td>48.7</td>
+                                <td>12.2</td>
+                            </tr>
+                            <tr>
+                                <td>بادام</td>
+                                <td>609</td>
+                                <td>18.60</td>
+                                <td>53.7</td>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>تخمه آفتابگردان</td>
+                                <td>601</td>
+                                <td>20.70</td>
+                                <td>52.9</td>
+                                <td>105</td>
+                            </tr>
+                            <tr>
+                                <td>پسته</td>
+                                <td>560</td>
+                                <td>20.20</td>
+                                <td>45.3</td>
+                                <td>27.2</td>
+                            </tr>
+                            <tr>
+                                <td>پیاز</td>
+                                <td>41</td>
+                                <td>1.40</td>
+                                <td>0.2</td>
+                                <td>8.2</td>
+                            </tr>
+                            <tr>
+                                <td>بادمجان</td>
+                                <td>24</td>
+                                <td>1.20</td>
+                                <td>0.1</td>
+                                <td>4.5</td>
+                            </tr>
+                            <tr>
+                                <td>کلم بروکلی</td>
+                                <td>34</td>
+                                <td>2.80</td>
+                                <td>0.4</td>
+                                <td>6.6</td>
+                            </tr>
+                            <tr>
+                                <td>سیب زمینی</td>
+                                <td>77</td>
+                                <td>2.00</td>
+                                <td>0.4</td>
+                                <td>16.3</td>
+                            </tr>
+                            <tr>
+                                <td>هویج</td>
+                                <td>35</td>
+                                <td>1.30</td>
+                                <td>0.1</td>
+                                <td>6.9</td>
+                            </tr>
+                            <tr>
+                                <td>خیار</td>
+                                <td>14</td>
+                                <td>0.80</td>
+                                <td>0.1</td>
+                                <td>2.5</td>
+                            </tr>
+                            <tr>
+                                <td>گوجه فرنگی</td>
+                                <td>24</td>
+                                <td>1.10</td>
+                                <td>0.2</td>
+                                <td>3.8</td>
+                            </tr>
+                            <tr>
+                                <td>کاهو</td>
+                                <td>16</td>
+                                <td>1.50</td>
+                                <td>0.2</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>آووکادو</td>
+                                <td>160</td>
+                                <td>2.00</td>
+                                <td>14.6</td>
+                                <td>1.8</td>
+                            </tr>
+                            <tr>
+                                <td>موز</td>
+                                <td>96</td>
+                                <td>1.50</td>
+                                <td>0.5</td>
+                                <td>21</td>
+                            </tr>
+                            <tr>
+                                <td>لیمو</td>
+                                <td>34</td>
+                                <td>0.90</td>
+                                <td>0.1</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>سیب</td>
+                                <td>47</td>
+                                <td>0.40</td>
+                                <td>0.4</td>
+                                <td>9.8</td>
+                            </tr>
+                            <tr>
+                                <td>قارچ سفید</td>
+                                <td>34</td>
+                                <td>3.70</td>
+                                <td>1.7</td>
+                                <td>1.1</td>
+                            </tr>
+                            <tr>
+                                <td> آب آناناس</td>
+                                <td>52</td>
+                                <td>0.30</td>
+                                <td>0.1</td>
+                                <td>11.8</td>
+                            </tr>
+                            <tr>
+                                <td>آب پرتقال</td>
+                                <td>45</td>
+                                <td>0.70</td>
+                                <td>0.2</td>
+                                <td>10.4</td>
+                            </tr>
+                            <tr>
+                                <td>آب انار</td>
+                                <td>56</td>
+                                <td>0.30</td>
+                                <td>0.1</td>
+                                <td>14.2</td>
+                            </tr>
+                            <tr>
+                                <td>آب هویج</td>
+                                <td>56</td>
+                                <td>1.10</td>
+                                <td>0.1</td>
+                                <td>12.6</td>
+                            </tr>
+                            <tr>
+                                <td>آب سیب</td>
+                                <td>46</td>
+                                <td>0.50</td>
+                                <td>0.1</td>
+                                <td>10.1</td>
+                            </tr>
+                            <tr>
+                                <td>روغن آفتابگردان</td>
+                                <td>899</td>
+                                <td>0.00</td>
+                                <td>99.9</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>روغن نارگیل</td>
+                                <td>899</td>
+                                <td>0.00</td>
+                                <td>99.9</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>روغن زیتون</td>
+                                <td>898</td>
+                                <td>0.00</td>
+                                <td>99.8</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>کره</td>
+                                <td>661</td>
+                                <td>0.80</td>
+                                <td>72.5</td>
+                                <td>1.3</td>
+                            </tr>
+                            <tr>
+                                <td>قند</td>
+                                <td>399</td>
+                                <td>0.00</td>
+                                <td>0</td>
+                                <td>99.8</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <Button component={Link} to="/quizzes"  type='button' variant='contained' style={{margin:"20px auto 80px"}}>بازگشت</Button>
+                </>
             )}
         </div >
     );

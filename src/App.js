@@ -66,6 +66,9 @@ import "./assets/fonts/fonts.css";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment-jalaali';
+import Breath from "./pages/quizzes/quizes/Breath";
+import Movement from "./pages/quizzes/quizes/Movement";
+import Sleep from "./pages/quizzes/quizes/Sleep";
 
 
 
@@ -128,7 +131,10 @@ const App = props => {
                 <Route path="/quizzes" exact component={QuizzesDims} />
                 <Route path="/quizzes/dimension" exact component={Dimension} />
                 <Route path="/quizzes/dimension/quiz" component={Quiz} />
-                <Route path="/quizzes/physical/quiz/breath" component={Nutrition} />
+                <Route path="/quizzes/physical/quiz/nutrition" component={Nutrition} />
+                <Route path="/quizzes/physical/quiz/breath" component={Breath} />
+                <Route path="/quizzes/physical/quiz/movement" component={Movement} />
+                <Route path="/quizzes/physical/quiz/sleep" component={Sleep} />
                 <Route path="/evolution" exact component={Evolution} />
                 <Route path="/evolution/breathing" exact component={Breathing} />
                 <Route path="/evolution/relaxation" component={Norbu} />
