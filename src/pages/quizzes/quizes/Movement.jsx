@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { Box, Radio, RadioGroup, FormControlLabel, FormControl, Input, Button } from '@mui/material';
+import { Box, Radio, RadioGroup, FormControlLabel, FormControl, Input, Button, Typography } from '@mui/material';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import ArrowForward from '@material-ui/icons/ArrowForward';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Fitness from '../../../assets/images/photo_2024-03-04_19-44-32.jpg';
+import Health from '../../../assets/images/photo_2024-03-04_19-44-28.jpg';
+import Mi from '../../../assets/images/photo_2024-03-04_19-44-34.jpg';
 
 
 
@@ -66,25 +69,29 @@ const StepResults = ({ steps, age }) => {
     const classes = useStyles();
     if (steps < 5000) {
         return (
-            <p className={classes.quizText}>شما در دسته افراد با تحرک بسیار بایین قرار دارید و توصیه می شود برای جلوگیری از بروز مشکلات احتمالی آینده، تحرک خود را افزایش دهید.</p>
+            <p className={classes.quizText}>نتایج نشان می‌دهد که شما در حال حاضر جزو افراد با تحرک پایین هستید. با افزایش تحرک و فعالیت بدنی، می‌توانید بروز اختلالات مختلف سلامتی را کنترل کنید.
+
+                .</p>
         );
     } else {
         if (age === 4 || age === 5 || age === 6) {
             if (5000 > steps > 6000) {
                 return (
-                    <p className={classes.quizText}>تحرک شما ازمیزان استاندارد کمتر است و بیشنهاد می شود در صورت امکان وقت بیشتری را صرف بیاده روی کنید. </p>
+                    <p className={classes.quizText}>بررسی‌ها نشان می‌دهد که میزان فعالیت شما در حال حاضر از حد ایده‌آل پایین‌تر است. پیشنهاد ما این است که در صورت امکان، زمان بیشتری را به پیاده‌روی اختصاص دهید.
+                    </p>
                 )
             } else {
                 return (
-                    <p className={classes.quizText}>میزان پیاده روی روزانه شما مناسب است. </p>
+                    <p className={classes.quizText}>فعالیت پیاده‌روی شما در سطح مطلوبی قرار دارد. </p>
                 )
             }
         } else {
             if (5000 > steps > 8000) {
-                <p className={classes.quizText}>تحرک شما ازمیزان استاندارد کمتر است و بیشنهاد می شود در صورت امکان وقت بیشتری را صرف بیاده روی کنید. </p>
+                <p className={classes.quizText}>بررسی‌ها نشان می‌دهد که میزان فعالیت شما در حال حاضر از حد ایده‌آل پایین‌تر است. پیشنهاد ما این است که در صورت امکان، زمان بیشتری را به پیاده‌روی اختصاص دهید.
+                </p>
             } else {
                 return (
-                    <p className={classes.quizText}>میزان پیاده روی روزانه شما مناسب است. </p>
+                    <p className={classes.quizText}>فعالیت پیاده‌روی شما در سطح مطلوبی قرار دارد. </p>
                 )
             }
         }
@@ -106,7 +113,7 @@ const Movement = () => {
 
     const questions = [
         {
-            text: 'پیاده روی و استمرار در آن علاوه بر تاثیردرسلامت جسمانی، باعث افزایش روحیه و انگیزه می شود.',
+            text: '',
             options: [],
         },
         {
@@ -195,6 +202,28 @@ const Movement = () => {
                 <Box display="flex" flexDirection="column" height="90%" justifyContent="space-between" >
                     <div className={classes.textWrapper}>
                         <p className={classes.quizText}>{questions[currentQuestion].text}</p>
+                        {(currentQuestion === 0) && (
+                            <>
+                                <p className={classes.quizText}>پیاده‌روی، این فعالیت ساده و در دسترس، فواید بی‌نظیری برای سلامتی ما دارد. قدم زدن نه تنها باعث تناسب اندام و سلامتی جسم می‌شود، بلکه روحیه و انگیزه ما را هم تقویت می‌کند.</p>
+                                <p className={classes.quizText}>فواید پیاده‌روی:</p>
+                                <ul>
+                                    <p className={classes.quizText}>سلامتی جسم</p>
+                                    <li>- تناسب اندام و سلامتی جسم</li>
+                                    <li>- مدیریت استرس و اضطراب</li>
+                                    <li>- تقویت مغز و افزایش قدرت تفکر، تمرکز و تصمیم‌گیری</li>
+                                    <li>- خوابی راحت و عمیق</li>
+                                    <li>- حفظ وزن ایده‌آل</li>
+                                    <li>- قلبی سالم و کاهش خطر ابتلا به اختلالات قلبی و عروقی</li>
+                                    <li>- تقویت سیستم ایمنی بدن و مبارزه با بیماری‌ها</li>
+                                    <li>- عضلات و استخوان‌های قوی</li>
+                                    <li>- کنترل قند خون در افراد مبتلا به دیابت</li>
+                                    <p className={classes.quizText}>سلامتی روان:</p>
+                                    <li>- تقویت روابط اجتماعی</li>
+                                    <li>- افزایش حس رضایت و خوشبختی</li>
+                                    <li>- یافتن آرامش و معنای زندگی</li>
+                                </ul>
+                            </>
+                        )}
                         {(currentQuestion === 2) && (
                             <Input placeholder='پیاده‌به دقیقه' type='number' className={classes.walkInput} value={walkMinutes} onChange={handleWalk} />
                         )}
@@ -236,14 +265,25 @@ const Movement = () => {
             ) : (
                 <div>
 
-                    <p>در صورت دسترس به ساعت/گوشی هوشمند با استفاده از یکی از نرم افزارهای زیر میتوانید اطلاعات دقیقتری از وضعیت تحرک خود داشته باشید.
+                    <p>
+                        در صورت دسترسی داشتن به ساعت/گوشی هوشمند با استفاده از یکی از نرم افزارهای زیر می‌توانید اطلاعات دقیق‌تری از وضعیت تحرک خود داشته باشید.
                     </p>
+                    <Box display="flex" alignItems="center" width="100%" justifyContent="space-between" marginY={2}>
+                        <img src={Fitness} alt="app" style={{ width: 60, height: 60 }} />
+                        <Typography variant='body1'>Fitness (برای آیفون)</Typography>
 
-                    <img className={classes.iconImage} src="https://play-lh.googleusercontent.com/x3NOGZ3oPTZZAIbT1KxaJFubC8hFkjtJPe37Q0s1Fnn2pnvOLYiuYjem6dFobtU5m9g=s48-rw" alt="Speed Pedometer" />
-                    <img className={classes.iconImage} src="https://play-lh.googleusercontent.com/RfBb2qWHClCEkL9nSJFCw8YG4j3DN5jIkKwjbLbUN-7bLqsjdJM-wC6tjTtwbAK5TtmI=w240-h480-rw" alt="Pacer Pedometer" />
-                    <img className={classes.iconImage} src="https://play-lh.googleusercontent.com/72qDECnaDPHEjhsfvWHOmgTEM5LstfKXiw-vb2NmpYBqaAowunZ9TG8vMdnc1cZ58GE=w240-h480-rw" alt="Step-Activity Tracker" />
+                    </Box>
+                    <Box display="flex" alignItems="center" width="100%" justifyContent="space-between" marginY={2}>
+                        <img src={Health} alt="app" style={{ width: 60, height: 60 }} />
+                        <Typography variant='body1'>Samsung Health (برای سامسونگ)</Typography>
 
-                    <Button component={Link} to="/quizzes"  type='button' variant='contained' style={{ margin: "20px auto 80px" }}>بازگشت</Button>
+                    </Box>
+                    <Box display="flex" alignItems="center" width="100%" justifyContent="space-between" marginY={2}>
+                        <img src={Mi} alt="app" style={{ width: 60, height: 60 }} />
+                        <Typography variant='body1'>Mi Fitness (برای شیائومی)</Typography>
+                    </Box>
+
+                    <Button component={Link} to="/quizzes" type='button' variant='contained' style={{ margin: "20px auto 80px" }}>بازگشت</Button>
                 </div>
             )}
         </div >
