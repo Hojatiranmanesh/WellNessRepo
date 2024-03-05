@@ -67,15 +67,14 @@ const useStyles = makeStyles({
 
 const StepResults = ({ steps, age }) => {
     const classes = useStyles();
+    console.log(steps, "steps", age, "age")
     if (steps < 5000) {
         return (
-            <p className={classes.quizText}>نتایج نشان می‌دهد که شما در حال حاضر جزو افراد با تحرک پایین هستید. با افزایش تحرک و فعالیت بدنی، می‌توانید بروز اختلالات مختلف سلامتی را کنترل کنید.
-
-                .</p>
+            <p className={classes.quizText}>نتایج نشان می‌دهد که شما در حال حاضر جزو افراد با تحرک پایین هستید. با افزایش تحرک و فعالیت بدنی، می‌توانید بروز اختلالات مختلف سلامتی را کنترل کنید.</p>
         );
     } else {
-        if (age === 4 || age === 5 || age === 6) {
-            if (5000 > steps > 6000) {
+        if (age === '4' || age === '5' || age === '6') {
+            if (steps >= 5000 && steps <= 6000) {
                 return (
                     <p className={classes.quizText}>بررسی‌ها نشان می‌دهد که میزان فعالیت شما در حال حاضر از حد ایده‌آل پایین‌تر است. پیشنهاد ما این است که در صورت امکان، زمان بیشتری را به پیاده‌روی اختصاص دهید.
                     </p>
@@ -86,9 +85,12 @@ const StepResults = ({ steps, age }) => {
                 )
             }
         } else {
-            if (5000 > steps > 8000) {
-                <p className={classes.quizText}>بررسی‌ها نشان می‌دهد که میزان فعالیت شما در حال حاضر از حد ایده‌آل پایین‌تر است. پیشنهاد ما این است که در صورت امکان، زمان بیشتری را به پیاده‌روی اختصاص دهید.
-                </p>
+
+            if (steps >= 5000 && steps <= 8000) {
+                return (
+                    <p className={classes.quizText}>بررسی‌ها نشان می‌دهد که میزان فعالیت شما در حال حاضر از حد ایده‌آل پایین‌تر است. پیشنهاد ما این است که در صورت امکان، زمان بیشتری را به پیاده‌روی اختصاص دهید.
+                    </p>
+                )
             } else {
                 return (
                     <p className={classes.quizText}>فعالیت پیاده‌روی شما در سطح مطلوبی قرار دارد. </p>
@@ -138,35 +140,36 @@ const Movement = () => {
     const handleWalk = e => {
         setWalkminuts(e.target.value);
         let walkPersecond = e.target.value / 60;
-        console.log(walkPersecond)
+        console.log(walkPersecond, "walkPersecond")
         console.log(answers[1])
         switch (answers[1]) {
-            case 0:
+            case '0':
                 setsteps(walkPersecond * 3.02 * 2000)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
-            case 1:
+            case '1':
                 setsteps(walkPersecond * 3.1 * 2000)
-                console.log(steps)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
-            case 2:
+            case '2':
                 setsteps(walkPersecond * 3.15 * 2000)
-                console.log(steps)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
-            case 3:
+            case '3':
                 setsteps(walkPersecond * 3.05 * 2000)
-                console.log(steps)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
-            case 4:
+            case '4':
                 setsteps(walkPersecond * 2.9 * 2000)
-                console.log(steps)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
-            case 5:
+            case '5':
                 setsteps(walkPersecond * 2.65 * 2000)
-                console.log(steps)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
-            case 6:
+            case '6':
                 setsteps(walkPersecond * 2.13 * 2000)
-                console.log(steps)
+                console.log(walkPersecond * 3.02 * 2000)
                 break;
             default:
                 setsteps(walkPersecond * 3.05 * 2000)

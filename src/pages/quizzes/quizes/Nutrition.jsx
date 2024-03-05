@@ -199,11 +199,11 @@ const Nutrition = () => {
             options: [],
         },
         {
-            text: '',
+            text: 'به منظور درک جامع‌تری از وضعیت بدنی- ذهنی خود به 10 سوالی که در ادامه آورده شده‌اند پاسخ دهید. این اطلاعات در مورد یافتن تعادل در بدن شما کمک‌کننده خواهند بود.',
             options: [],
         },
         {
-            text: 'به منظور درک جامع‌تری از وضعیت بدنی- ذهنی خود به 10 سوالی که در ادامه آورده شده‌اند پاسخ دهید. این اطلاعات در مورد یافتن تعادل در بدن شما کمک‌کننده خواهند بود.',
+            text: '',
             options: [],
         },
         {
@@ -356,7 +356,7 @@ const Nutrition = () => {
                 <Box display="flex" flexDirection="column" height="90%" justifyContent="space-between" >
                     <div className={classes.textWrapper}>
                         <p className={classes.quizText}>{questions[currentQuestion].text}</p>
-                        {(currentQuestion === 2) && (
+                        {(currentQuestion === 3) && (
                             <div>
                                 <Accordion className={classes.accordion} >
                                     <AccordionSummary
